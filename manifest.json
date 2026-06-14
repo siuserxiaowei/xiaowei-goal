@@ -1,6 +1,6 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "owner": "Xiaowei",
   "updated_at": "2026-06-14",
   "status": "public-ready",
@@ -14,7 +14,8 @@
     "agent-skills-compatible"
   ],
   "outputs": [
-    "research-first-goal",
+    "three-stage-research-goal",
+    "deep-research-goal",
     "business-research-brief",
     "source-backed-action-table",
     "app-mvp-goal",
@@ -23,5 +24,5 @@
     "direct-execution-goal",
     "goal-validation"
   ],
-  "inspiration": "Inspired by Qiaomu's public goal-meta-skill case, redesigned around Xiaowei's research-first business workflow."
+  "inspiration": "Inspired by Qiaomu's public goal-meta-skill case, redesigned around Xiaowei's broad research, Deep Research, and business application workflow."
 }

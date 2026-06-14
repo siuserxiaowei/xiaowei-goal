@@ -19,7 +19,9 @@ REQUIRED_DIRECT = {
 }
 
 RESEARCH_FIELDS = {
-    "research": [r"^研究要求[:：]\s*"],
+    "stage 1 broad research": [r"^阶段\s*1\s*-\s*广域调研[:：]\s*"],
+    "stage 2 deep research": [r"^阶段\s*2\s*-\s*Deep Research[:：]\s*"],
+    "stage 3 business application": [r"^阶段\s*3\s*-\s*业务应用[:：]\s*"],
     "deliverable": [r"^输出物[:：]\s*"],
 }
 
@@ -95,7 +97,7 @@ def lint_text(text: str, source: str) -> list[str]:
         if not _line_starts(text, patterns):
             errors.append(f"{source}: missing required field `{name}`")
 
-    is_research_goal = bool(re.search(r"联网研究|Agent Reach|竞品|来源|检索", text, flags=re.IGNORECASE))
+    is_research_goal = bool(re.search(r"联网研究|广域调研|Deep Research|业务应用|Agent Reach|竞品|来源|检索", text, flags=re.IGNORECASE))
     if is_research_goal:
         for name, patterns in RESEARCH_FIELDS.items():
             if not _line_starts(text, patterns):
@@ -125,6 +127,12 @@ def lint_text(text: str, source: str) -> list[str]:
         content = _field_content(text, patterns, all_markers)
         if content is not None and len(content) < 10:
             errors.append(f"{source}: `{name}` content is too thin")
+
+    if is_research_goal:
+        for name, patterns in RESEARCH_FIELDS.items():
+            content = _field_content(text, patterns, all_markers)
+            if content is not None and len(content) < 16:
+                errors.append(f"{source}: `{name}` content is too thin")
 
     return errors
 

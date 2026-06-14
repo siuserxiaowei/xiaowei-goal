@@ -7,7 +7,9 @@ Use this reference for final goal wording.
 A Xiaowei goal should include:
 
 - `/goal` line with one clear outcome
-- `研究要求` when external research is needed
+- `阶段 1 - 广域调研` when external research is needed
+- `阶段 2 - Deep Research` when external research is needed
+- `阶段 3 - 业务应用` when external research is needed
 - `输出物` when a document or brief is expected
 - `验证方式`
 - `限制`
@@ -16,19 +18,21 @@ A Xiaowei goal should include:
 - `停止标准`
 - `暂停条件`
 
-For direct execution goals, `研究要求` and `输出物` may be omitted if not relevant.
+For direct execution goals, the three research stage fields and `输出物` may be omitted if not relevant.
 
-## Research-First Template
+## Three-Stage Research Template
 
 ```text
-/goal 先围绕[业务任务]做一轮[轻量/标准/深度]联网研究，再把可迁移的信息整理成业务判断、执行动作和下一阶段实现目标。
-研究要求：[工具优先级、来源数量、来源类型、记录字段]。
-输出物：[研究简报、证据表、业务动作、下一阶段目标]。
+/goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
+阶段 1 - 广域调研：[工具优先级、候选来源数量、来源类型、记录字段、来源池产物]。
+阶段 2 - Deep Research：[高价值来源筛选、深读、对比、交叉验证、矛盾标注、证据强度]。
+阶段 3 - 业务应用：[把去重后相关且可追溯资料映射到产品、页面、文案、SEO、增长、技术实现、验证实验和下一阶段 goal]。
+输出物：[研究应用简报、来源池、深度研究证据表、业务应用表、下一阶段目标]。
 验证方式：[来源可追溯、事实/推断/建议分开、动作可执行]。
 限制：[不复制、不编造、不碰隐私/付费/生产]。
 工作边界：[研究阶段和实现阶段各自允许写什么]。
-推进规则：[先问题和搜索词，再分渠道搜索，再整理，再生成下一目标]。
-停止标准：[达到深度、证据完整、下一目标清楚]。
+推进规则：[先问题和搜索词，再广域调研，再 Deep Research，再业务应用，再生成下一目标]。
+停止标准：[三阶段完成、证据完整、业务动作清楚、下一目标清楚]。
 暂停条件：[账号、付费、绕过限制、合规、版权、生产数据、方向决策]。
 ```
 
@@ -48,7 +52,7 @@ For direct execution goals, `研究要求` and `输出物` may be omitted if not
 
 Use these defaults unless the user says otherwise:
 
-- New app/site: research-first, standard depth, no backend/auth/payment in first goal.
+- New app/site: three-stage research, standard broad-research depth, no backend/auth/payment in first implementation goal.
 - Existing repo: inspect local scripts and docs before changes.
 - No deployment request: local verification only.
 - No source preference: web + competitors + user communities + implementation references.
@@ -63,5 +67,7 @@ Revise the goal if it contains:
 - "随便搜", "全网都搜", or "一直试"
 - "照抄", "扒下来", or "做一个一样的"
 - no source count for research
+- no Deep Research stage for business research tasks
+- no business application stage after research
 - no verification evidence
 - no pause condition

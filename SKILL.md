@@ -3,21 +3,23 @@ name: xiaowei-goal
 description: >
   Convert app, website, SaaS, landing page, content, SEO, growth, competitor,
   product, or vague business tasks into Xiaowei-style executable `/goal`
-  commands. Use when the user wants to search first, learn from the internet,
-  use Agent Reach, do competitor research, build an app/site after research,
-  turn a rough idea into an agent task, or define evidence-based success
-  criteria. Triggers include 小伟 goal, xiaowei-goal, 联网调研, 先搜索再做,
-  Agent Research, Agent Reach, 竞品分析, 网站方案, App MVP, 增长方案, SEO 方案,
-  and 把需求写成可执行 goal.
+  commands with a three-stage workflow: broad research, Deep Research, then
+  business application. Use when the user wants to search first, learn from the
+  internet, use Agent Reach, do competitor research, build an app/site after
+  research, turn a rough idea into an agent task, or define evidence-based
+  success criteria. Triggers include 小伟 goal, xiaowei-goal, 联网调研, 先搜索再做,
+  Deep Research, Agent Research, Agent Reach, 竞品分析, 网站方案, App MVP, 增长方案,
+  SEO 方案, and 把需求写成可执行 goal.
 ---
 
 # Xiaowei Goal
 
-把一句模糊的业务想法，改写成可以交给 agent 持续执行、能联网研究、能落到业务动作、能验收结果的 `/goal`。
+把一句模糊的业务想法，改写成可以交给 agent 持续执行、能联网研究、能深度分析、能落到业务动作、能验收结果的 `/goal`。
 
 核心风格：
 
 - 先看外部世界，再决定怎么做。
+- 先广域调研，再 Deep Research，最后应用到自己的业务。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -29,10 +31,10 @@ Use Chinese output by default for Chinese users. Keep the slash command as `/goa
 
 Choose one of two modes:
 
-1. **研究优先模式**：default for app, website, landing page, SaaS, SEO, growth, competitor, content, market, and product direction tasks.
+1. **三阶段研究模式**：default for app, website, landing page, SaaS, SEO, growth, competitor, content, market, and product direction tasks.
 2. **直接执行模式**：use for narrow local coding/doc tasks where external information is unnecessary.
 
-If the user mentions Agent Reach, search, research, competitor analysis, app/site planning, SEO, growth, or "先学习再应用", choose 研究优先模式.
+If the user mentions Agent Reach, search, research, Deep Research, competitor analysis, app/site planning, SEO, growth, or "先学习再应用", choose 三阶段研究模式.
 
 ## Workflow
 
@@ -46,28 +48,32 @@ If the user mentions Agent Reach, search, research, competitor analysis, app/sit
 8. Add compact options only when a choice changes cost, risk, or direction.
 9. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
 
-## Research-First Output
+## Three-Stage Research Output
 
-Use this shape when the task should search first:
+Use this shape when the task should search, deeply analyze, then apply findings to the user's business:
 
 ```text
 推荐执行版（中文，可直接复制）
-/goal 先围绕[业务任务]做一轮[轻量/标准/深度]联网研究，再把可迁移的信息整理成业务判断、执行动作和下一阶段实现目标。
-研究要求：优先使用 Agent Reach 或当前环境可用的搜索、浏览、平台读取工具；检索并阅读[数量]个高相关来源，覆盖直接竞品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；每条关键结论记录标题、URL、来源类型和检索日期。
-输出物：产出一份研究简报，包含来源清单、关键事实、用户痛点、竞品做法、可迁移动作、不能复制的内容、风险和下一阶段 `/goal`。
-验证方式：关键结论必须能追溯到来源；事实、推断、建议分开写；最终动作要能对应到产品、页面、文案、SEO、增长、技术实现或验证实验。
+/goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
+阶段 1 - 广域调研：优先使用 Agent Reach 或当前环境可用的搜索、浏览、平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、检索日期和初步价值判断。
+阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；把矛盾信息标成不确定。
+阶段 3 - 业务应用：把本轮收集到、去重后、与业务目标相关且可追溯来源的资料，映射到当前业务的产品功能、页面结构、文案方向、SEO 主题、增长动作、技术实现、验证实验和下一阶段 `/goal`。
+输出物：产出一份研究应用简报，包含来源池、深度研究证据表、关键洞察、可迁移动作、不能复制的内容、业务决策、风险和下一阶段 `/goal`。
+验证方式：每条关键结论必须能追溯到来源；事实、推断、建议分开写；业务动作必须能对应到产品、页面、文案、SEO、增长、技术实现或验证实验。
 限制：不复制竞品品牌、文案、图片、视频、代码、课程、版权素材或未经证实的市场结论；不把单一来源当成事实；不使用登录账号、付费平台、生产数据或隐私数据，除非用户明确授权。
-工作边界：研究阶段只创建研究文档和下一阶段执行目标；实现阶段只改与当前业务目标直接相关的文件。
-推进规则：先列研究问题和搜索词，再分渠道检索；优先一手来源和高相关来源；遇到矛盾信息时标注不确定；研究完成后再进入实现。
-停止标准：研究简报达到所选深度，包含可追溯来源、业务启发、可执行动作和下一阶段目标。
+工作边界：三阶段研究期间只创建研究应用文档和下一阶段执行目标；实现阶段只改与当前业务目标直接相关的文件。
+推进规则：先列研究问题和搜索词，再做广域检索，再筛选来源做 Deep Research，最后统一映射到业务动作；每个阶段结束前先补齐证据缺口，再进入下一阶段。
+停止标准：研究应用简报覆盖三阶段，包含可追溯来源、深度研究证据、业务启发、可执行动作、风险和下一阶段目标。
 暂停条件：需要 Cookie、付费数据库、绕过平台限制、法律/医疗/金融判断、版权授权、生产数据或重大业务定位选择时暂停。
 ```
 
-Default source counts:
+Default source counts for broad research:
 
 - 轻量：6-8 个来源
 - 标准：15-25 个来源
 - 深度：40+ 个来源
+
+Deep Research should not simply add more links. It should read and compare the highest-value sources from the broad research pool, then turn them into business decisions.
 
 ## Direct Execution Output
 
@@ -101,6 +107,7 @@ Good goals:
 
 - describe an outcome, not activity
 - name source count or verification commands
+- force the three stages when external information matters
 - protect unrelated files, secrets, production data, and copyrighted material
 - separate facts, inferences, and actions
 - define where work may happen
@@ -114,11 +121,12 @@ Bad goals:
 - "一直试直到满意"
 - "看起来可以就行"
 - "全网资料都整理一下" without depth or source rules
+- "深度研究一下" without a broad research pool, source selection, and business application stage
 - "照着竞品做一个一样的"
 
 ## References
 
-- `references/research-workflow.md`: research-first method, source depth, evidence table, and business application rules.
+- `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
 - `references/source-map.md`: platform routing and query patterns for app, website, SEO, growth, and technical tasks.
 - `references/goal-contract.md`: compact templates for executable goals and validation rules.
 - `scripts/validate_xiaowei_goal.py`: local validator for generated goal examples.
