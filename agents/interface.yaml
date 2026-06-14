@@ -1,0 +1,26 @@
+interface:
+  display_name: "Xiaowei Goal"
+  short_description: "Turn app, website, growth, SEO, competitor, and vague business tasks into research-first executable /goal commands."
+  default_prompt: "Use $xiaowei-goal to turn this task into a Xiaowei-style executable /goal. For app, website, SaaS, landing page, SEO, growth, product, competitor, or search-first tasks, create a research-first goal that prefers Agent Reach or available search/browser tools, defines source count, separates facts from inferences, and turns research into business actions before implementation. Use Chinese first when the user writes Chinese."
+compatibility:
+  canonical_format: "agent-skills"
+  adapter_targets:
+    - "openai"
+    - "claude"
+    - "codex"
+    - "generic"
+  activation:
+    mode: "manual"
+    paths: []
+  execution:
+    context: "inline"
+    shell: "bash"
+  trust:
+    source_tier: "public"
+    remote_inline_execution: "forbid"
+    remote_metadata_policy: "allow-metadata-only"
+  degradation:
+    openai: "drafts research-first Codex /goal commands from available task context"
+    claude: "drafts structured agent goals with research and execution guardrails"
+    codex: "drafts durable /goal commands with evidence, boundaries, and pause conditions"
+    generic: "uses the Xiaowei goal contract and asks for missing high-impact decisions"

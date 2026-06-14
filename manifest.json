@@ -1,0 +1,27 @@
+{
+  "name": "xiaowei-goal",
+  "version": "0.1.0",
+  "owner": "Xiaowei",
+  "updated_at": "2026-06-14",
+  "status": "public-ready",
+  "maturity_tier": "production-lite",
+  "lifecycle_stage": "skill",
+  "context_budget_tier": "light",
+  "target_platforms": [
+    "openai",
+    "claude",
+    "codex",
+    "agent-skills-compatible"
+  ],
+  "outputs": [
+    "research-first-goal",
+    "business-research-brief",
+    "source-backed-action-table",
+    "app-mvp-goal",
+    "website-goal",
+    "seo-growth-goal",
+    "direct-execution-goal",
+    "goal-validation"
+  ],
+  "inspiration": "Inspired by Qiaomu's public goal-meta-skill case, redesigned around Xiaowei's research-first business workflow."
+}
