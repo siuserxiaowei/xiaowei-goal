@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AI 产品开发与获客经验分享：xiaowei-goal 拆解</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f6f8f7;
+      --paper: #ffffff;
+      --ink: #17202a;
+      --muted: #5d6670;
+      --line: #d9e0df;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --soft: #edf7f5;
+      --soft-2: #fff5eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--page);
+      color: var(--ink);
+    }
+
+    body {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 42px 24px 64px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.82;
+      box-shadow: 0 20px 60px rgba(23, 32, 42, .08);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid var(--accent);
+      color: var(--ink);
+      font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+      font-size: clamp(2rem, 4.6vw, 3.2rem);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 42px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 1.5rem;
+      line-height: 1.35;
+    }
+
+    h3 {
+      margin-top: 30px;
+      color: var(--ink);
+      font-size: 1.18rem;
+      line-height: 1.35;
+    }
+
+    h4 {
+      margin-top: 22px;
+      font-size: 1rem;
+    }
+
+    p {
+      margin: .82rem 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em;
+    }
+
+    blockquote {
+      margin: 18px 0;
+      padding: 12px 16px;
+      border-left: 4px solid var(--accent);
+      background: var(--soft);
+      color: var(--muted);
+    }
+
+    strong {
+      color: var(--ink);
+    }
+
+    code {
+      border: 1px solid rgba(15, 118, 110, .20);
+      border-radius: 4px;
+      padding: .08rem .28rem;
+      background: var(--soft);
+      color: #134e4a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: .92em;
+    }
+
+    pre {
+      overflow: auto;
+    }
+
+    pre code {
+      display: block;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #17202a;
+      color: #f6f8f7;
+      white-space: pre-wrap;
+    }
+
+    table {
+      width: 100%;
+      margin: 18px 0 28px;
+      border-collapse: collapse;
+      background: var(--paper);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      color: #134e4a;
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fbfdfc;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    li {
+      margin: .3rem 0;
+    }
+
+    hr {
+      margin: 36px 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    nav#TOC {
+      margin: 18px 0 30px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: #fbfdfc;
+    }
+
+    nav#TOC ul {
+      margin: 0;
+    }
+
+    body::after {
+      content: "xiaowei-goal · broad research → Deep Research → business application";
+      display: block;
+      margin-top: 54px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 28px 14px 48px;
+        font-size: 15px;
+        box-shadow: none;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AI 产品开发与获客经验分享：xiaowei-goal 拆解</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#ai-产品开发与获客经验分享xiaowei-goal-拆解"
+id="toc-ai-产品开发与获客经验分享xiaowei-goal-拆解">AI
+产品开发与获客经验分享：xiaowei-goal 拆解</a>
+<ul>
+<li><a href="#一句话结论" id="toc-一句话结论">一句话结论</a></li>
+<li><a href="#阶段-1广域联网调研补充"
+id="toc-阶段-1广域联网调研补充">阶段 1：广域联网调研补充</a></li>
+<li><a href="#逐句级理解" id="toc-逐句级理解">逐句级理解</a></li>
+<li><a href="#阶段-2deep-research-判断"
+id="toc-阶段-2deep-research-判断">阶段 2：Deep Research 判断</a>
+<ul>
+<li><a href="#已被外部资料强化的判断"
+id="toc-已被外部资料强化的判断">已被外部资料强化的判断</a></li>
+<li><a href="#需要修正的判断"
+id="toc-需要修正的判断">需要修正的判断</a></li>
+<li><a href="#仍需验证的问题"
+id="toc-仍需验证的问题">仍需验证的问题</a></li>
+</ul></li>
+<li><a href="#阶段-3应用到业务" id="toc-阶段-3应用到业务">阶段
+3：应用到业务</a></li>
+<li><a href="#道法术器势拆解"
+id="toc-道法术器势拆解">道法术器势拆解</a></li>
+<li><a href="#下一步-goal" id="toc-下一步-goal">下一步
+<code>/goal</code></a></li>
+<li><a href="#资料链接" id="toc-资料链接">资料链接</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="ai-产品开发与获客经验分享xiaowei-goal-拆解">AI
+产品开发与获客经验分享：xiaowei-goal 拆解</h1>
+<p>资料范围：飞书智能纪要《AI产品开发与获客经验分享》，会议时间
+2026-05-10
+18:45-19:52。本文只发布结构化理解、外部资料补充和业务拆解，不公开原始逐字稿与私有飞书链接。</p>
+<p>处理方式：按 <code>xiaowei-goal</code>
+三阶段流程执行：先做广域联网调研，再做 Deep Research
+交叉判断，最后落到业务动作，并用「道法术器势」拆解。</p>
+<h2 id="一句话结论">一句话结论</h2>
+<p>这份纪要的核心是 <strong>AI
+产品不是从“我想做什么”开始，而是从“哪里已经有人痛、有人搜、有人付费、有人抱怨”开始</strong>。中小团队最适合的路径不是教育全新市场，而是在已有付费心智里做细分、做更快的交付、做更好的体验和内容分发。</p>
+<h2 id="阶段-1广域联网调研补充">阶段 1：广域联网调研补充</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>来源</th>
+<th>关键事实</th>
+<th>对本纪要的补充意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a
+href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">Google
+SEO Starter Guide</a></td>
+<td>SEO 的核心是让搜索引擎理解内容，并帮助用户发现与判断。</td>
+<td>纪要里的内容获客要回到“用户真正要什么”，不能只堆关键词。</td>
+</tr>
+<tr>
+<td><a
+href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">Google
+生成式 AI 搜索优化指南</a></td>
+<td>Google
+生成式搜索仍依赖核心搜索质量系统；高质量、非同质、可抓取内容更重要。</td>
+<td>“ChatGPT/Gemini 流量”要靠内容可信度和可抓取结构，不是单纯投机。</td>
+</tr>
+<tr>
+<td><a href="https://arxiv.org/abs/2311.09735">GEO: Generative Engine
+Optimization 论文</a></td>
+<td>生成式搜索让网站可见性成为新问题，论文提出 GEO
+框架，并显示部分策略可提升生成式答案中的可见性。</td>
+<td>会议里提到的 GEO 方向有研究基础，但不能把它简化成发垃圾软文。</td>
+</tr>
+<tr>
+<td><a href="https://adsy.com/">Adsy 官方网站</a></td>
+<td>Adsy 定位为 Digital PR、Blog &amp; Guest Posting
+服务，提供大量站点筛选和内容投放能力。</td>
+<td>软文投放可以作为分发工具，但要评估站点质量、真实性和长期 SEO
+风险。</td>
+</tr>
+<tr>
+<td><a
+href="https://developer.apple.com/app-store/product-page-optimization/">Apple
+App Store Product Page Optimization</a></td>
+<td>App Store
+支持测试图标、截图、预览视频等不同版本，观察转化表现。</td>
+<td>如果以后跑 APP，获客不是只买量，要系统做商店页转化实验。</td>
+</tr>
+<tr>
+<td><a
+href="https://developer.apple.com/app-store/custom-product-pages/">Apple
+Custom Product Pages</a></td>
+<td>App Store 可创建最多 70 个自定义产品页，并用于不同广告/受众。</td>
+<td>会议中“按场景/国家/语言细分”可以落到 App Store 的不同页面。</td>
+</tr>
+<tr>
+<td><a
+href="https://ads.apple.com/app-store/best-practices/campaign-structure">Apple
+Ads Campaign Structure</a></td>
+<td>Apple Ads
+建议按品牌、品类、竞品、发现等关键词主题拆分广告结构。</td>
+<td>APP
+获客要从关键词结构、否定词、发现词迭代，而不是一个广告组打天下。</td>
+</tr>
+<tr>
+<td><a
+href="https://play.google.com/console/about/acquisitionreporting/">Google
+Play Acquisition Reporting</a></td>
+<td>Google Play 可按国家、语言、商店页、安装状态、搜索词、UTM
+分析获客。</td>
+<td>Android APP 出海时，必须用第一方数据拆渠道和国家表现。</td>
+</tr>
+<tr>
+<td><a
+href="https://developers.openai.com/api/docs/guides/agents">OpenAI
+Agents SDK</a></td>
+<td>Agent
+可通过工具、MCP、handoff、guardrails、人审和观测构建复杂流程。</td>
+<td>“把知识付费产品化”可以做成 Agent，而不是只卖课程或咨询。</td>
+</tr>
+<tr>
+<td><a
+href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP
+LLM Top 10</a></td>
+<td>LLM 应用需防提示注入、不安全输出、数据污染、供应链等风险。</td>
+<td>用 AI
+自动生成内容、招聘判断、客服回复时，必须有人审和输出校验。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="逐句级理解">逐句级理解</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>纪要信息点</th>
+<th>我的理解</th>
+<th>业务含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“宏观趋势就是跟着 AI 走。”</td>
+<td>AI 是底层生产力趋势，但不能替代商业判断。</td>
+<td>要把 AI 作为能力底座，而不是把“AI”当产品卖点本身。</td>
+</tr>
+<tr>
+<td>“从小红书、抖音、微博、Reddit、YouTube 的抱怨里找需求。”</td>
+<td>抱怨比灵感可靠，因为抱怨代表未满足需求和真实语言。</td>
+<td>建立需求雷达：抓痛点、频次、付费线索、现有替代方案。</td>
+</tr>
+<tr>
+<td>“用 AI 分析评论。”</td>
+<td>AI 适合把大量碎片评论聚类成痛点和机会。</td>
+<td>让 AI 先做归类，人再判断商业价值和可做边界。</td>
+</tr>
+<tr>
+<td>“看付费排行榜、支付平台、流量和订单排名。”</td>
+<td>有付费证据的市场比纯想象更可靠。</td>
+<td>需求验证要包含：有人搜、有人骂、有人买、有人复购。</td>
+</tr>
+<tr>
+<td>“中小公司不要教育全新市场。”</td>
+<td>教育市场成本高，适合大资本或强品牌。</td>
+<td>小团队应进入已有需求池，做细分切口。</td>
+</tr>
+<tr>
+<td>“在别人教育好的市场中找机会。”</td>
+<td>不是抄袭，而是复用市场心智，重做体验、场景、语言、价格。</td>
+<td>可迁移结构，不能复制品牌、内容、代码和素材。</td>
+</tr>
+<tr>
+<td>“按场景、语言、国家变窄。”</td>
+<td>越窄越容易写准文案、找到渠道、打透转化。</td>
+<td>一个产品可以有多个 landing page / custom product page。</td>
+</tr>
+<tr>
+<td>“ADSY 软文推广，围绕用户担忧写很多角度。”</td>
+<td>这是内容分发和数字 PR 思路。</td>
+<td>可以测试，但要避免低质量外链和不真实提及。</td>
+</tr>
+<tr>
+<td>“最多写 200 篇文章。”</td>
+<td>规模化内容只有在选题真实、结构清晰、质量可控时才有效。</td>
+<td>先做 20 篇验证，不要一上来批量铺垃圾内容。</td>
+</tr>
+<tr>
+<td>“可能获得 ChatGPT/Gemini 流量。”</td>
+<td>AI 搜索会引用可抓取、可信、结构清晰的网页。</td>
+<td>文章要有事实、案例、FAQ、比较、更新日期和作者可信度。</td>
+</tr>
+<tr>
+<td>“多平台内容营销。”</td>
+<td>推荐系统之间不完全相同，单平台风险高。</td>
+<td>小红书验证，官网承接，视频号/抖音/B 站/知乎做补充分发。</td>
+</tr>
+<tr>
+<td>“看竞品和爆款内容。”</td>
+<td>爆款是平台对用户兴趣的反馈。</td>
+<td>拆结构和用户关注点，不照搬表达。</td>
+</tr>
+<tr>
+<td>“多账号矩阵测试。”</td>
+<td>这是测试不同人设、话题、角度和受众。</td>
+<td>需要统一素材库、选题库、违规红线和数据表。</td>
+</tr>
+<tr>
+<td>“有钱的团队可以做 KOL 合作。”</td>
+<td>KOL 是买信任和分发，但投放质量差异很大。</td>
+<td>投前看受众匹配、历史转化、内容质量，不只看粉丝数。</td>
+</tr>
+<tr>
+<td>“支付平台客户推荐。”</td>
+<td>支付/结算环节可能带来生态流量。</td>
+<td>如果做 SaaS，要争取 marketplace、案例页、合作推荐。</td>
+</tr>
+<tr>
+<td>“知识付费和咨询有时间限制。”</td>
+<td>卖时间很难规模化，续费和交付压力大。</td>
+<td>把知识转成产品、Agent、模板、工具、订阅。</td>
+</tr>
+<tr>
+<td>“有了 AI，可以把一个人当产品卖出去。”</td>
+<td>本质是把专家的知识、判断和流程产品化。</td>
+<td>不是复制人格，而是封装其方法论、资料库、案例库和判断路径。</td>
+</tr>
+<tr>
+<td>“把课程、材料、认知放进飞书知识库。”</td>
+<td>知识库是 Agent 的上下文资产。</td>
+<td>资料要结构化：概念、案例、FAQ、流程、模板、禁区。</td>
+</tr>
+<tr>
+<td>“做 Agent、网站、小程序月费。”</td>
+<td>把一次性交付改成可持续服务。</td>
+<td>月费产品必须持续更新、持续产生价值。</td>
+</tr>
+<tr>
+<td>“用会议纪要/方法论持续更新知识库。”</td>
+<td>内容生产本身变成产品迭代。</td>
+<td>每次咨询、课程、交付都要沉淀为可复用资料。</td>
+</tr>
+<tr>
+<td>“AI 结合风格、热点、别人内容，人工审核，再二创。”</td>
+<td>人负责选题和判断，AI 扩展表达形式。</td>
+<td>必须区分参考、改写、原创，避免侵权和同质化。</td>
+</tr>
+<tr>
+<td>“低价低利低复购走矩阵，高价高利高复购走精细内容。”</td>
+<td>获客打法取决于客单价和 LTV。</td>
+<td>不同产品不能用同一套内容策略。</td>
+</tr>
+<tr>
+<td>“老师宠物产品前两个失败，第三个成功。”</td>
+<td>产品成功往往来自连续试错，不是一次命中。</td>
+<td>保留失败数据，找真正触发购买的元素。</td>
+</tr>
+<tr>
+<td>“健身教练产品先做核心功能 MVP。”</td>
+<td>不要先做平台，先做最短付费路径。</td>
+<td>做一个能让用户当天得到训练计划/反馈的核心功能。</td>
+</tr>
+<tr>
+<td>“再小需求在大人口基数下也可能很大。”</td>
+<td>这句话成立但有前提：可触达、可支付、可交付。</td>
+<td>不只算总人口，要算可触达市场和转化率。</td>
+</tr>
+<tr>
+<td>“AI 招聘：简历、MBTI、面试分析。”</td>
+<td>AI 可辅助筛选和结构化记录，但不能单独决定录用。</td>
+<td>用作辅助评分和面试问题生成，保留人工判断和公平性检查。</td>
+</tr>
+<tr>
+<td>“电商 AI 自动化、老板带头。”</td>
+<td>自动化要从老板关心的指标切入。</td>
+<td>先自动化高频、低风险、可衡量任务。</td>
+</tr>
+<tr>
+<td>“视频生成别追求完美，先看流量。”</td>
+<td>内容早期应追求反馈速度。</td>
+<td>先跑 10 个选题和 3 种结构，再决定是否提高制作成本。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="阶段-2deep-research-判断">阶段 2：Deep Research 判断</h2>
+<h3 id="已被外部资料强化的判断">已被外部资料强化的判断</h3>
+<ol type="1">
+<li><strong>需求挖掘必须从真实语言和付费证据开始。</strong>
+搜索、社媒评论、商店页评论、竞品价格页、广告关键词都比闭门想象可靠。</li>
+<li><strong>AI 搜索/GEO 值得做，但底层仍是 SEO 和可信内容。</strong>
+Google 明确强调生成式搜索仍依赖核心搜索质量系统，所以“AI
+搜索优化”不能脱离内容质量、技术可抓取性和真实性。</li>
+<li><strong>APP 获客需要商店页实验。</strong> Apple 和 Google Play
+都提供商店页转化、国家/语言、搜索词、UTM
+等数据能力，适合把“场景/国家/语言细分”落成实验。</li>
+<li><strong>知识产品化可以成为小伟业务的一条主线。</strong>
+把个人经验、会议纪要、案例、方法论变成可调用知识库，再做
+Agent/网站/订阅，符合会议方向。</li>
+</ol>
+<h3 id="需要修正的判断">需要修正的判断</h3>
+<ol type="1">
+<li><strong>软文和外链不是越多越好。</strong> Google
+对低质量、操纵性内容和不真实提及有明确风险提示。应优先做可被用户验证的内容，而不是只为机器写。</li>
+<li><strong>多账号矩阵不是无限开号。</strong>
+如果没有统一选题、素材、指标和合规边界，矩阵会变成低质量内容工厂。</li>
+<li><strong>AI 招聘不能用 MBTI 之类标签做决定性筛选。</strong>
+这类信息最多作为沟通参考，不能替代岗位能力和实际任务表现。</li>
+</ol>
+<h3 id="仍需验证的问题">仍需验证的问题</h3>
+<ol type="1">
+<li>小伟要做的 APP/网站具体行业是什么，已有用户在哪里抱怨。</li>
+<li>目标市场是国内、小语种国家，还是英语市场。</li>
+<li>产品适合一次性售卖、订阅，还是服务+工具混合模式。</li>
+</ol>
+<h2 id="阶段-3应用到业务">阶段 3：应用到业务</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>业务环节</th>
+<th>可执行动作</th>
+<th>验证指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求池</td>
+<td>每个方向抓取 100
+条用户原话，按痛点、场景、替代方案、付费意愿聚类。</td>
+<td>高频痛点是否集中，是否有现有购买行为。</td>
+</tr>
+<tr>
+<td>MVP</td>
+<td>每个方向只做一个核心承诺，如“一键生成训练计划”“一键拆解会议纪要”“一键生成老师班级激励页”。</td>
+<td>24 小时内能否交付结果，用户是否愿意留资或付款。</td>
+</tr>
+<tr>
+<td>内容获客</td>
+<td>先做 20 篇高质量文章/笔记，不直接铺 200 篇。</td>
+<td>点击率、收藏率、咨询率、搜索收录、自然访问。</td>
+</tr>
+<tr>
+<td>AI 搜索</td>
+<td>官网每个页面包含问题、结论、步骤、案例、FAQ、更新日期、作者/团队说明。</td>
+<td>Google 收录、自然关键词、AI 搜索引用或 referral。</td>
+</tr>
+<tr>
+<td>APP 获客</td>
+<td>iOS 准备不同 custom product page；Android 用
+UTM、国家、语言拆数据。</td>
+<td>商店页转化率、CPI、留存、付费率。</td>
+</tr>
+<tr>
+<td>知识产品化</td>
+<td>把会议纪要、课程、案例、问答放进知识库，做成 Agent 服务。</td>
+<td>月活、复用次数、用户节省时间、订阅续费。</td>
+</tr>
+<tr>
+<td>内容矩阵</td>
+<td>统一选题库、素材库、发布节奏、复盘表。</td>
+<td>单账号与矩阵总体 ROI，违规率，重复内容比例。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="道法术器势拆解">道法术器势拆解</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>拆解</th>
+<th>对应动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>道</td>
+<td>商业机会来自真实需求和付费心智，不来自脑内灵感。</td>
+<td>先找用户抱怨和付费证据，再决定做什么。</td>
+</tr>
+<tr>
+<td>法</td>
+<td>用“需求雷达 - MVP - 内容验证 - 数据复盘 -
+产品化订阅”的方法跑闭环。</td>
+<td>每个方向最多 14 天完成第一轮验证。</td>
+</tr>
+<tr>
+<td>术</td>
+<td>评论分析、竞品拆解、排行榜观察、软文/SEO、社媒矩阵、KOL、商店页
+A/B、知识库 Agent。</td>
+<td>先小样本验证，跑通后再规模化。</td>
+</tr>
+<tr>
+<td>器</td>
+<td>Google Search Console、App Store Connect、Google Play Console、Apple
+Ads、知识库、Agent、内容日历、数据表。</td>
+<td>把数据统一到一张增长仪表盘。</td>
+</tr>
+<tr>
+<td>势</td>
+<td>AI 搜索、内容平台电商、APP 商店实验、知识产品化、Agent
+服务正在同时成熟。</td>
+<td>做“可搜索、可转化、可复用、可订阅”的产品，而不只是一次性内容。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="下一步-goal">下一步 <code>/goal</code></h2>
+<pre class="text"><code>/goal 围绕“为小伟选择一个可验证的 AI 产品方向并设计获客闭环”执行三阶段研究工作流。
+阶段 1 - 广域调研：检索 25 个来源，覆盖小红书/抖音/知乎/Reddit/YouTube/Google 搜索、直接竞品、App Store/Google Play 评论、价格页、内容爆款、官方 SEO 与应用商店资料。
+阶段 2 - Deep Research：筛选 10 个高价值来源深读，提取用户原话、痛点聚类、付费证据、竞品结构、内容打法、商店页策略、风险和证据强度。
+阶段 3 - 业务应用：输出 3 个候选产品方向、每个方向的 MVP、首批 20 个内容选题、官网结构、APP 商店页实验、增长指标和 14 天验证计划。
+验证方式：每个方向必须有真实用户原话、现有付费证据和可触达渠道；事实、推断、建议分开写。
+限制：不复制竞品文案、素材、代码、课程；不做低质量外链堆砌；所有 AI 生成内容必须人工审核。</code></pre>
+<h2 id="资料链接">资料链接</h2>
+<ul>
+<li><a
+href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">Google
+Search Central: SEO Starter Guide</a></li>
+<li><a
+href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">Google
+Search Central: Optimizing for generative AI features</a></li>
+<li><a href="https://arxiv.org/abs/2311.09735">GEO: Generative Engine
+Optimization</a></li>
+<li><a href="https://adsy.com/">Adsy: Digital PR &amp; Blog Guest
+Posting Service</a></li>
+<li><a
+href="https://developer.apple.com/app-store/product-page-optimization/">Apple
+Product Page Optimization</a></li>
+<li><a
+href="https://developer.apple.com/app-store/custom-product-pages/">Apple
+Custom Product Pages</a></li>
+<li><a
+href="https://ads.apple.com/app-store/best-practices/campaign-structure">Apple
+Ads Campaign Structure</a></li>
+<li><a
+href="https://play.google.com/console/about/acquisitionreporting/">Google
+Play Acquisition Reporting</a></li>
+<li><a
+href="https://developers.openai.com/api/docs/guides/agents">OpenAI
+Agents SDK</a></li>
+<li><a
+href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP
+Top 10 for LLM Applications</a></li>
+</ul>
+</body>
+</html>

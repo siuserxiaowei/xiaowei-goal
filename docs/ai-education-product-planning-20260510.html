@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AI 教育产品规划与交流：xiaowei-goal 拆解</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f6f8f7;
+      --paper: #ffffff;
+      --ink: #17202a;
+      --muted: #5d6670;
+      --line: #d9e0df;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --soft: #edf7f5;
+      --soft-2: #fff5eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--page);
+      color: var(--ink);
+    }
+
+    body {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 42px 24px 64px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.82;
+      box-shadow: 0 20px 60px rgba(23, 32, 42, .08);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid var(--accent);
+      color: var(--ink);
+      font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+      font-size: clamp(2rem, 4.6vw, 3.2rem);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 42px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 1.5rem;
+      line-height: 1.35;
+    }
+
+    h3 {
+      margin-top: 30px;
+      color: var(--ink);
+      font-size: 1.18rem;
+      line-height: 1.35;
+    }
+
+    h4 {
+      margin-top: 22px;
+      font-size: 1rem;
+    }
+
+    p {
+      margin: .82rem 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em;
+    }
+
+    blockquote {
+      margin: 18px 0;
+      padding: 12px 16px;
+      border-left: 4px solid var(--accent);
+      background: var(--soft);
+      color: var(--muted);
+    }
+
+    strong {
+      color: var(--ink);
+    }
+
+    code {
+      border: 1px solid rgba(15, 118, 110, .20);
+      border-radius: 4px;
+      padding: .08rem .28rem;
+      background: var(--soft);
+      color: #134e4a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: .92em;
+    }
+
+    pre {
+      overflow: auto;
+    }
+
+    pre code {
+      display: block;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #17202a;
+      color: #f6f8f7;
+      white-space: pre-wrap;
+    }
+
+    table {
+      width: 100%;
+      margin: 18px 0 28px;
+      border-collapse: collapse;
+      background: var(--paper);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--soft);
+      color: #134e4a;
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fbfdfc;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    li {
+      margin: .3rem 0;
+    }
+
+    hr {
+      margin: 36px 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    nav#TOC {
+      margin: 18px 0 30px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: #fbfdfc;
+    }
+
+    nav#TOC ul {
+      margin: 0;
+    }
+
+    body::after {
+      content: "xiaowei-goal · broad research → Deep Research → business application";
+      display: block;
+      margin-top: 54px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 28px 14px 48px;
+        font-size: 15px;
+        box-shadow: none;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AI 教育产品规划与交流：xiaowei-goal 拆解</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#ai-教育产品规划与交流xiaowei-goal-拆解"
+id="toc-ai-教育产品规划与交流xiaowei-goal-拆解">AI
+教育产品规划与交流：xiaowei-goal 拆解</a>
+<ul>
+<li><a href="#一句话结论" id="toc-一句话结论">一句话结论</a></li>
+<li><a href="#阶段-1广域联网调研补充"
+id="toc-阶段-1广域联网调研补充">阶段 1：广域联网调研补充</a></li>
+<li><a href="#逐句级理解" id="toc-逐句级理解">逐句级理解</a></li>
+<li><a href="#阶段-2deep-research-判断"
+id="toc-阶段-2deep-research-判断">阶段 2：Deep Research 判断</a>
+<ul>
+<li><a href="#已被外部资料强化的判断"
+id="toc-已被外部资料强化的判断">已被外部资料强化的判断</a></li>
+<li><a href="#需要修正的判断"
+id="toc-需要修正的判断">需要修正的判断</a></li>
+<li><a href="#仍需验证的问题"
+id="toc-仍需验证的问题">仍需验证的问题</a></li>
+</ul></li>
+<li><a href="#阶段-3应用到业务" id="toc-阶段-3应用到业务">阶段
+3：应用到业务</a></li>
+<li><a href="#道法术器势拆解"
+id="toc-道法术器势拆解">道法术器势拆解</a></li>
+<li><a href="#下一步-goal" id="toc-下一步-goal">下一步
+<code>/goal</code></a></li>
+<li><a href="#资料链接" id="toc-资料链接">资料链接</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="ai-教育产品规划与交流xiaowei-goal-拆解">AI
+教育产品规划与交流：xiaowei-goal 拆解</h1>
+<p>资料范围：飞书智能纪要《AI教育产品规划与交流》，会议时间 2026-05-10
+19:56-20:49。本文只发布结构化理解、外部资料补充和业务拆解，不公开原始逐字稿与私有飞书链接。</p>
+<p>处理方式：按 <code>xiaowei-goal</code>
+三阶段流程执行：先做广域联网调研，再做 Deep Research
+交叉判断，最后落到业务动作，并用「道法术器势」拆解。</p>
+<h2 id="一句话结论">一句话结论</h2>
+<p>这份纪要的核心是：<strong>AI
+教育产品不能只靠“更强模型”和“更快开发”取胜，真正要打的是老师的课堂采用成本、学校合规边界、班级激励效果、平台获客稳定性和品牌资产。</strong>
+当前更合理的策略是先做国内 K12
+教师场景，把一个班级管理小工具打磨到高转化、高留存，再考虑海外和平台化。</p>
+<h2 id="阶段-1广域联网调研补充">阶段 1：广域联网调研补充</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>来源</th>
+<th>关键事实</th>
+<th>对本纪要的补充意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a
+href="https://www.edu.cn/xxh/focus/202405/t20240521_2611107.shtml">国家中小学智慧教育平台浏览量报道</a></td>
+<td>截至 2024-05-15，国家中小学智慧教育平台页面浏览总量达到 405.40
+亿次，学生和教师是主体。</td>
+<td>教育数字化是大趋势，老师在线工具使用并非空白市场，但也意味着产品要和既有教学生态共存。</td>
+</tr>
+<tr>
+<td><a
+href="https://www.xinhuanet.com/edu/20240126/9820967d938e4c2bac4ff2ef632784a6/c.html">新华网：教育部推进教育数字化战略行动</a></td>
+<td>平台资源和功能持续扩展，覆盖教材、教师备授课、在线组卷、练习等。</td>
+<td>你的产品不应和国家平台抢大而全，而要切入一个更轻、更具体的课堂激励场景。</td>
+</tr>
+<tr>
+<td><a
+href="https://apps.apple.com/cn/app/%E6%99%BA%E6%85%A7%E4%B8%AD%E5%B0%8F%E5%AD%A6-%E5%9B%BD%E5%AE%B6%E4%B8%AD%E5%B0%8F%E5%AD%A6%E6%99%BA%E6%85%A7%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0/id1497477307">智慧中小学
+App Store 页面</a></td>
+<td>平台提供自主学习、教师备课、授课、作业、答疑、家校互动等 10
+个场景。</td>
+<td>班级激励宠物产品应定位为补充工具：轻、好玩、低负担，而不是全套教学平台。</td>
+</tr>
+<tr>
+<td><a
+href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2024.1466926/full">Frontiers:
+gamification and school engagement systematic review</a></td>
+<td>游戏化有助于提升参与、动机、自信等，但效果取决于设计目的、复杂度和教育需求匹配。</td>
+<td>“宠物、徽章、升级、声音”要服务课堂目标，不能只做表面热闹。</td>
+</tr>
+<tr>
+<td><a
+href="https://michiganvirtual.org/research/publications/breaking-barriers-a-meta-analysis-of-educator-acceptance-of-ai-technology-in-education">Michigan
+Virtual: 教师接受 AI 技术的元分析</a></td>
+<td>教师采用技术受自我效能、感知有用性、复杂度、伦理担忧、培训和机构支持影响。</td>
+<td>纪要里“老师不熟网站、需要培训”的担忧非常关键，产品必须降低学习成本。</td>
+</tr>
+<tr>
+<td><a
+href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">Google
+SEO Starter Guide</a></td>
+<td>网站要让搜索引擎理解，也要让用户能发现并判断。</td>
+<td>如果用官网承接小红书流量，页面要清楚解释产品、适用年级、使用方式、隐私和案例。</td>
+</tr>
+<tr>
+<td><a
+href="https://developer.apple.com/app-store/product-page-optimization/">Apple
+Product Page Optimization</a> 与 <a
+href="https://developer.apple.com/app-store/custom-product-pages/">Custom
+Product Pages</a></td>
+<td>App Store 支持商店页元素测试和多版本产品页。</td>
+<td>如果后续做
+APP，应该按老师、家长、学校管理者等受众分别测试页面。</td>
+</tr>
+<tr>
+<td><a
+href="https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm">生成式人工智能服务管理暂行办法</a></td>
+<td>面向境内公众提供生成式 AI
+服务适用该办法，内部研发未向公众提供服务不适用。</td>
+<td>教育 AI
+产品如果对外提供生成内容，要把模型、公示、准确性、未成年人和数据边界纳入设计。</td>
+</tr>
+<tr>
+<td><a
+href="https://www.cac.gov.cn/2025-03/14/c_1743654684782215.htm">人工智能生成合成内容标识办法</a></td>
+<td>AI 生成合成内容需要显式和隐式标识，传播平台也有提醒责任。</td>
+<td>如果产品生成头像、宠物图、班级文案、激励语，要考虑 AI
+内容标识与导出说明。</td>
+</tr>
+<tr>
+<td><a
+href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP
+LLM Top 10</a></td>
+<td>LLM 应用需防提示注入、不安全输出、数据污染和供应链风险。</td>
+<td>教育产品尤其不能让学生或老师输入触发不当内容后直接展示给班级。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="逐句级理解">逐句级理解</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>纪要信息点</th>
+<th>我的理解</th>
+<th>业务含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“两个人团队，创业者加合伙人，自由职业者协助。”</td>
+<td>团队极轻，优点是快，短板是运营、合规、客服、稳定性。</td>
+<td>早期只能做窄场景，不要做复杂平台。</td>
+</tr>
+<tr>
+<td>“看到 AI 生成网站卖得不错。”</td>
+<td>这是市场信号，但不是充分证据。</td>
+<td>要继续验证购买者是谁、为什么买、是否复购。</td>
+</tr>
+<tr>
+<td>“用更强 ChatGPT/Gemini 是降维打击。”</td>
+<td>技术优势存在，但窗口很短，别人也能用同样工具。</td>
+<td>真壁垒要转向用户理解、场景细节、品牌和数据。</td>
+</tr>
+<tr>
+<td>“加入宠物概念，属于原创设计。”</td>
+<td>宠物是情绪化和差异化入口。</td>
+<td>要把宠物变成课堂行为激励机制，而不是装饰。</td>
+</tr>
+<tr>
+<td>“产品是纯网站，不是小程序。”</td>
+<td>网站利于快速迭代和跨设备访问，但老师使用习惯可能弱。</td>
+<td>必须做桌面快捷方式、免登录体验、二维码入口和超短教程。</td>
+</tr>
+<tr>
+<td>“目标是国内 K12 老师。”</td>
+<td>用户清晰，但购买者、使用者、受影响者可能不同：老师、学生、家长、学校。</td>
+<td>页面和功能要分别回应老师效率、学生参与、学校合规。</td>
+</tr>
+<tr>
+<td>“网站可添加桌面快捷方式。”</td>
+<td>这是降低使用门槛的技巧。</td>
+<td>onboarding 第一屏就应引导“添加到桌面”。</td>
+</tr>
+<tr>
+<td>“徽章、升级效果、声音。”</td>
+<td>属于游戏化反馈机制。</td>
+<td>每个反馈都要对应课堂行为目标，如纪律、作业、发言、互助。</td>
+</tr>
+<tr>
+<td>“班级积分 + 宠物。”</td>
+<td>积分是行为记录，宠物是情绪激励。</td>
+<td>关键是积分规则是否方便老师设置，是否会伤害学生自尊。</td>
+</tr>
+<tr>
+<td>“老师不熟悉网站，需要培训。”</td>
+<td>教师采用技术的最大障碍之一是复杂度和自我效能。</td>
+<td>设计原则：不用学习也能完成第一堂课使用。</td>
+</tr>
+<tr>
+<td>“教育局有约束。”</td>
+<td>K12
+场景不是普通消费软件，涉及未成年人、学校管理、数据和价值导向。</td>
+<td>避免排名羞辱、隐私暴露、过度游戏化、诱导消费。</td>
+</tr>
+<tr>
+<td>“排行榜可能不允许。”</td>
+<td>公开竞争可能带来压力和合规问题。</td>
+<td>改成小组协作、个人成长、老师可见、匿名或非公开反馈。</td>
+</tr>
+<tr>
+<td>“小红书压制虚拟商品，产品下架、账号降权、流量下降。”</td>
+<td>平台规则和风控会直接影响收入。</td>
+<td>小红书只能做获客入口，不能作为唯一销售和交付系统。</td>
+</tr>
+<tr>
+<td>“商标被抢。”</td>
+<td>品牌保护滞后会造成长期损失。</td>
+<td>立刻查商标、注册域名、统一品牌资产。</td>
+</tr>
+<tr>
+<td>“更换或增加品牌词。”</td>
+<td>这是短期止损，不是长期壁垒。</td>
+<td>新品牌必须同步做商标、域名、账号和官网。</td>
+</tr>
+<tr>
+<td>“先做国内，暂不出海。”</td>
+<td>资源有限时聚焦是正确选择。</td>
+<td>海外要等国内产品留存、付费和案例稳定后再做。</td>
+</tr>
+<tr>
+<td>“海外存在英文、推广、文化障碍。”</td>
+<td>出海不是翻译界面，而是重做渠道和语境。</td>
+<td>后续可先用英文 landing page 测需求，不急着开发海外版。</td>
+</tr>
+<tr>
+<td>“外包能外包的工作，创始人做决策方向管理。”</td>
+<td>创始人时间要放在关键判断上。</td>
+<td>外包内容、素材、客服、测试；核心需求、产品、数据复盘不能外包。</td>
+</tr>
+<tr>
+<td>“国内用小红书和卡密销售。”</td>
+<td>卡密适合早期快速变现，但不适合长期订阅和用户资产沉淀。</td>
+<td>过渡到官网账号体系、支付、订阅和使用数据。</td>
+</tr>
+<tr>
+<td>“香港服务器，后续再备案。”</td>
+<td>这是早期速度选择，但面向国内用户长期仍要考虑备案、访问速度和支付。</td>
+<td>如果国内长期经营，尽早规划 ICP、域名、隐私政策、用户协议。</td>
+</tr>
+<tr>
+<td>“用 Claude/Codex/Gemini 开发。”</td>
+<td>多模型协作能提高开发效率。</td>
+<td>建立统一需求文档、测试清单、发布流程，避免 AI 改乱代码。</td>
+</tr>
+<tr>
+<td>“没有接支付，卡密激活。”</td>
+<td>先卖起来是好事，但自动化和留存数据不足。</td>
+<td>下一步应接入账号、激活、到期、续费、退款和客服流程。</td>
+</tr>
+<tr>
+<td>“学习刘小白课程，边做边学。”</td>
+<td>学习方式是项目驱动。</td>
+<td>把每次学习沉淀为自己的 SOP，而不是只看课。</td>
+</tr>
+<tr>
+<td>“曝光是杠杆，曝光后资源会来。”</td>
+<td>内容输出能带来用户、合作、人才和信任。</td>
+<td>创始人可以做 AI 教育产品实战账号，但内容要绑定产品进展。</td>
+</tr>
+<tr>
+<td>“社群/线下活动能链接优秀的人。”</td>
+<td>资源密度会影响机会。</td>
+<td>有选择地参加教育、AI、出海、产品社区，带着具体问题去。</td>
+</tr>
+<tr>
+<td>“咖啡因、惠州生活、旅行社交。”</td>
+<td>这些不是产品核心，但反映创业者状态和生活方式。</td>
+<td>创始人要管理能量、节奏和社交，不要把执行力消耗在低价值分散上。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="阶段-2deep-research-判断">阶段 2：Deep Research 判断</h2>
+<h3 id="已被外部资料强化的判断">已被外部资料强化的判断</h3>
+<ol type="1">
+<li><strong>教育数字化确实是大趋势。</strong>
+国家中小学智慧教育平台的大规模使用说明老师和学生已经处在数字化教学环境里，轻量工具有机会作为补充存在。</li>
+<li><strong>游戏化有效，但必须服务教育目标。</strong> Frontiers
+的系统综述支持游戏化对参与和动机的价值，但也强调设计目的、复杂度和教育需求匹配。</li>
+<li><strong>教师采用成本是核心问题。</strong>
+教师是否觉得有用、是否容易用、是否有培训和机构支持，会直接影响工具能否进入课堂。</li>
+<li><strong>国内 AI 教育产品要提前考虑合规。</strong> 网信办生成式
+AI、内容标识、备案和未成年人场景要求，都决定了产品不能只看功能。</li>
+</ol>
+<h3 id="需要修正的判断">需要修正的判断</h3>
+<ol type="1">
+<li><strong>“更强模型”不是长期壁垒。</strong>
+当竞品也能使用强模型时，壁垒会转移到场景理解、课堂规则、品牌、渠道、数据和用户关系。</li>
+<li><strong>“排行榜”要慎用。</strong> 对 K12
+学生公开排名可能带来压力、比较和管理风险，建议优先做私密成长、小组协作、老师可控反馈。</li>
+<li><strong>“纯网站”需要用产品设计弥补习惯劣势。</strong>
+如果老师习惯小程序/APP，网站必须做到极低登录摩擦和极短学习成本。</li>
+</ol>
+<h3 id="仍需验证的问题">仍需验证的问题</h3>
+<ol type="1">
+<li>老师买单的真实原因：好玩、提高课堂纪律、节省时间、学生喜欢，还是可展示成果。</li>
+<li>老师是否愿意从 9.9 元一次性购买转为月费/年费。</li>
+<li>学校是否允许在课堂公开展示宠物、积分、音效、排名或学生昵称。</li>
+<li>小红书当前虚拟商品/教育资料类目规则，需要在商家后台或官方学习中心二次核验。</li>
+</ol>
+<h2 id="阶段-3应用到业务">阶段 3：应用到业务</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>业务环节</th>
+<th>可执行动作</th>
+<th>验证指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品定位</td>
+<td>定义为“老师 3 分钟可上手的班级激励工具”，不是完整教学平台。</td>
+<td>老师首次使用时间、第一堂课完成率。</td>
+</tr>
+<tr>
+<td>核心功能</td>
+<td>班级创建、学生/小组、积分规则、宠物成长、老师可控展示、奖励兑换。</td>
+<td>日活班级数、每班每周积分次数、老师复访。</td>
+</tr>
+<tr>
+<td>游戏化设计</td>
+<td>徽章、升级、音效、宠物反馈必须绑定具体课堂行为。</td>
+<td>学生参与度、老师主观满意度、课堂干扰投诉。</td>
+</tr>
+<tr>
+<td>合规设计</td>
+<td>默认不公开真实姓名；排行榜可关闭；AI
+生成内容加标识；隐私政策和用户协议。</td>
+<td>投诉率、审核通过率、学校/老师接受度。</td>
+</tr>
+<tr>
+<td>获客渠道</td>
+<td>小红书做案例和场景内容，官网承接注册，社群做老师反馈。</td>
+<td>笔记咨询率、官网注册率、社群活跃、转化率。</td>
+</tr>
+<tr>
+<td>支付订阅</td>
+<td>卡密作为过渡；逐步转账号体系、月费、年费、班级套餐。</td>
+<td>首购率、续费率、退款率、客服成本。</td>
+</tr>
+<tr>
+<td>品牌资产</td>
+<td>商标检索、域名、账号、LOGO、产品名、案例页同步建立。</td>
+<td>搜索品牌词、投诉/盗版处理效率。</td>
+</tr>
+<tr>
+<td>出海准备</td>
+<td>国内验证稳定后，先做英文 landing page 和竞品调研，不急开发。</td>
+<td>英文页访问、留资、搜索量、竞品价格。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="道法术器势拆解">道法术器势拆解</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>拆解</th>
+<th>对应动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>道</td>
+<td>教育产品的本质不是炫技，而是降低老师负担、改善课堂参与，并守住未成年人和学校场景边界。</td>
+<td>所有功能都要回答：老师更省事了吗，学生更投入了吗，学校能接受吗。</td>
+</tr>
+<tr>
+<td>法</td>
+<td>聚焦国内 K12
+老师，先把一个轻量班级激励工具打透，再扩展支付、订阅、案例、出海。</td>
+<td>先做 30 个真实老师访谈/试用，再决定路线。</td>
+</tr>
+<tr>
+<td>术</td>
+<td>小红书内容、桌面快捷方式、二维码入班、宠物成长、积分规则、匿名/小组反馈、官网承接、卡密过渡。</td>
+<td>用 14 天跑通“内容 - 注册 - 首次使用 - 复访 - 付费”闭环。</td>
+</tr>
+<tr>
+<td>器</td>
+<td>Claude/Codex/Gemini、官网、账号系统、支付、数据分析、知识库、隐私政策、AI
+标识、商标/域名。</td>
+<td>建立最小产品运营后台和数据看板。</td>
+</tr>
+<tr>
+<td>势</td>
+<td>教育数字化、AI 工具普及、内容平台电商、K12 合规约束、AI
+内容标识同步增强。</td>
+<td>顺势做合规轻工具，不逆势做重平台和高风险公开排名。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="下一步-goal">下一步 <code>/goal</code></h2>
+<pre class="text"><code>/goal 围绕“国内 K12 老师班级激励宠物产品”执行三阶段研究工作流。
+阶段 1 - 广域调研：检索 25 个来源，覆盖小红书老师内容、竞品班级管理/积分/游戏化工具、国家教育数字化资料、游戏化教育研究、教师技术采用研究、AI 教育合规资料、官网/APP 获客资料。
+阶段 2 - Deep Research：筛选 10 个高价值来源深读，提取老师真实痛点、课堂使用限制、竞品功能、付费方式、获客内容、合规风险和证据强度。
+阶段 3 - 业务应用：输出产品定位、MVP 功能、首屏文案、官网结构、小红书 20 个选题、老师试用脚本、订阅方案、合规清单和 14 天验证计划。
+验证方式：每个核心功能必须对应老师痛点；每个增长动作必须对应渠道指标；事实、推断、建议分开写。
+限制：不公开学生隐私；不默认使用公开排名；不复制竞品素材；AI 生成内容必须标识和人工审核。</code></pre>
+<h2 id="资料链接">资料链接</h2>
+<ul>
+<li><a
+href="https://www.edu.cn/xxh/focus/202405/t20240521_2611107.shtml">国家中小学智慧教育平台浏览量超
+400 亿次</a></li>
+<li><a
+href="https://www.xinhuanet.com/edu/20240126/9820967d938e4c2bac4ff2ef632784a6/c.html">新华网：教育部推进教育数字化战略行动</a></li>
+<li><a
+href="https://apps.apple.com/cn/app/%E6%99%BA%E6%85%A7%E4%B8%AD%E5%B0%8F%E5%AD%A6-%E5%9B%BD%E5%AE%B6%E4%B8%AD%E5%B0%8F%E5%AD%A6%E6%99%BA%E6%85%A7%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0/id1497477307">智慧中小学
+App Store 页面</a></li>
+<li><a
+href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2024.1466926/full">Frontiers:
+Impact of gamification on school engagement</a></li>
+<li><a
+href="https://michiganvirtual.org/research/publications/breaking-barriers-a-meta-analysis-of-educator-acceptance-of-ai-technology-in-education">Michigan
+Virtual: Breaking Barriers, educator acceptance of AI</a></li>
+<li><a
+href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide">Google
+Search Central: SEO Starter Guide</a></li>
+<li><a
+href="https://developer.apple.com/app-store/product-page-optimization/">Apple
+Product Page Optimization</a></li>
+<li><a
+href="https://developer.apple.com/app-store/custom-product-pages/">Apple
+Custom Product Pages</a></li>
+<li><a
+href="https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm">生成式人工智能服务管理暂行办法</a></li>
+<li><a
+href="https://www.cac.gov.cn/2025-03/14/c_1743654684782215.htm">人工智能生成合成内容标识办法</a></li>
+<li><a
+href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP
+Top 10 for LLM Applications</a></li>
+</ul>
+</body>
+</html>
