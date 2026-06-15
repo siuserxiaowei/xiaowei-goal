@@ -28,16 +28,18 @@ Goal: gather enough external context to avoid working from guesses.
 
 Require the agent to:
 
+- check Agent Reach availability with `agent-reach doctor` when Agent Reach is installed, requested, or likely useful
 - list research questions before searching
 - generate search terms in Chinese and English when useful
 - collect a source pool at the selected depth
 - cover direct competitors, adjacent products, official sources, user discussions, content platforms, technical references, and risk references when relevant
-- record title, URL, source type, retrieval date, short note, and initial relevance
+- record title, URL, source type, tool/channel, retrieval date, access limitation, short note, and initial relevance
+- use accessible fallbacks when Agent Reach channels are unavailable, login-only, blocked, paid, or rate-limited
 
 Stage 1 output:
 
 ```text
-来源池：标题 | URL | 来源类型 | 检索日期 | 初步价值 | 是否进入 Deep Research
+来源池：标题 | URL | 来源类型 | 工具/渠道 | 检索日期 | 访问限制 | 初步价值 | 是否进入 Deep Research
 ```
 
 ## Stage 2: Deep Research
@@ -87,7 +89,7 @@ Stage 3 output:
 Require this table in the final research application brief:
 
 ```text
-来源标题 | URL | 来源类型 | 日期/检索日期 | 事实 | 推断 | 可执行动作 | 置信度 | 需要人工确认？
+来源标题 | URL | 来源类型 | 工具/渠道 | 日期/检索日期 | 事实 | 推断 | 可执行动作 | 置信度 | 需要人工确认？
 ```
 
 Rules:
@@ -144,7 +146,8 @@ Do not allow research goals to:
 - copy competitor content, brand, visual assets, code, or paid material
 - use one source as market truth
 - hide weak evidence behind confident language
-- request cookies, paid access, scraping bypasses, or private data without explicit permission
+- request cookies, tokens, paid access, scraping bypasses, login accounts, private groups, or private data without explicit permission
 - start implementation before a research brief exists, unless the user explicitly asks for direct execution
 - skip Deep Research and jump from search results directly to recommendations
 - claim "all internet information" was covered; use "all collected, deduplicated, relevant, source-backed material from this run"
+- imply Agent Reach can access private, paid, login-only, or platform-restricted content without user authorization and channel availability checks

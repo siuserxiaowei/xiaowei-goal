@@ -4,16 +4,30 @@ Use this reference to choose where to search and what to ask.
 
 ## Channel Routing
 
-| Need | Sources |
-|---|---|
-| Competitor positioning | official sites, pricing pages, onboarding, product docs, Product Hunt, directories |
-| User pain | App Store/Google Play reviews, Reddit, X/Twitter, V2EX, YouTube comments, public forums |
-| Chinese consumer signal | 小红书, 抖音, B站, 微信公众号, 微博, V2EX |
-| Technical examples | GitHub repos, GitHub issues, official docs, code search, engineering blogs |
-| SEO/content | search results, competitor blogs, comparison pages, template/checklist pages |
-| Founder/operator insight | podcasts, YouTube interviews, newsletters, X/Twitter threads, LinkedIn |
+Prefer Agent Reach when it is installed and the channel is available. Use `agent-reach doctor` or the current tool list to confirm availability before relying on a channel.
 
-Prefer Agent Reach when it is available. If a channel needs login, cookies, proxy, or paid access, record the limitation and use accessible sources instead.
+| Need | Preferred Agent Reach route | Fallback sources |
+|---|---|
+| Competitor positioning | Exa web search, normal web pages, GitHub, LinkedIn | official sites, pricing pages, onboarding, product docs, Product Hunt, directories |
+| User pain | Reddit, X/Twitter, YouTube, V2EX, 小红书, 微博 | App Store/Google Play reviews, public forums, search results |
+| Chinese consumer signal | 小红书, 抖音, B站, 微信公众号, 微博, V2EX | public search results, platform pages reachable by browser |
+| Technical examples | GitHub, Exa code/context, normal web pages | GitHub repos, GitHub issues, official docs, code search, engineering blogs |
+| SEO/content | Exa web search, RSS, normal web pages | search results, competitor blogs, comparison pages, template/checklist pages |
+| Founder/operator insight | podcasts, YouTube, X/Twitter, LinkedIn, RSS | interviews, newsletters, public talks, founder blogs |
+
+If a channel needs login, cookies, proxy, paid access, or bypassing platform restrictions, record the limitation and use accessible sources instead unless the user explicitly authorizes that channel.
+
+## Agent Reach Platform Map
+
+When available, route platform-specific research through Agent Reach before generic web search:
+
+| Platform group | Channels |
+|---|---|
+| Overseas social/content | X/Twitter, Reddit, YouTube, GitHub, LinkedIn, Instagram |
+| Chinese social/content | Bilibili, 小红书, 抖音, 微博, 微信公众号, V2EX |
+| General discovery | RSS, Exa web search, podcast transcripts, normal web pages |
+
+Do not claim full internet coverage. Phrase scope as "current run's collected, deduplicated, relevant, source-backed material." Agent Reach expands the accessible source surface, but actual coverage depends on installation, cookies, proxies, rate limits, platform blocks, and user authorization.
 
 ## Query Patterns
 

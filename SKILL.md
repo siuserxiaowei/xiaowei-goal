@@ -20,6 +20,7 @@ description: >
 
 - 先看外部世界，再决定怎么做。
 - 先广域调研，再 Deep Research，最后应用到自己的业务。
+- 如果当前环境安装了 Agent Reach，把它作为广域调研的首选能力层。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -35,6 +36,18 @@ Choose one of two modes:
 2. **直接执行模式**：use for narrow local coding/doc tasks where external information is unnecessary.
 
 If the user mentions Agent Reach, search, research, Deep Research, competitor analysis, app/site planning, SEO, growth, or "先学习再应用", choose 三阶段研究模式.
+
+## Agent Reach Routing
+
+When external research is needed, prefer Agent Reach if it is installed or explicitly requested. Treat it as a capability layer for reading/searching public or user-authorized content, not as a guarantee of unlimited internet access.
+
+Generated goals should ask the executing agent to:
+
+- run `agent-reach doctor` or otherwise confirm channel availability before relying on Agent Reach
+- route sources through Agent Reach first for X/Twitter, Reddit, YouTube, GitHub, LinkedIn, Instagram, Bilibili, 小红书, 抖音, 微博, 微信公众号, V2EX, RSS, Exa web search, podcasts, and normal web pages when available
+- record the tool/channel used for every source, such as Agent Reach X, Agent Reach YouTube, Agent Reach Exa, browser, web search, GitHub CLI, or RSS
+- use accessible fallbacks when a channel is unavailable, blocked, login-only, paid, or rate-limited
+- pause before asking for or using cookies, tokens, paid access, production accounts, private groups, or platform-bypass techniques
 
 ## Workflow
 
@@ -55,16 +68,16 @@ Use this shape when the task should search, deeply analyze, then apply findings 
 ```text
 推荐执行版（中文，可直接复制）
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
-阶段 1 - 广域调研：优先使用 Agent Reach 或当前环境可用的搜索、浏览、平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、检索日期和初步价值判断。
+阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；把矛盾信息标成不确定。
 阶段 3 - 业务应用：把本轮收集到、去重后、与业务目标相关且可追溯来源的资料，映射到当前业务的产品功能、页面结构、文案方向、SEO 主题、增长动作、技术实现、验证实验和下一阶段 `/goal`。
 输出物：产出一份研究应用简报，包含来源池、深度研究证据表、关键洞察、可迁移动作、不能复制的内容、业务决策、风险和下一阶段 `/goal`。
 验证方式：每条关键结论必须能追溯到来源；事实、推断、建议分开写；业务动作必须能对应到产品、页面、文案、SEO、增长、技术实现或验证实验。
-限制：不复制竞品品牌、文案、图片、视频、代码、课程、版权素材或未经证实的市场结论；不把单一来源当成事实；不使用登录账号、付费平台、生产数据或隐私数据，除非用户明确授权。
+限制：不复制竞品品牌、文案、图片、视频、代码、课程、版权素材或未经证实的市场结论；不把单一来源当成事实；不把 Agent Reach 描述成无限制全网访问；不使用登录账号、Cookie、Token、付费平台、生产数据、私域内容或隐私数据，除非用户明确授权。
 工作边界：三阶段研究期间只创建研究应用文档和下一阶段执行目标；实现阶段只改与当前业务目标直接相关的文件。
 推进规则：先列研究问题和搜索词，再做广域检索，再筛选来源做 Deep Research，最后统一映射到业务动作；每个阶段结束前先补齐证据缺口，再进入下一阶段。
 停止标准：研究应用简报覆盖三阶段，包含可追溯来源、深度研究证据、业务启发、可执行动作、风险和下一阶段目标。
-暂停条件：需要 Cookie、付费数据库、绕过平台限制、法律/医疗/金融判断、版权授权、生产数据或重大业务定位选择时暂停。
+暂停条件：需要 Cookie、Token、付费数据库、登录账号、绕过平台限制、法律/医疗/金融判断、版权授权、生产数据、私域内容或重大业务定位选择时暂停。
 ```
 
 Default source counts for broad research:
@@ -107,6 +120,7 @@ Good goals:
 
 - describe an outcome, not activity
 - name source count or verification commands
+- name Agent Reach routing and fallback rules when internet/platform research matters
 - force the three stages when external information matters
 - protect unrelated files, secrets, production data, and copyrighted material
 - separate facts, inferences, and actions
