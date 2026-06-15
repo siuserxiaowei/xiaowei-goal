@@ -17,6 +17,24 @@ Prefer Agent Reach when it is installed and the channel is available. Use `agent
 
 If a channel needs login, cookies, proxy, paid access, or bypassing platform restrictions, record the limitation and use accessible sources instead unless the user explicitly authorizes that channel.
 
+## Tool Routing
+
+Use `references/tool-stack.md` for capability selection:
+
+| Need | Tool route |
+|---|---|
+| Platform/social/video/community search | Agent Reach |
+| Simple public webpage reading | web reader, browser, or Agent Reach web page route |
+| Structured extraction from public pages | Scrapling |
+| Repeated public crawling with stable output | Scrapling |
+| Dynamic UI inspection, clicks, filters, screenshots | browser-use |
+| Login-authorized browsing with explicit user approval | browser-use or user-supervised Claude for Chrome |
+| User wants help inside their own Chrome browser | Claude for Chrome as optional user-supervised path |
+
+If Scrapling, browser-use, or Claude for Chrome would require credentials,
+private content, CAPTCHA solving, payment, account changes, message sending,
+or bypassing platform restrictions, pause and ask for explicit authorization.
+
 ## Agent Reach Platform Map
 
 When available, route platform-specific research through Agent Reach before generic web search:

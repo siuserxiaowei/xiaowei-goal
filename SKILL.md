@@ -21,6 +21,7 @@ description: >
 - 先看外部世界，再决定怎么做。
 - 先广域调研，再 Deep Research，最后应用到自己的业务。
 - 如果当前环境安装了 Agent Reach，把它作为广域调研的首选能力层。
+- 按任务选择最小工具层：Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - 用任务包把研究映射到具体业务产物，而不是只给通用建议。
 - 用 quality gate 约束结论质量：关键结论至少 2 个独立来源支撑，否则降级为假设。
 - 先分清事实和判断，再给执行动作。
@@ -51,19 +52,32 @@ Generated goals should ask the executing agent to:
 - use accessible fallbacks when a channel is unavailable, blocked, login-only, paid, or rate-limited
 - pause before asking for or using cookies, tokens, paid access, production accounts, private groups, or platform-bypass techniques
 
+## Tool Stack Routing
+
+When research needs more than search results, choose the smallest reliable tool layer:
+
+- Agent Reach for platform discovery, semantic web search, social/video/community/GitHub/RSS/podcast sources
+- normal web readers/search/browser for simple public pages
+- Scrapling for public webpage extraction, resilient selectors, dynamic public pages, or repeatable crawling
+- browser-use for clicking, typing, screenshots, browser state, login-authorized flows, or visual verification
+- Claude for Chrome only as an optional, user-supervised Chrome extension workflow when the user explicitly has it available
+
+Do not require every tool. Do not use scraping, browser automation, or extensions to bypass paywalls, private content, CAPTCHAs, platform restrictions, credentials, purchases, messages, account settings, or legal/terms-sensitive flows without explicit authorization.
+
 ## Workflow
 
 1. Restate the user's real outcome in business terms.
 2. Decide whether the task needs external research.
 3. If research is needed, read `references/research-workflow.md`.
 4. If research is needed, read `references/quality-gate.md`.
-5. If the user names an app/site/business channel, read `references/source-map.md`.
-6. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
-7. If the task is ready for execution, read `references/goal-contract.md`.
-8. Produce the best copy-ready `/goal` first.
-9. Add a short reason for the defaults.
-10. Add compact options only when a choice changes cost, risk, or direction.
-11. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
+5. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
+6. If the user names an app/site/business channel, read `references/source-map.md`.
+7. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
+8. If the task is ready for execution, read `references/goal-contract.md`.
+9. Produce the best copy-ready `/goal` first.
+10. Add a short reason for the defaults.
+11. Add compact options only when a choice changes cost, risk, or direction.
+12. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
 
 ## Three-Stage Research Output
 
@@ -73,6 +87,7 @@ Use this shape when the task should search, deeply analyze, then apply findings 
 推荐执行版（中文，可直接复制）
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
 任务包：[选择 App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
+工具栈：优先 Agent Reach 做平台搜索和来源收集；普通公开网页先用 web reader/browser；需要结构化抽取或公共网页爬取时使用 Scrapling；需要点击、截图、登录授权流程或动态 UI 验证时使用 browser-use；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项。
 阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；把矛盾信息标成不确定。
 阶段 3 - 业务应用：把本轮收集到、去重后、与业务目标相关且可追溯来源的资料，映射到当前业务的产品功能、页面结构、文案方向、SEO 主题、增长动作、技术实现、验证实验和下一阶段 `/goal`。
@@ -127,6 +142,7 @@ Good goals:
 - describe an outcome, not activity
 - name source count or verification commands
 - name Agent Reach routing and fallback rules when internet/platform research matters
+- name tool-stack routing when webpage extraction, crawling, browser automation, or Chrome user-supervised work matters
 - name a task pack when the work is app, website, SEO, competitor, or growth related
 - include a quality gate with 2-source support, source strength, downgrade rules, and contradiction handling
 - force the three stages when external information matters
@@ -146,11 +162,13 @@ Bad goals:
 - "深度研究一下" without a broad research pool, source selection, and business application stage
 - "照着竞品做一个一样的"
 - research conclusions without source strength, downgrade rules, or contradiction handling
+- using scraping or browser automation without authorization, scope, access limits, and pause conditions
 
 ## References
 
 - `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
 - `references/quality-gate.md`: source strength, 2-source rule, downgrade rules, contradiction handling, and confidence labels.
+- `references/tool-stack.md`: Agent Reach, Scrapling, browser-use, and Claude for Chrome routing and boundaries.
 - `references/source-map.md`: platform routing and query patterns for app, website, SEO, growth, and technical tasks.
 - `references/task-packs.md`: App MVP, website/landing page, SEO cluster, competitor analysis, and growth experiment packs.
 - `references/goal-contract.md`: compact templates for executable goals and validation rules.

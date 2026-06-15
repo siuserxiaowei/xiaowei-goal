@@ -1,6 +1,6 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "owner": "Xiaowei",
   "updated_at": "2026-06-15",
   "status": "public-ready",
@@ -16,6 +16,7 @@
   "outputs": [
     "three-stage-research-goal",
     "agent-reach-routed-research-goal",
+    "research-tool-stack-goal",
     "quality-gated-research-goal",
     "task-pack-goal",
     "deep-research-goal",

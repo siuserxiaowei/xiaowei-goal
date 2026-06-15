@@ -20,6 +20,7 @@ REQUIRED_DIRECT = {
 
 RESEARCH_FIELDS = {
     "task pack": [r"^任务包[:：]\s*"],
+    "tool stack": [r"^工具栈[:：]\s*"],
     "stage 1 broad research": [r"^阶段\s*1\s*-\s*广域调研[:：]\s*"],
     "stage 2 deep research": [r"^阶段\s*2\s*-\s*Deep Research[:：]\s*"],
     "stage 3 business application": [r"^阶段\s*3\s*-\s*业务应用[:：]\s*"],
@@ -97,6 +98,14 @@ QUALITY_GATE_HINTS = {
     "low confidence or hypothesis": [r"低置信度", r"假设", r"low[- ]confidence", r"hypothesis"],
 }
 
+TOOL_STACK_HINTS = {
+    "Agent Reach": [r"Agent Reach"],
+    "Scrapling": [r"Scrapling"],
+    "browser-use": [r"browser-use", r"browser use"],
+    "Claude for Chrome": [r"Claude for Chrome"],
+    "authorization boundary": [r"授权", r"人工接管", r"暂停", r"authorized", r"user-supervised"],
+}
+
 ANTI_OVERCLAIM_HINTS = [
     r"不把\s*Agent Reach\s*描述成无限制全网访问",
     r"不宣称.*全网覆盖",
@@ -159,6 +168,11 @@ def lint_text(text: str, source: str) -> list[str]:
         task_pack = _field_content(text, RESEARCH_FIELDS["task pack"], all_markers)
         if task_pack and not any(re.search(pattern, task_pack, flags=re.IGNORECASE) for pattern in TASK_PACK_HINTS):
             errors.append(f"{source}: task pack should name a supported pack")
+
+        tool_stack = _field_content(text, RESEARCH_FIELDS["tool stack"], all_markers) or ""
+        for name, patterns in TOOL_STACK_HINTS.items():
+            if not any(re.search(pattern, tool_stack, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: tool stack missing `{name}`")
 
         quality_gate = _field_content(text, RESEARCH_FIELDS["quality gate"], all_markers) or ""
         for name, patterns in QUALITY_GATE_HINTS.items():

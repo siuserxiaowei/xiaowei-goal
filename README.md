@@ -77,6 +77,7 @@ python3 -m http.server 8000
 
 当前版本还会把研究型任务强制补上两层约束：
 
+- `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
 - `质量门槛`：每条关键结论至少 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问来源降权；矛盾信息必须列出。
 
@@ -141,6 +142,7 @@ test -f ~/.agents/skills/xiaowei-goal/SKILL.md
 ```text
 /goal 围绕 AI 英语口语练习 App 执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成 MVP 功能、官网页面、增长动作和下一阶段实现目标。
 任务包：App MVP 研究包；本次必须把研究结论映射到目标用户、首访体验、核心工作流、激活时刻、留存循环、MVP 功能、定价假设、信任风险和下一阶段实现 `/goal`。
+工具栈：优先 Agent Reach 做平台搜索和来源收集；普通公开网页先用 web reader/browser；需要结构化抽取或公共网页爬取时使用 Scrapling；需要点击、截图、登录授权流程或动态 UI 验证时使用 browser-use；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项。
 阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索 15-25 个候选来源，覆盖直接竞品、官方资料、App 用户评价或社区讨论、小红书/B站/YouTube/公众号等内容平台、技术或实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；每条关键结论至少用 2 个独立来源支撑，否则标成低置信度或假设；把矛盾信息标成不确定。
 阶段 3 - 业务应用：把本轮收集到、去重后、与 AI 英语口语练习 App 相关且可追溯来源的资料，映射到 MVP 功能、官网页面、文案方向、SEO 主题、增长动作、技术实现、验证实验和下一阶段 `/goal`。
@@ -176,6 +178,18 @@ test -f ~/.agents/skills/xiaowei-goal/SKILL.md
 - 深度：40+ 个来源
 
 Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资料，做深读、对比、交叉验证和业务判断。
+
+### 工具栈
+
+研究型 goal 会按任务选择最小工具层：
+
+- `Agent Reach`：平台搜索、社交/视频/社区/GitHub/RSS/播客/Exa 来源收集。
+- `普通网页读取`：简单公开网页，优先使用 web reader、browser 或 Agent Reach 网页读取。
+- `Scrapling`：公开网页结构化抽取、重复爬取、动态公开页面、抗页面结构变化的抽取逻辑。
+- `browser-use`：点击、输入、筛选器、截图、页面状态、动态 UI 验证、用户明确授权的登录流程。
+- `Claude for Chrome`：仅作为用户明确授权的 Chrome 内协作/人工接管选项，不作为默认后台爬虫。
+
+如果这些工具涉及凭证、私域内容、验证码、付费、账号修改、表单提交、消息发送、购买或绕过平台限制，goal 必须暂停并要求用户确认。
 
 ### 任务包
 
@@ -297,6 +311,7 @@ python3 scripts/validate_xiaowei_goal.py examples/app-research-goal.zh.txt examp
 - `工具/渠道` 和 `访问限制`
 - `任务包`
 - `质量门槛`
+- `工具栈`
 - 禁止夸大 Agent Reach 或全网覆盖范围
 - Deep Research 和业务应用阶段
 
@@ -324,7 +339,8 @@ xiaowei-goal/
 │   ├── quality-gate.md
 │   ├── research-workflow.md
 │   ├── source-map.md
-│   └── task-packs.md
+│   ├── task-packs.md
+│   └── tool-stack.md
 └── scripts/
     └── validate_xiaowei_goal.py
 ```
