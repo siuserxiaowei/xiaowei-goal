@@ -1,5 +1,70 @@
 # xiaowei-goal
 
+<!-- SIUSER-REPO-GUIDE:START -->
+## Repository Guide
+
+### What This Repository Does
+
+Xiaowei-style research-first Agent Skill for turning app, website, SEO, growth, and competitor tasks into executable /goal commands.
+
+### Online Entry Points
+
+- GitHub repository: https://github.com/siuserxiaowei/xiaowei-goal
+- Live / GitHub Pages: https://siuserxiaowei.github.io/xiaowei-goal/
+- Default branch: `main`
+- Primary language: `Python`
+- Topics: `agent-reach`, `agent-research`, `agent-skill`, `codex`, `goal`
+
+### How To Read / Learn This Repository
+
+1. 先读本 README，确认项目目标、在线入口和本地运行方式。
+2. 打开上方 Live / GitHub Pages 链接，先从最终效果理解项目。
+3. 优先查看 `SKILL.md`、`README.md` 和示例脚本，理解这个 skill 解决什么问题。
+4. 如果要修改内容，先小范围改动，再运行本 README 中的验证命令。
+
+### Clone This Repository
+
+```bash
+git clone https://github.com/siuserxiaowei/xiaowei-goal.git
+cd xiaowei-goal
+```
+
+### Run Or View Locally
+
+```bash
+python3 -m http.server 8000
+```
+
+然后打开 `http://127.0.0.1:8000/`。
+
+### Repository Map
+
+| Path | Purpose |
+| --- | --- |
+| `README.md` | 项目入口说明，先读这里。 |
+| `SKILL.md` | Skill 的核心说明、触发条件和使用步骤。 |
+| `docs/` | 文档或 GitHub Pages 输出目录。 |
+| `scripts/` | 构建、同步、生成或维护脚本。 |
+| `LICENSE` | 项目文件。 |
+| `agents/` | 项目目录。 |
+| `examples/` | 项目目录。 |
+| `manifest.json` | 项目文件。 |
+| `references/` | 项目目录。 |
+
+### Maintenance Notes
+
+- Keep this README in sync when the project purpose, live link, or run commands change.
+- Prefer small, focused commits when changing code, data, or generated pages.
+- Run the relevant build or validation command before publishing changes.
+- If this is a generated/static archive, update the source data first, then regenerate the public files.
+
+### Privacy And Safety
+
+- Do not commit API keys, tokens, passwords, cookies, private URLs, or internal account data.
+- Keep private source material out of public GitHub Pages output unless it has been explicitly cleared for publication.
+- When in doubt, run a quick secret scan such as `rg -n "token|secret|password|access_key|authorization"` before pushing.
+<!-- SIUSER-REPO-GUIDE:END -->
+
 `xiaowei-goal` 是一个面向 App、网站、落地页、SaaS、SEO、增长和竞品分析的 Agent Skill。
 
 它的核心目标不是让 agent 立刻动手写代码，而是先把模糊业务需求变成一个 **先调研、再 Deep Research、最后应用到业务** 的 `/goal`。
