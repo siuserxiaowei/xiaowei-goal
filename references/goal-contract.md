@@ -12,6 +12,8 @@ A Xiaowei goal should include:
 - `阶段 3 - 业务应用` when external research is needed
 - `输出物` when a document or brief is expected
 - Agent Reach availability check and fallback route when platform/internet research is needed
+- `任务包` when the task matches app, website, SEO, competitor, or growth work
+- `质量门槛` when external research is needed
 - `验证方式`
 - `限制`
 - `工作边界`
@@ -25,10 +27,12 @@ For direct execution goals, the three research stage fields and `输出物` may 
 
 ```text
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
+任务包：[App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
 阶段 1 - 广域调研：[Agent Reach 可用性检查、工具优先级、候选来源数量、来源类型、记录字段、来源池产物、不可用渠道的 fallback]。
-阶段 2 - Deep Research：[高价值来源筛选、深读、对比、交叉验证、矛盾标注、证据强度]。
+阶段 2 - Deep Research：[高价值来源筛选、深读、对比、交叉验证、每条关键结论至少 2 个独立来源或降级为假设、来源强弱、矛盾标注、证据强度]。
 阶段 3 - 业务应用：[把去重后相关且可追溯资料映射到产品、页面、文案、SEO、增长、技术实现、验证实验和下一阶段 goal]。
 输出物：[研究应用简报、来源池、深度研究证据表、业务应用表、下一阶段目标]。
+质量门槛：[2 个独立来源、来源强弱、过期/营销/不可访问来源降权、矛盾信息列出、低证据结论标为低置信度或假设]。
 验证方式：[来源可追溯、事实/推断/建议分开、动作可执行]。
 限制：[不复制、不编造、不夸大 Agent Reach 覆盖范围、不碰隐私/付费/生产/账号/Cookie]。
 工作边界：[研究阶段和实现阶段各自允许写什么]。
@@ -68,7 +72,12 @@ Revise the goal if it contains:
 - "随便搜", "全网都搜", or "一直试"
 - "照抄", "扒下来", or "做一个一样的"
 - no source count for research
+- no `任务包` for app, website, SEO, competitor, or growth research
+- no `质量门槛` for research goals
 - no Deep Research stage for business research tasks
 - no business application stage after research
+- no Agent Reach availability check when platform/internet research is requested
+- no tool/channel or access limitation fields in source recording
+- no explicit rule against claiming full internet coverage
 - no verification evidence
 - no pause condition

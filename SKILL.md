@@ -21,6 +21,8 @@ description: >
 - 先看外部世界，再决定怎么做。
 - 先广域调研，再 Deep Research，最后应用到自己的业务。
 - 如果当前环境安装了 Agent Reach，把它作为广域调研的首选能力层。
+- 用任务包把研究映射到具体业务产物，而不是只给通用建议。
+- 用 quality gate 约束结论质量：关键结论至少 2 个独立来源支撑，否则降级为假设。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -54,12 +56,14 @@ Generated goals should ask the executing agent to:
 1. Restate the user's real outcome in business terms.
 2. Decide whether the task needs external research.
 3. If research is needed, read `references/research-workflow.md`.
-4. If the user names an app/site/business channel, read `references/source-map.md`.
-5. If the task is ready for execution, read `references/goal-contract.md`.
-6. Produce the best copy-ready `/goal` first.
-7. Add a short reason for the defaults.
-8. Add compact options only when a choice changes cost, risk, or direction.
-9. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
+4. If research is needed, read `references/quality-gate.md`.
+5. If the user names an app/site/business channel, read `references/source-map.md`.
+6. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
+7. If the task is ready for execution, read `references/goal-contract.md`.
+8. Produce the best copy-ready `/goal` first.
+9. Add a short reason for the defaults.
+10. Add compact options only when a choice changes cost, risk, or direction.
+11. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
 
 ## Three-Stage Research Output
 
@@ -68,10 +72,12 @@ Use this shape when the task should search, deeply analyze, then apply findings 
 ```text
 推荐执行版（中文，可直接复制）
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
+任务包：[选择 App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
 阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；把矛盾信息标成不确定。
 阶段 3 - 业务应用：把本轮收集到、去重后、与业务目标相关且可追溯来源的资料，映射到当前业务的产品功能、页面结构、文案方向、SEO 主题、增长动作、技术实现、验证实验和下一阶段 `/goal`。
 输出物：产出一份研究应用简报，包含来源池、深度研究证据表、关键洞察、可迁移动作、不能复制的内容、业务决策、风险和下一阶段 `/goal`。
+质量门槛：每条关键结论至少需要 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问或片段来源必须降权；矛盾信息必须列出；不足 2 个来源的结论只能标为低置信度或假设。
 验证方式：每条关键结论必须能追溯到来源；事实、推断、建议分开写；业务动作必须能对应到产品、页面、文案、SEO、增长、技术实现或验证实验。
 限制：不复制竞品品牌、文案、图片、视频、代码、课程、版权素材或未经证实的市场结论；不把单一来源当成事实；不把 Agent Reach 描述成无限制全网访问；不使用登录账号、Cookie、Token、付费平台、生产数据、私域内容或隐私数据，除非用户明确授权。
 工作边界：三阶段研究期间只创建研究应用文档和下一阶段执行目标；实现阶段只改与当前业务目标直接相关的文件。
@@ -121,6 +127,8 @@ Good goals:
 - describe an outcome, not activity
 - name source count or verification commands
 - name Agent Reach routing and fallback rules when internet/platform research matters
+- name a task pack when the work is app, website, SEO, competitor, or growth related
+- include a quality gate with 2-source support, source strength, downgrade rules, and contradiction handling
 - force the three stages when external information matters
 - protect unrelated files, secrets, production data, and copyrighted material
 - separate facts, inferences, and actions
@@ -137,10 +145,13 @@ Bad goals:
 - "全网资料都整理一下" without depth or source rules
 - "深度研究一下" without a broad research pool, source selection, and business application stage
 - "照着竞品做一个一样的"
+- research conclusions without source strength, downgrade rules, or contradiction handling
 
 ## References
 
 - `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
+- `references/quality-gate.md`: source strength, 2-source rule, downgrade rules, contradiction handling, and confidence labels.
 - `references/source-map.md`: platform routing and query patterns for app, website, SEO, growth, and technical tasks.
+- `references/task-packs.md`: App MVP, website/landing page, SEO cluster, competitor analysis, and growth experiment packs.
 - `references/goal-contract.md`: compact templates for executable goals and validation rules.
 - `scripts/validate_xiaowei_goal.py`: local validator for generated goal examples.

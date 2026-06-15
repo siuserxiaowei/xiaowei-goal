@@ -10,6 +10,8 @@ The default business workflow has three required stages:
 2. Deep Research: read, compare, and cross-check the highest-value sources.
 3. Business Application: convert evidence into actions for the user's business.
 
+Before final recommendations, apply `references/quality-gate.md`. Research is not complete until key conclusions have source counts, source strength, contradiction handling, and confidence labels.
+
 ## Research Depth
 
 Choose the smallest broad-research depth that can support the decision.
@@ -51,6 +53,8 @@ Deep Research should focus on the highest-value sources from Stage 1. It should:
 - read the selected sources closely
 - compare competitors and adjacent products
 - cross-check claims across multiple sources
+- require at least 2 independent sources for each key conclusion, or mark the conclusion as low-confidence/hypothesis
+- label source strength and downgrade outdated, promotional, inaccessible, or snippet-only sources
 - extract user pain, purchase triggers, objections, product patterns, page patterns, growth channels, SEO topics, technical patterns, and risks
 - mark contradictions and weak evidence
 - avoid copying language, designs, media, code, or protected material
@@ -58,7 +62,7 @@ Deep Research should focus on the highest-value sources from Stage 1. It should:
 Stage 2 output:
 
 ```text
-深度研究证据表：主题 | 关键事实 | 支撑来源 | 反例/矛盾 | 推断 | 证据强度 | 对本业务的意义
+深度研究证据表：主题 | 关键事实 | 支撑来源 | 独立来源数量 | 来源强弱 | 反例/矛盾 | 推断 | 证据强度 | 对本业务的意义
 ```
 
 ## Stage 3: Business Application
@@ -83,6 +87,22 @@ Stage 3 output:
 ```text
 业务应用表：业务模块 | 可用资料/证据 | 业务判断 | 具体动作 | 优先级 | 验证方式 | 是否需要人工确认
 ```
+
+## Quality Gate
+
+Require this section before final recommendations:
+
+```text
+质量门槛：关键结论 | 支撑来源数量 | 独立来源 | 来源强弱 | 降权原因 | 反例/矛盾 | 置信度 | 是否需要人工确认
+```
+
+Rules:
+
+- 2+ independent sources are required for a normal-confidence key conclusion.
+- 1-source conclusions must be labeled `低置信度` or `假设`.
+- Outdated, promotional, inaccessible, duplicate, or snippet-only sources must be downgraded.
+- Contradictions must be listed, not hidden.
+- Pricing, compliance, health, finance, minors, privacy, and production-data claims require explicit human confirmation when evidence is weak or mixed.
 
 ## Evidence Table
 

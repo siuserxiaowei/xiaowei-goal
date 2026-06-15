@@ -19,10 +19,12 @@ REQUIRED_DIRECT = {
 }
 
 RESEARCH_FIELDS = {
+    "task pack": [r"^任务包[:：]\s*"],
     "stage 1 broad research": [r"^阶段\s*1\s*-\s*广域调研[:：]\s*"],
     "stage 2 deep research": [r"^阶段\s*2\s*-\s*Deep Research[:：]\s*"],
     "stage 3 business application": [r"^阶段\s*3\s*-\s*业务应用[:：]\s*"],
     "deliverable": [r"^输出物[:：]\s*"],
+    "quality gate": [r"^质量门槛[:：]\s*"],
 }
 
 PLACEHOLDERS = [
@@ -65,6 +67,44 @@ EVIDENCE_HINTS = [
     r"\b(test|build|lint|log|screenshot|source|url|evidence)\b",
 ]
 
+SOURCE_COUNT_HINTS = [
+    r"\d+\s*[-~]\s*\d+\s*个?\s*(候选)?来源",
+    r"\d+\+\s*个?\s*(候选)?来源",
+    r"轻量[:：]?\s*6\s*[-~]\s*8",
+    r"标准[:：]?\s*15\s*[-~]\s*25",
+    r"深度[:：]?\s*40\+",
+]
+
+TASK_PACK_HINTS = [
+    r"App MVP\s*研究包",
+    r"网站/落地页改版包",
+    r"SEO\s*内容集群包",
+    r"竞品分析包",
+    r"增长实验包",
+]
+
+QUALITY_GATE_HINTS = {
+    "2 independent sources": [
+        r"至少.*2\s*个.*来源",
+        r"2\s*个.*独立来源",
+        r"2\s+independent\s+sources",
+    ],
+    "source strength": [r"来源强弱", r"证据强度", r"source strength"],
+    "outdated downgrade": [r"过期", r"outdated"],
+    "promotional downgrade": [r"营销", r"promotional"],
+    "inaccessible downgrade": [r"不可访问", r"inaccessible"],
+    "contradictions": [r"矛盾", r"contradiction"],
+    "low confidence or hypothesis": [r"低置信度", r"假设", r"low[- ]confidence", r"hypothesis"],
+}
+
+ANTI_OVERCLAIM_HINTS = [
+    r"不把\s*Agent Reach\s*描述成无限制全网访问",
+    r"不宣称.*全网覆盖",
+    r"不能.*无限制.*全网",
+    r"not.*unlimited.*internet",
+    r"not.*full.*internet.*coverage",
+]
+
 
 def _line_starts(text: str, patterns: list[str]) -> list[re.Match[str]]:
     matches: list[re.Match[str]] = []
@@ -102,6 +142,28 @@ def lint_text(text: str, source: str) -> list[str]:
         for name, patterns in RESEARCH_FIELDS.items():
             if not _line_starts(text, patterns):
                 errors.append(f"{source}: research goal missing `{name}`")
+
+        if not re.search(r"agent-reach\s+doctor", text, flags=re.IGNORECASE):
+            errors.append(f"{source}: research goal should require `agent-reach doctor` or channel availability check")
+
+        if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in SOURCE_COUNT_HINTS):
+            errors.append(f"{source}: research goal should name a concrete source count")
+
+        for required in ("工具/渠道", "访问限制"):
+            if required not in text:
+                errors.append(f"{source}: research goal should record `{required}`")
+
+        if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in ANTI_OVERCLAIM_HINTS):
+            errors.append(f"{source}: research goal should prohibit overclaiming Agent Reach/full internet coverage")
+
+        task_pack = _field_content(text, RESEARCH_FIELDS["task pack"], all_markers)
+        if task_pack and not any(re.search(pattern, task_pack, flags=re.IGNORECASE) for pattern in TASK_PACK_HINTS):
+            errors.append(f"{source}: task pack should name a supported pack")
+
+        quality_gate = _field_content(text, RESEARCH_FIELDS["quality gate"], all_markers) or ""
+        for name, patterns in QUALITY_GATE_HINTS.items():
+            if not any(re.search(pattern, quality_gate, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: quality gate missing `{name}`")
 
     for pattern in PLACEHOLDERS:
         if re.search(pattern, text, flags=re.IGNORECASE):
