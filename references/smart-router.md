@@ -9,7 +9,7 @@ before drafting.
 Classify the task with these dimensions:
 
 ```text
-任务类型：app / website / SEO / growth / competitor / coding / docs / mixed
+任务类型：app / website / SEO / growth / competitor / coding / docs / skill-evolution / mixed
 任务成熟度：模糊想法 / 已有方向 / 已有仓库 / 已有数据 / 已有执行清单
 外部信息需求：不需要 / 轻量 / 标准 / 深度
 风险等级：低 / 中 / 高
@@ -22,7 +22,7 @@ Classify the task with these dimensions:
 For English-compatible output:
 
 ```text
-Task type: app / website / SEO / growth / competitor / coding / docs / mixed
+Task type: app / website / SEO / growth / competitor / coding / docs / skill-evolution / mixed
 Task maturity: vague idea / chosen direction / existing repo / existing data / execution checklist
 External information need: none / light / standard / deep
 Risk level: low / medium / high
@@ -84,6 +84,18 @@ Choose the smallest reliable tool layer:
 - Claude for Chrome only as a user-supervised browser extension path
 
 If a heavier tool is not needed, explicitly avoid it in the choice rationale.
+
+## Self-Evolution Routing
+
+When the user asks for xiaowei-goal to evolve itself, automatically improve
+itself, learn from previous outputs, or update its own GitHub repository:
+
+- task type: `skill-evolution`
+- external information need: usually `不需要` unless external tool research is part of the requested improvement
+- output length: `标准版` by default
+- read `references/self-evolution.md`
+- require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions
+- do not ask clarifying questions unless the change needs credentials, production data, destructive actions, or an out-of-scope repository
 
 ## Required Decision Summary
 

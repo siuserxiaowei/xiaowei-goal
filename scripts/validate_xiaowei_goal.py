@@ -183,6 +183,33 @@ OUTPUT_LENGTH_HINTS = [
     r"\bfull\b",
 ]
 
+SELF_EVOLUTION_TRIGGERS = [
+    r"自我进化",
+    r"自动化自我进化",
+    r"自动.*进化",
+    r"自己.*进化",
+    r"self[- ]evolution",
+    r"auto[- ]evolution",
+    r"自动提交",
+    r"自动.*发布",
+]
+
+SELF_EVOLUTION_HINTS = {
+    "automation boundary": [r"自动化边界", r"Automation Boundary"],
+    "feedback source": [r"反馈来源", r"feedback source"],
+    "allowed paths": [r"允许修改路径", r"allowed paths", r"allowlist"],
+    "evaluation": [r"评估方式", r"evaluate_goal_output\.py", r"evaluation"],
+    "validation suite": [
+        r"validate_xiaowei_goal\.py",
+        r"test_validator_negative_cases\.py",
+        r"check_installed_skill\.py",
+    ],
+    "ci gate": [r"GitHub Actions", r"\bCI\b", r"gh run watch"],
+    "release policy": [r"发布规则", r"release", r"tag", r"语义化版本", r"semantic version"],
+    "rollback": [r"回滚方式", r"rollback", r"revert"],
+    "pause risks": [r"凭证", r"破坏性", r"生产数据", r"私域", r"CI.*失败", r"credential", r"destructive"],
+}
+
 
 def _line_starts(text: str, patterns: list[str]) -> list[re.Match[str]]:
     matches: list[re.Match[str]] = []
@@ -308,6 +335,14 @@ def lint_text(text: str, source: str) -> list[str]:
         for name, patterns in QUALITY_GATE_HINTS.items():
             if not any(re.search(pattern, quality_gate, flags=re.IGNORECASE) for pattern in patterns):
                 errors.append(f"{source}: quality gate missing `{name}`")
+
+    is_self_evolution_goal = any(
+        re.search(pattern, text, flags=re.IGNORECASE) for pattern in SELF_EVOLUTION_TRIGGERS
+    )
+    if is_self_evolution_goal:
+        for name, patterns in SELF_EVOLUTION_HINTS.items():
+            if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: self-evolution goal missing `{name}`")
 
     for pattern in PLACEHOLDERS:
         if re.search(pattern, text, flags=re.IGNORECASE):

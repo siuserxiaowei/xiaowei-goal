@@ -18,6 +18,7 @@ CASES = [
     ("tests/invalid-goals/overclaims-full-internet.zh.txt", "unsafe vague phrase"),
     ("tests/invalid-goals/missing-deep-research.zh.txt", "stage 2 deep research"),
     ("tests/invalid-goals/missing-business-priority.zh.txt", "business priority"),
+    ("tests/invalid-goals/missing-self-evolution-boundary.zh.txt", "self-evolution"),
 ]
 
 

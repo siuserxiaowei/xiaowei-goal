@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.7.0-blue)
+![Version](https://img.shields.io/badge/version-0.8.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -87,6 +87,8 @@ python3 -m http.server 8000
 - `商业优先级`：如果价值低、证据弱或成本高，会建议先小实验、暂缓或不建议做。
 - `输出压缩`：按短版、标准版、完整版控制输出长度，不默认长篇模板。
 - `领域包`：支持 AI 工具站、Chrome 插件、出海 SaaS、小红书/抖音内容验证、GitHub 开源项目增长。
+- `自我进化`：用户显式触发后，可自动收集反馈、修改允许路径、运行校验、推送、等 CI、发 release。
+- `目标评估`：用 `scripts/evaluate_goal_output.py` 给示例和生成目标做完整性、比例和业务应用检查。
 - `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
 - `质量门槛`：每条关键结论至少 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问来源降权；矛盾信息必须列出。
@@ -115,6 +117,7 @@ python3 ~/.agents/skills/xiaowei-goal/scripts/check_installed_skill.py
 - 我要做 SEO、增长、内容选题，先研究搜索结果和用户语言
 - 我要让 agent 用 Agent Reach 或其他联网工具搜资料，再应用到我的业务
 - 我要把一句模糊需求改成可执行、可验证、知道什么时候停止的 `/goal`
+- 我要让这个 skill 根据反馈自动进化、自动测试、自动发布新版
 
 不适合：
 
@@ -204,7 +207,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 
 ## 三档输出模式
 
-从 v0.7.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
+从 v0.8.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
 
 - `轻量模式`：明确的本地代码、文档、校验、维护任务，不做外部研究。
 - `标准研究模式`：App、网站、SEO、增长、竞品等需要外部证据的常规任务。
@@ -290,6 +293,33 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 - 只改相关文件
 - 用命令、日志、截图或产物证明完成
 - 遇到凭证、付费、生产数据、破坏性操作时暂停
+
+### 3. 自我进化模式
+
+当你说“让 xiaowei-goal 自己进化”或“完全自动化进化”时，它会生成或执行一个自我进化 `/goal`。
+
+这个模式会自动做：
+
+- 收集反馈来源：用户反馈、执行结果、示例、validator、README、安装自检、CI、release 差异。
+- 定位问题：无效、太重、缺失、错误假设、需要下次调整的地方。
+- 修改允许路径：`SKILL.md`、`README.md`、`manifest.json`、`agents/interface.yaml`、`.github/workflows/validate.yml`、`references/`、`examples/`、`scripts/`、`tests/`。
+- 跑完整校验：validator、目标评估、负向测试、安装自检、JSON、README topics、Python 编译、diff 检查和 YAML 检查。
+- 本地通过后提交推送；GitHub Actions 通过后创建语义化版本 release。
+- 完成后删除临时目录，不在用户 home 目录保留临时 clone。
+
+它必须写清这些护栏：
+
+```text
+自动化边界：
+反馈来源：
+允许修改路径：
+评估方式：
+发布规则：
+回滚方式：
+暂停条件：
+```
+
+它不会在无人触发时后台运行，也不会跨仓库、碰凭证、生产数据、私域内容或允许路径外文件。
 
 ## Agent Reach 怎么配合
 
@@ -410,6 +440,18 @@ python3 scripts/check_installed_skill.py ~/.agents/skills/xiaowei-goal
 Xiaowei goal validation passed.
 ```
 
+目标质量评估：
+
+```bash
+python3 scripts/evaluate_goal_output.py examples/*.txt
+```
+
+通过时会输出每个文件的分数，并以：
+
+```text
+Xiaowei goal output evaluation passed.
+```
+
 ## 目录结构
 
 ```text
@@ -427,6 +469,7 @@ xiaowei-goal/
 │   ├── growth-experiment-goal.zh.txt
 │   ├── practice-run-ai-website-goal.zh.txt
 │   ├── seo-content-cluster-goal.zh.txt
+│   ├── self-evolution-goal.zh.txt
 │   ├── tool-boundary-goal.zh.txt
 │   └── website-research-goal.zh.txt
 ├── docs/
@@ -440,6 +483,7 @@ xiaowei-goal/
 │   ├── output-compression.md
 │   ├── quality-gate.md
 │   ├── research-workflow.md
+│   ├── self-evolution.md
 │   ├── smart-router.md
 │   ├── source-map.md
 │   ├── task-packs.md
@@ -448,6 +492,7 @@ xiaowei-goal/
 ├── scripts/
 │   ├── check_installed_skill.py
 │   ├── check_readme_topics.py
+│   ├── evaluate_goal_output.py
 │   ├── test_validator_negative_cases.py
 │   └── validate_xiaowei_goal.py
 └── tests/

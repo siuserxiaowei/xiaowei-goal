@@ -31,6 +31,7 @@ A Xiaowei goal should include:
 - `暂停条件`
 
 For direct execution goals, the three research stage fields and `输出物` may be omitted if not relevant.
+For self-evolution goals, also include `自动化边界`, `反馈来源`, `允许修改路径`, `评估方式`, `发布规则`, and `回滚方式`.
 
 ## Three-Stage Research Template
 
@@ -78,6 +79,31 @@ For direct execution goals, the three research stage fields and `输出物` may 
 暂停条件：[需要人工、账号、付费、生产、破坏性操作、合规或方向选择]。
 ```
 
+## Self-Evolution Template
+
+```text
+决策摘要：[任务类型=docs / mixed；成熟度=已有仓库；外部信息需求=不需要；风险等级；输出长度；是否先提问]
+默认假设：[仓库、远程、版本、临时目录、安全默认值]
+偏好应用：[小闭环、测试驱动、避免过度拟合单次反馈]
+反馈调整：[反馈来源和本次如何调整；无反馈则说明不做反馈修正]
+优先级判断：[业务价值、证据强度、执行成本、分发潜力、变现路径、风险、建议]
+输出长度：[短版 / 标准版 / 完整版]
+选择理由：[为什么自动进化、为什么不是研究流程、为什么这些护栏足够]
+/goal 围绕 xiaowei-goal 仓库执行一次完全自动化自我进化：[收集反馈、定位缺口、修改允许路径、跑校验、提交推送、等 CI、发 release、清理临时目录]。
+自动化边界：[用户显式触发后自动执行；不是无人值守后台任务；不跨仓库扩散]
+反馈来源：[用户反馈、执行结果、examples、validator、README、安装自检、CI、release 差异]
+允许修改路径：[SKILL.md、README.md、manifest.json、agents/interface.yaml、.github/workflows/validate.yml、references/、examples/、scripts/、tests/]
+评估方式：[evaluate_goal_output.py、正向示例、负向 validator case、不过度拟合]
+验证方式：[validate、evaluate、negative tests、installed self-check、JSON、README topics、py_compile、diff check、YAML if changed]
+发布规则：[local green -> push -> GitHub Actions green -> semantic release at same commit]
+回滚方式：[release 前 fix forward 或只回滚本轮 commit；release 后用修复 release]
+限制：[不碰凭证、隐私、生产数据、允许路径外文件、无限制后台自治]
+工作边界：[临时目录 clone；只改允许路径；推 GitHub；清理临时目录]
+推进规则：[先 failing case 或评估缺口，再最小实现，再完整校验，不跳过失败]
+停止标准：[远程、README、manifest、examples、validator、CI、release 一致；临时目录已删除]
+暂停条件：[凭证、付费、生产、私域、破坏性、允许路径外、法律隐私、CI 同因连续失败]
+```
+
 ## Default Choices
 
 Use these defaults unless the user says otherwise:
@@ -118,3 +144,4 @@ Revise the goal if it contains:
 - no pause condition for scraping, browser automation, credentials, form submission, purchase, account change, private content, or anti-bot bypass
 - no verification evidence
 - no pause condition
+- self-evolution without automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause risks

@@ -1,6 +1,6 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "owner": "Xiaowei",
   "updated_at": "2026-06-16",
   "status": "public-ready",
@@ -65,6 +65,10 @@
     "business-priority-goal",
     "compressed-goal-output",
     "domain-pack-goal",
+    "self-evolution-goal",
+    "automated-skill-evolution",
+    "goal-output-evaluation",
+    "ci-gated-release-goal",
     "goal-validation",
     "installed-skill-self-check",
     "validator-negative-tests"

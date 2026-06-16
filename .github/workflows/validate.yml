@@ -22,6 +22,9 @@ jobs:
       - name: Validate example goals
         run: python3 scripts/validate_xiaowei_goal.py examples/*.txt
 
+      - name: Evaluate example goal quality
+        run: python3 scripts/evaluate_goal_output.py examples/*.txt
+
       - name: Run negative validator tests
         run: python3 scripts/test_validator_negative_cases.py
 
@@ -39,4 +42,4 @@ jobs:
           ruby -e 'require "yaml"; YAML.load_file("agents/interface.yaml"); YAML.load_file(".github/workflows/validate.yml")'
 
       - name: Compile Python scripts
-        run: python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/check_readme_topics.py scripts/check_installed_skill.py scripts/test_validator_negative_cases.py
+        run: python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/evaluate_goal_output.py scripts/check_readme_topics.py scripts/check_installed_skill.py scripts/test_validator_negative_cases.py

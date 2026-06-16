@@ -9,7 +9,7 @@ description: >
   research, turn a rough idea into an agent task, or define evidence-based
   success criteria. Triggers include 小伟 goal, xiaowei-goal, 联网调研, 先搜索再做,
   Deep Research, Agent Research, Agent Reach, 竞品分析, 网站方案, App MVP, 增长方案,
-  SEO 方案, and 把需求写成可执行 goal.
+  SEO 方案, 自我进化, 自动进化, and 把需求写成可执行 goal.
 ---
 
 # Xiaowei Goal
@@ -31,6 +31,8 @@ description: >
 - 用 Goal Compiler 暴露默认假设、选择理由和工具取舍，不做死板模板填空。
 - 用输出压缩控制长短，不默认输出过长模板。
 - 用细分领域包把研究落到 AI 工具站、Chrome 插件、出海 SaaS、内容验证或开源增长。
+- 用户明确要求时，进入自我进化模式：自动收集反馈、改允许路径、跑校验、推送、等 CI、发 release。
+- 自我进化 goal 必须写清 `自动化边界`、`允许修改路径`、`评估方式`、`发布规则`、`回滚方式` 和暂停条件。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -107,11 +109,12 @@ Do not require every tool. Do not use scraping, browser automation, or extension
 11. If the user names an app/site/business channel, read `references/source-map.md`.
 12. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
 13. If the task matches AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth, read `references/domain-packs.md`.
-14. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, preference, feedback, priority, routing, compression, tool, task pack, domain pack, risk, self-critique, finalization.
-15. If the task is ready for execution, read `references/goal-contract.md`.
-16. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, `偏好应用`, `反馈调整`, `优先级判断`, `输出长度`, and `选择理由` before the goal.
-17. Add compact options only when a choice changes cost, risk, or direction.
-18. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
+14. If the user asks xiaowei-goal to evolve itself, auto-improve, or automatically update its repository, read `references/self-evolution.md`.
+15. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, preference, feedback, priority, routing, compression, tool, task pack, domain pack, evolution, risk, self-critique, finalization.
+16. If the task is ready for execution, read `references/goal-contract.md`.
+17. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, `偏好应用`, `反馈调整`, `优先级判断`, `输出长度`, and `选择理由` before the goal.
+18. Add compact options only when a choice changes cost, risk, or direction.
+19. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>` and `python3 scripts/evaluate_goal_output.py <file>`.
 
 ## Three-Stage Research Output
 
@@ -226,6 +229,7 @@ Bad goals:
 - using a full three-stage research template for a narrow local edit
 - ignoring low business value and pushing directly into large implementation
 - outputting a long template when short mode is enough
+- self-evolution goals that automate commit/push/release without allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions
 - listing every tool when the smaller layer is enough
 - research conclusions without source strength, downgrade rules, or contradiction handling
 - using scraping or browser automation without authorization, scope, access limits, and pause conditions
@@ -239,6 +243,7 @@ Bad goals:
 - `references/business-priority.md`: lightweight business priority scoring and do/validate/pause/reject recommendations.
 - `references/output-compression.md`: short, standard, and full output rules.
 - `references/domain-packs.md`: AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, and GitHub open-source growth packs.
+- `references/self-evolution.md`: automatic feedback-to-change loop, allowed paths, validation gates, release policy, rollback, and pause conditions.
 - `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
 - `references/quality-gate.md`: source strength, 2-source rule, downgrade rules, contradiction handling, and confidence labels.
 - `references/tool-stack.md`: Agent Reach, Scrapling, browser-use, and Claude for Chrome routing and boundaries.
@@ -246,3 +251,4 @@ Bad goals:
 - `references/task-packs.md`: App MVP, website/landing page, SEO cluster, competitor analysis, and growth experiment packs.
 - `references/goal-contract.md`: compact templates for executable goals and validation rules.
 - `scripts/validate_xiaowei_goal.py`: local validator for generated goal examples.
+- `scripts/evaluate_goal_output.py`: local scorer for generated goal completeness, proportionality, and business application signals.
