@@ -17,6 +17,7 @@ CASES = [
     ("tests/invalid-goals/missing-quality-gate.zh.txt", "quality gate"),
     ("tests/invalid-goals/overclaims-full-internet.zh.txt", "unsafe vague phrase"),
     ("tests/invalid-goals/missing-deep-research.zh.txt", "stage 2 deep research"),
+    ("tests/invalid-goals/missing-business-priority.zh.txt", "business priority"),
 ]
 
 

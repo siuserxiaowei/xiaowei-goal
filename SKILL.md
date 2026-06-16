@@ -20,6 +20,8 @@ description: >
 
 - 先判断任务轻重，再决定是不是要三阶段研究。
 - 先识别信息缺口，再决定是否需要问用户最多 3 个关键问题。
+- 默认采用小闭环、业务应用、工具站/AI 产品/SEO/出海友好的工作偏好。
+- 如果商业价值低或证据太弱，要建议暂缓、重构问题或先做小实验。
 - 先看外部世界，再决定怎么做。
 - 先广域调研，再 Deep Research，最后应用到自己的业务。
 - 如果当前环境安装了 Agent Reach，把它作为广域调研的首选能力层。
@@ -27,6 +29,8 @@ description: >
 - 用任务包把研究映射到具体业务产物，而不是只给通用建议。
 - 用 quality gate 约束结论质量：关键结论至少 2 个独立来源支撑，否则降级为假设。
 - 用 Goal Compiler 暴露默认假设、选择理由和工具取舍，不做死板模板填空。
+- 用输出压缩控制长短，不默认输出过长模板。
+- 用细分领域包把研究落到 AI 工具站、Chrome 插件、出海 SaaS、内容验证或开源增长。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -91,30 +95,40 @@ Do not require every tool. Do not use scraping, browser automation, or extension
 ## Workflow
 
 1. Restate the user's real outcome in business terms.
-2. Read `references/smart-router.md` and classify task type, maturity, external information need, risk, question need, and output length.
-3. If critical missing information changes scope, cost, risk, or direction, ask at most 3 questions and stop before drafting.
-4. If research is needed, read `references/research-workflow.md`.
-5. If research is needed, read `references/quality-gate.md`.
-6. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
-7. If the user names an app/site/business channel, read `references/source-map.md`.
-8. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
-9. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, routing, tool, task pack, risk, self-critique, finalization.
-10. If the task is ready for execution, read `references/goal-contract.md`.
-11. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, and `选择理由` before the goal.
-12. Add compact options only when a choice changes cost, risk, or direction.
-13. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
+2. Read `references/xiaowei-preferences.md` and apply current preferences without pretending they are permanent memory.
+3. Read `references/feedback-loop.md`; if the user provides prior execution feedback, extract what worked, failed, was too heavy, or should change.
+4. Read `references/smart-router.md` and classify task type, maturity, external information need, risk, question need, and output length.
+5. Read `references/business-priority.md` for business/product/content/SEO/growth/competitor tasks and decide whether to do now, validate first, pause, or reject.
+6. If critical missing information changes scope, cost, risk, or direction, ask at most 3 questions and stop before drafting.
+7. Read `references/output-compression.md` and choose short, standard, or full output.
+8. If research is needed, read `references/research-workflow.md`.
+9. If research is needed, read `references/quality-gate.md`.
+10. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
+11. If the user names an app/site/business channel, read `references/source-map.md`.
+12. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
+13. If the task matches AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth, read `references/domain-packs.md`.
+14. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, preference, feedback, priority, routing, compression, tool, task pack, domain pack, risk, self-critique, finalization.
+15. If the task is ready for execution, read `references/goal-contract.md`.
+16. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, `偏好应用`, `反馈调整`, `优先级判断`, `输出长度`, and `选择理由` before the goal.
+17. Add compact options only when a choice changes cost, risk, or direction.
+18. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
 
 ## Three-Stage Research Output
 
 Use this shape when the task should search, deeply analyze, then apply findings to the user's business:
 
 ```text
-决策摘要：任务类型=[app / website / SEO / growth / competitor / coding / docs / mixed]；成熟度=[模糊想法 / 已有方向 / 已有仓库 / 已有数据 / 已有执行清单]；外部信息需求=[轻量 / 标准 / 深度]；风险等级=[低 / 中 / 高]；输出长度=[轻量 / 标准 / 深度]；是否先提问=[是 / 否]
+决策摘要：任务类型=[app / website / SEO / growth / competitor / coding / docs / mixed]；成熟度=[模糊想法 / 已有方向 / 已有仓库 / 已有数据 / 已有执行清单]；外部信息需求=[轻量 / 标准 / 深度]；风险等级=[低 / 中 / 高]；输出长度=[短版 / 标准版 / 完整版]；是否先提问=[是 / 否]
 默认假设：[列出不会阻塞执行的安全默认值]
+偏好应用：[说明小闭环、页面/功能/内容/增长/实现目标、工具站/AI 产品/SEO/出海等偏好如何影响本次 goal]
+反馈调整：[未提供上次执行反馈则说明不做反馈修正；如有反馈则说明本次如何调整]
+优先级判断：[业务价值、证据强度、执行成本、分发潜力、变现路径、风险和建议]
+输出长度：[短版 / 标准版 / 完整版]
 选择理由：[说明为什么选这个深度、任务包和工具栈，为什么没有选择更重或更轻的方案]
 推荐执行版（中文，可直接复制）
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
 任务包：[选择 App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
+领域包：[AI 工具站包 / Chrome 插件包 / 出海 SaaS 包 / 小红书/抖音内容验证包 / GitHub 开源项目增长包 / 不适用]；本次必须把研究结论映射到[对应领域产物]。
 工具栈：优先 Agent Reach 做平台搜索和来源收集；普通公开网页先用 web reader/browser；需要结构化抽取或公共网页爬取时使用 Scrapling；需要点击、截图、登录授权流程或动态 UI 验证时使用 browser-use；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项。
 阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索[数量]个候选来源，覆盖直接竞品、相邻产品、官方资料、用户评价或社区讨论、内容平台、技术/实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；把矛盾信息标成不确定。
@@ -142,8 +156,12 @@ Deep Research should not simply add more links. It should read and compare the h
 Use this shape when research is unnecessary:
 
 ```text
-决策摘要：任务类型=[coding / docs / mixed]；成熟度=[已有仓库 / 已有执行清单]；外部信息需求=不需要；风险等级=[低 / 中 / 高]；输出长度=轻量；是否先提问=[是 / 否]
+决策摘要：任务类型=[coding / docs / mixed]；成熟度=[已有仓库 / 已有执行清单]；外部信息需求=不需要；风险等级=[低 / 中 / 高]；输出长度=短版；是否先提问=[是 / 否]
 默认假设：[列出不会阻塞执行的安全默认值]
+偏好应用：[说明小闭环和避免过度研究如何影响本次 goal]
+反馈调整：[未提供上次执行反馈则说明不做反馈修正；如有反馈则说明本次如何调整]
+优先级判断：[业务价值、证据强度、执行成本、分发潜力、变现路径、风险和建议]
+输出长度：[短版 / 标准版 / 完整版]
 选择理由：[说明为什么直接执行而不是三阶段研究]
 推荐执行版（中文，可直接复制）
 /goal 基于当前项目上下文完成[具体结果]，先读取已有文档、脚本和约定，再做最小必要改动。
@@ -161,10 +179,14 @@ For Chinese users, output:
 
 1. `决策摘要`
 2. `默认假设`
-3. `选择理由`
-4. `推荐执行版（中文，可直接复制）`
-5. `可选调整`
-6. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
+3. `偏好应用`
+4. `反馈调整`
+5. `优先级判断`
+6. `输出长度`
+7. `选择理由`
+8. `推荐执行版（中文，可直接复制）`
+9. `可选调整`
+10. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
 
 Do not lead with a blank template. Do not leave placeholders. Do not start implementation unless the user explicitly asks to execute the generated goal.
 
@@ -175,6 +197,10 @@ Good goals:
 - describe an outcome, not activity
 - include a compact decision summary before the goal
 - state safe assumptions instead of silently guessing
+- apply Xiaowei preferences without inventing private memory
+- adjust based on explicit user feedback when available
+- include business priority and recommend pause or a small experiment when value is weak
+- choose output length intentionally
 - explain why the selected depth, task pack, and tool stack fit the task
 - name source count or verification commands
 - name Agent Reach routing and fallback rules when internet/platform research matters
@@ -198,6 +224,8 @@ Bad goals:
 - "深度研究一下" without a broad research pool, source selection, and business application stage
 - "照着竞品做一个一样的"
 - using a full three-stage research template for a narrow local edit
+- ignoring low business value and pushing directly into large implementation
+- outputting a long template when short mode is enough
 - listing every tool when the smaller layer is enough
 - research conclusions without source strength, downgrade rules, or contradiction handling
 - using scraping or browser automation without authorization, scope, access limits, and pause conditions
@@ -206,6 +234,11 @@ Bad goals:
 
 - `references/smart-router.md`: task classification, question gate, depth selection, and tool weight decisions.
 - `references/goal-compiler.md`: intent, knowns, gaps, assumptions, routing, tool selection, risk, self-critique, and finalization passes.
+- `references/xiaowei-preferences.md`: current Xiaowei-style defaults for small loops, business application, tool sites, AI products, SEO, outbound/global work, and pause decisions.
+- `references/feedback-loop.md`: explicit prior-result feedback extraction and next-goal adjustment rules.
+- `references/business-priority.md`: lightweight business priority scoring and do/validate/pause/reject recommendations.
+- `references/output-compression.md`: short, standard, and full output rules.
+- `references/domain-packs.md`: AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, and GitHub open-source growth packs.
 - `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
 - `references/quality-gate.md`: source strength, 2-source rule, downgrade rules, contradiction handling, and confidence labels.
 - `references/tool-stack.md`: Agent Reach, Scrapling, browser-use, and Claude for Chrome routing and boundaries.

@@ -21,11 +21,16 @@ REQUIRED_DIRECT = {
 SMART_FIELDS = {
     "decision summary": [r"^(?:决策摘要|Decision Summary)[:：]\s*"],
     "default assumptions": [r"^(?:默认假设|Default Assumptions)[:：]\s*"],
+    "preference application": [r"^(?:偏好应用|Preference Application)[:：]\s*"],
+    "feedback adjustment": [r"^(?:反馈调整|Feedback Adjustment)[:：]\s*"],
+    "business priority": [r"^(?:优先级判断|Business Priority)[:：]\s*"],
+    "output length": [r"^(?:输出长度|Output Length)[:：]\s*"],
     "choice rationale": [r"^(?:选择理由|Choice Rationale)[:：]\s*"],
 }
 
 RESEARCH_FIELDS = {
     "task pack": [r"^(?:任务包|Task Pack)[:：]\s*"],
+    "domain pack": [r"^(?:领域包|Domain Pack)[:：]\s*"],
     "tool stack": [r"^(?:工具栈|Tool Stack)[:：]\s*"],
     "stage 1 broad research": [r"^(?:阶段\s*1\s*-\s*广域调研|Stage\s*1\s*-\s*Broad Research)[:：]\s*"],
     "stage 2 deep research": [r"^(?:阶段\s*2\s*-\s*Deep Research|Stage\s*2\s*-\s*Deep Research)[:：]\s*"],
@@ -99,6 +104,21 @@ TASK_PACK_HINTS = [
     r"Growth Experiment Pack",
 ]
 
+DOMAIN_PACK_HINTS = [
+    r"AI\s*工具站包",
+    r"Chrome\s*插件包",
+    r"出海\s*SaaS\s*包",
+    r"小红书/抖音内容验证包",
+    r"GitHub\s*开源项目增长包",
+    r"不适用",
+    r"AI Tool Site Pack",
+    r"Chrome Extension Pack",
+    r"Global SaaS Pack",
+    r"Xiaohongshu\s*/\s*Douyin Validation Pack",
+    r"GitHub Open Source Growth Pack",
+    r"not applicable",
+]
+
 QUALITY_GATE_HINTS = {
     "2 independent sources": [
         r"至少.*2\s*个.*来源",
@@ -143,6 +163,25 @@ SMART_SUMMARY_HINTS = {
     "output length": [r"输出长度", r"Output length"],
     "question gate": [r"是否先提问", r"Ask clarifying questions first"],
 }
+
+BUSINESS_PRIORITY_HINTS = {
+    "business value": [r"业务价值", r"business value"],
+    "evidence strength": [r"证据强度", r"evidence strength"],
+    "execution cost": [r"执行成本", r"execution cost"],
+    "distribution potential": [r"分发潜力", r"distribution potential"],
+    "monetization path": [r"变现路径", r"monetization path"],
+    "risk": [r"风险", r"risk"],
+    "recommendation": [r"建议", r"recommendation"],
+}
+
+OUTPUT_LENGTH_HINTS = [
+    r"短版",
+    r"标准版",
+    r"完整版",
+    r"\bshort\b",
+    r"\bstandard\b",
+    r"\bfull\b",
+]
 
 
 def _line_starts(text: str, patterns: list[str]) -> list[re.Match[str]]:
@@ -194,6 +233,24 @@ def lint_text(text: str, source: str) -> list[str]:
     if default_assumptions is not None and len(default_assumptions) < 16:
         errors.append(f"{source}: default assumptions are too thin")
 
+    preference_application = _field_content(text, SMART_FIELDS["preference application"], all_markers)
+    if preference_application is not None and len(preference_application) < 16:
+        errors.append(f"{source}: preference application is too thin")
+
+    feedback_adjustment = _field_content(text, SMART_FIELDS["feedback adjustment"], all_markers)
+    if feedback_adjustment is not None and len(feedback_adjustment) < 16:
+        errors.append(f"{source}: feedback adjustment is too thin")
+
+    business_priority = _field_content(text, SMART_FIELDS["business priority"], all_markers)
+    if business_priority:
+        for name, patterns in BUSINESS_PRIORITY_HINTS.items():
+            if not any(re.search(pattern, business_priority, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: business priority missing `{name}`")
+
+    output_length = _field_content(text, SMART_FIELDS["output length"], all_markers)
+    if output_length and not any(re.search(pattern, output_length, flags=re.IGNORECASE) for pattern in OUTPUT_LENGTH_HINTS):
+        errors.append(f"{source}: output length should be short, standard, or full")
+
     choice_rationale = _field_content(text, SMART_FIELDS["choice rationale"], all_markers)
     if choice_rationale is not None and len(choice_rationale) < 24:
         errors.append(f"{source}: choice rationale is too thin")
@@ -237,6 +294,10 @@ def lint_text(text: str, source: str) -> list[str]:
         task_pack = _field_content(text, RESEARCH_FIELDS["task pack"], all_markers)
         if task_pack and not any(re.search(pattern, task_pack, flags=re.IGNORECASE) for pattern in TASK_PACK_HINTS):
             errors.append(f"{source}: task pack should name a supported pack")
+
+        domain_pack = _field_content(text, RESEARCH_FIELDS["domain pack"], all_markers)
+        if domain_pack and not any(re.search(pattern, domain_pack, flags=re.IGNORECASE) for pattern in DOMAIN_PACK_HINTS):
+            errors.append(f"{source}: domain pack should name a supported pack or not applicable")
 
         tool_stack = _field_content(text, RESEARCH_FIELDS["tool stack"], all_markers) or ""
         for name, patterns in TOOL_STACK_HINTS.items():

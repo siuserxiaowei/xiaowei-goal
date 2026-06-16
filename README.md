@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.6.0-blue)
+![Version](https://img.shields.io/badge/version-0.7.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -83,6 +83,10 @@ python3 -m http.server 8000
 
 - `Smart Router`：先判断任务类型、成熟度、外部信息需求、风险和输出长度，再决定要不要三阶段研究。
 - `Goal Compiler`：生成前先暴露默认假设、选择理由和工具取舍，避免死板套模板。
+- `小伟偏好`：默认把研究落到页面、功能、内容、增长和实现目标，优先小闭环、工具站、AI 产品、SEO 和出海方向。
+- `商业优先级`：如果价值低、证据弱或成本高，会建议先小实验、暂缓或不建议做。
+- `输出压缩`：按短版、标准版、完整版控制输出长度，不默认长篇模板。
+- `领域包`：支持 AI 工具站、Chrome 插件、出海 SaaS、小红书/抖音内容验证、GitHub 开源项目增长。
 - `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
 - `质量门槛`：每条关键结论至少 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问来源降权；矛盾信息必须列出。
@@ -174,11 +178,16 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 它会优先输出一段可以复制的三阶段 `/goal`，例如：
 
 ```text
-决策摘要：任务类型=app；成熟度=模糊想法；外部信息需求=标准；风险等级=中；输出长度=标准；是否先提问=否
+决策摘要：任务类型=app；成熟度=模糊想法；外部信息需求=标准；风险等级=中；输出长度=标准版；是否先提问=否
 默认假设：目标用户是想提升英语口语的中文用户，当前还没有明确竞品池和 MVP 范围；先用公开资料建立方向，不使用账号、Cookie 或付费数据。
+偏好应用：优先把调研落到页面、功能、内容、增长和下一阶段实现目标；保持小闭环，不做大而全教育市场战略。
+反馈调整：未提供上次执行反馈，本次不做反馈修正；如果执行后发现范围过大，下次应收紧渠道和输出长度。
+优先级判断：业务价值=中高；证据强度=中；执行成本=中；分发潜力=中高；变现路径=订阅、会员或练习包；风险=口语效果和教育承诺难验证；建议=继续做标准研究，但先形成可验证 MVP 小闭环。
+输出长度：标准版；给出可直接执行的完整 goal，但不展开成长报告。
 选择理由：这是新 App 方向，真实用户评价和竞品结构会显著影响 MVP，所以选择标准三阶段研究；不选深度模式是因为当前目标仍是形成可执行起点，不是做融资级市场判断。
 /goal 围绕 AI 英语口语练习 App 执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成 MVP 功能、官网页面、增长动作和下一阶段实现目标。
 任务包：App MVP 研究包；本次必须把研究结论映射到目标用户、首访体验、核心工作流、激活时刻、留存循环、MVP 功能、定价假设、信任风险和下一阶段实现 `/goal`。
+领域包：AI 工具站包；把研究优先落到低成本首访体验、免费练习入口、核心功能闭环、内容获客和可验证留存指标。
 工具栈：优先 Agent Reach 做平台搜索和来源收集；普通公开网页先用 web reader/browser；需要结构化抽取或公共网页爬取时使用 Scrapling；需要点击、截图、登录授权流程或动态 UI 验证时使用 browser-use；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项。
 阶段 1 - 广域调研：优先使用 Agent Reach；开始前运行 `agent-reach doctor` 或确认可用渠道，若不可用则使用当前环境可用的搜索、浏览、GitHub、RSS 或平台读取工具；检索 15-25 个候选来源，覆盖直接竞品、官方资料、App 用户评价或社区讨论、小红书/B站/YouTube/公众号等内容平台、技术或实现参考；记录标题、URL、来源类型、工具/渠道、检索日期、访问限制和初步价值判断。
 阶段 2 - Deep Research：从第一阶段来源池中筛选高价值来源进行深读、对比和交叉验证；提取关键事实、用户痛点、竞品策略、页面/产品结构、增长路径、技术做法、风险和证据强度；每条关键结论至少用 2 个独立来源支撑，否则标成低置信度或假设；把矛盾信息标成不确定。
@@ -195,7 +204,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 
 ## 三档输出模式
 
-从 v0.6.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多重：
+从 v0.7.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
 
 - `轻量模式`：明确的本地代码、文档、校验、维护任务，不做外部研究。
 - `标准研究模式`：App、网站、SEO、增长、竞品等需要外部证据的常规任务。
@@ -206,6 +215,10 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 ```text
 决策摘要：任务类型=...；成熟度=...；外部信息需求=...；风险等级=...；输出长度=...；是否先提问=...
 默认假设：...
+偏好应用：...
+反馈调整：...
+优先级判断：业务价值=...；证据强度=...；执行成本=...；分发潜力=...；变现路径=...；风险=...；建议=...
+输出长度：短版 / 标准版 / 完整版
 选择理由：...
 ```
 
@@ -309,6 +322,10 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 ```text
 决策摘要：...
 默认假设：...
+偏好应用：...
+反馈调整：...
+优先级判断：...
+输出长度：...
 选择理由：...
 推荐执行版（中文，可直接复制）
 /goal ...
@@ -415,14 +432,19 @@ xiaowei-goal/
 ├── docs/
 │   └── README.md
 ├── references/
+│   ├── business-priority.md
+│   ├── domain-packs.md
+│   ├── feedback-loop.md
 │   ├── goal-compiler.md
 │   ├── goal-contract.md
+│   ├── output-compression.md
 │   ├── quality-gate.md
 │   ├── research-workflow.md
 │   ├── smart-router.md
 │   ├── source-map.md
 │   ├── task-packs.md
-│   └── tool-stack.md
+│   ├── tool-stack.md
+│   └── xiaowei-preferences.md
 ├── scripts/
 │   ├── check_installed_skill.py
 │   ├── check_readme_topics.py

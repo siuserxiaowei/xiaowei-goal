@@ -11,12 +11,17 @@ Run these passes before output:
 2. **Knowns Pass**: list what is already known from the user request.
 3. **Gap Pass**: identify missing information that changes scope, risk, or direction.
 4. **Assumption Pass**: choose safe defaults for non-blocking gaps.
-5. **Routing Pass**: choose direct execution, light research, standard research, or deep research.
-6. **Tool Pass**: choose the smallest sufficient tool stack and name tools to avoid.
-7. **Task Pack Pass**: choose the primary task pack and mention secondary packs only if useful.
-8. **Risk Pass**: add pause conditions for credentials, paid access, production data, private content, compliance, copyright, or destructive actions.
-9. **Self-Critique Pass**: remove template bloat, unnecessary tools, vague verbs, and unsupported claims.
-10. **Finalization Pass**: produce the copy-ready `/goal`.
+5. **Preference Pass**: apply `xiaowei-preferences.md` without inventing private memory.
+6. **Feedback Pass**: if prior execution feedback exists, convert it into concrete adjustments.
+7. **Priority Pass**: score value, evidence, cost, distribution, monetization, and risk.
+8. **Routing Pass**: choose direct execution, light research, standard research, or deep research.
+9. **Compression Pass**: choose short, standard, or full output length.
+10. **Tool Pass**: choose the smallest sufficient tool stack and name tools to avoid.
+11. **Task Pack Pass**: choose the primary task pack and mention secondary packs only if useful.
+12. **Domain Pack Pass**: choose one domain pack when AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth applies.
+13. **Risk Pass**: add pause conditions for credentials, paid access, production data, private content, compliance, copyright, or destructive actions.
+14. **Self-Critique Pass**: remove template bloat, unnecessary tools, vague verbs, and unsupported claims.
+15. **Finalization Pass**: produce the copy-ready `/goal`.
 
 ## Self-Critique Checklist
 
@@ -24,8 +29,13 @@ Before finalizing, check:
 
 - Is the goal heavier than the task needs?
 - Is a three-stage research workflow actually required?
+- Did Xiaowei preferences change the depth, domain pack, or stop standard?
+- Did prior feedback change the next goal, or is there no feedback to apply?
+- Is the business priority strong enough for this level of effort?
+- Is the output length proportional to the task?
 - Are any tools listed only because they are fashionable?
 - Does the task pack match the real outcome?
+- Does the domain pack match the actual distribution/product context?
 - Did the goal name concrete output and stop criteria?
 - Are facts, assumptions, and actions separated?
 - Are Agent Reach and browser automation boundaries clear?
@@ -39,6 +49,10 @@ For Chinese users, include these fields before the goal:
 ```text
 决策摘要：...
 默认假设：...
+偏好应用：...
+反馈调整：...
+优先级判断：...
+输出长度：...
 选择理由：...
 推荐执行版（中文，可直接复制）
 /goal ...
@@ -49,6 +63,10 @@ For English-compatible output:
 ```text
 Decision Summary: ...
 Default Assumptions: ...
+Preference Application: ...
+Feedback Adjustment: ...
+Business Priority: ...
+Output Length: ...
 Choice Rationale: ...
 Recommended execution version (English-compatible)
 /goal ...

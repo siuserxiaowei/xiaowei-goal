@@ -95,3 +95,16 @@ Generated research goals should include one compact `任务包` field:
 ```
 
 If more than one pack applies, choose the primary pack and mention the secondary pack in `可选调整`.
+
+## Domain Packs
+
+After choosing the general task pack, read `domain-packs.md` when the task
+matches one of these domains:
+
+- AI tool site
+- Chrome extension
+- global/outbound SaaS
+- Xiaohongshu/Douyin validation
+- GitHub open-source growth
+
+The domain pack should make the general task pack more specific, not replace it.

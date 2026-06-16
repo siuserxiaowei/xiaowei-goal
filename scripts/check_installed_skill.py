@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-MIN_VERSION = (0, 6, 0)
+MIN_VERSION = (0, 7, 0)
 DEFAULT_SKILL_DIR = Path.home() / ".agents" / "skills" / "xiaowei-goal"
 
 REQUIRED_SKILL_PATTERNS = {
@@ -38,6 +38,22 @@ REQUIRED_SKILL_PATTERNS = {
     "goal compiler": [
         r"Goal Compiler|goal-compiler\.md|选择理由",
         r"默认假设|Default Assumptions",
+    ],
+    "xiaowei preferences": [
+        r"xiaowei-preferences\.md|偏好应用",
+        r"小闭环|页面.*功能.*内容.*增长",
+    ],
+    "business priority": [
+        r"business-priority\.md|优先级判断",
+        r"业务价值|business value",
+    ],
+    "output compression": [
+        r"output-compression\.md|输出长度",
+        r"短版|标准版|完整版",
+    ],
+    "domain packs": [
+        r"domain-packs\.md|领域包",
+        r"AI\s*工具站包|Chrome\s*插件包|出海\s*SaaS",
     ],
 }
 
@@ -86,7 +102,7 @@ def main(argv: list[str]) -> int:
             if version is None:
                 errors.append(f"{manifest_file}: missing semver `version`")
             elif version < MIN_VERSION:
-                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.6.0")
+                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.7.0")
     else:
         warnings.append(f"{manifest_file}: missing manifest.json, checked SKILL.md markers only")
 

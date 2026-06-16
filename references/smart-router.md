@@ -14,7 +14,9 @@ Classify the task with these dimensions:
 外部信息需求：不需要 / 轻量 / 标准 / 深度
 风险等级：低 / 中 / 高
 是否需要先问问题：是 / 否
-输出长度：轻量 / 标准 / 深度
+输出长度：短版 / 标准版 / 完整版
+商业建议：立即做 / 先小实验验证 / 暂缓 / 不建议做
+领域包：AI 工具站包 / Chrome 插件包 / 出海 SaaS 包 / 小红书/抖音内容验证包 / GitHub 开源项目增长包 / 不适用
 ```
 
 For English-compatible output:
@@ -25,7 +27,9 @@ Task maturity: vague idea / chosen direction / existing repo / existing data / e
 External information need: none / light / standard / deep
 Risk level: low / medium / high
 Ask clarifying questions first: yes / no
-Output length: light / standard / deep
+Output length: short / standard / full
+Business recommendation: do now / validate with a small experiment / pause / do not recommend
+Domain pack: AI tool site / Chrome extension / global SaaS / Xiaohongshu-Douyin validation / GitHub open-source growth / not applicable
 ```
 
 ## Question Gate
@@ -59,6 +63,15 @@ Do not default to deep mode just because the request sounds important. Deep mode
 should have a reason: high uncertainty, high stakes, broad market scope, or
 explicit user request.
 
+## Preference Routing
+
+Apply `references/xiaowei-preferences.md` before final routing:
+
+- If the task can become a small loop, prefer a small validation or implementation loop over a large plan.
+- If research is needed, require it to map into page, feature, content, growth, or implementation outputs.
+- If the task matches tool site, AI product, SEO, or outbound/global SaaS, consider the matching domain pack.
+- If the value is weak or the task is too broad, route to `先小实验验证` or `暂缓` instead of full implementation.
+
 ## Tool Weight
 
 Choose the smallest reliable tool layer:
@@ -80,6 +93,10 @@ Every generated goal should include a compact decision summary before the
 ```text
 决策摘要：任务类型=...；成熟度=...；外部信息需求=...；风险等级=...；输出长度=...；是否先提问=...
 默认假设：...
+偏好应用：...
+反馈调整：...
+优先级判断：...
+输出长度：...
 选择理由：...
 ```
 

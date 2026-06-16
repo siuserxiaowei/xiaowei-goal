@@ -1,6 +1,6 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "owner": "Xiaowei",
   "updated_at": "2026-06-16",
   "status": "public-ready",
@@ -60,6 +60,11 @@
     "goal-compiler-output",
     "adaptive-depth-goal",
     "clarifying-question-gate",
+    "xiaowei-preference-applied-goal",
+    "feedback-adjusted-goal",
+    "business-priority-goal",
+    "compressed-goal-output",
+    "domain-pack-goal",
     "goal-validation",
     "installed-skill-self-check",
     "validator-negative-tests"
