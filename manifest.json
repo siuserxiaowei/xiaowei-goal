@@ -55,7 +55,10 @@
     "website-goal",
     "seo-growth-goal",
     "direct-execution-goal",
-    "goal-validation"
+    "english-compatible-goal",
+    "goal-validation",
+    "installed-skill-self-check",
+    "validator-negative-tests"
   ],
   "inspiration": "Inspired by Qiaomu's public goal-meta-skill case, redesigned around Xiaowei's broad research, Deep Research, and business application workflow."
 }

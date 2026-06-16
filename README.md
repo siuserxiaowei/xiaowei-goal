@@ -1,5 +1,9 @@
 # xiaowei-goal
 
+[![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
+![Version](https://img.shields.io/badge/version-0.5.1-blue)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 <!-- SIUSER-REPO-GUIDE:START -->
 ## Repository Guide
 
@@ -81,6 +85,20 @@ python3 -m http.server 8000
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
 - `质量门槛`：每条关键结论至少 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问来源降权；矛盾信息必须列出。
 
+## 先确认本地是新版
+
+如果你之前安装过这个 skill，GitHub 仓库更新后，本地已安装副本不一定会自动刷新。遇到当前 agent 不提 `工具栈`、`任务包`、`质量门槛` 或 `agent-reach doctor` 时，先更新本地 skill：
+
+```bash
+npx skills add siuserxiaowei/xiaowei-goal
+```
+
+安装后自检：
+
+```bash
+python3 ~/.agents/skills/xiaowei-goal/scripts/check_installed_skill.py
+```
+
 ## 适合什么场景
 
 适合：
@@ -122,6 +140,12 @@ test -f ~/.agents/skills/xiaowei-goal/SKILL.md
 ```
 
 也可以检查当前本地安装版是否包含新版能力：
+
+```bash
+python3 ~/.agents/skills/xiaowei-goal/scripts/check_installed_skill.py
+```
+
+如果你只是临时排查，也可以用文本搜索确认：
 
 ```bash
 rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
@@ -310,11 +334,24 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 - `examples/growth-experiment-goal.zh.txt`
 - `examples/direct-execution-goal.zh.txt`
 - `examples/tool-boundary-goal.zh.txt`
+- `examples/app-research-goal.en.txt`
 
 你可以用本地校验脚本检查示例：
 
 ```bash
 python3 scripts/validate_xiaowei_goal.py examples/*.txt
+```
+
+校验 validator 的坏例子：
+
+```bash
+python3 scripts/test_validator_negative_cases.py
+```
+
+检查本地已安装 skill 是否是新版：
+
+```bash
+python3 scripts/check_installed_skill.py ~/.agents/skills/xiaowei-goal
 ```
 
 校验脚本会检查研究型 goal 是否包含：
@@ -344,6 +381,7 @@ xiaowei-goal/
 ├── agents/
 │   └── interface.yaml
 ├── examples/
+│   ├── app-research-goal.en.txt
 │   ├── app-research-goal.zh.txt
 │   ├── competitor-analysis-goal.zh.txt
 │   ├── direct-execution-goal.zh.txt
@@ -352,6 +390,8 @@ xiaowei-goal/
 │   ├── seo-content-cluster-goal.zh.txt
 │   ├── tool-boundary-goal.zh.txt
 │   └── website-research-goal.zh.txt
+├── docs/
+│   └── README.md
 ├── references/
 │   ├── goal-contract.md
 │   ├── quality-gate.md
@@ -359,9 +399,13 @@ xiaowei-goal/
 │   ├── source-map.md
 │   ├── task-packs.md
 │   └── tool-stack.md
-└── scripts/
-    ├── check_readme_topics.py
-    └── validate_xiaowei_goal.py
+├── scripts/
+│   ├── check_installed_skill.py
+│   ├── check_readme_topics.py
+│   ├── test_validator_negative_cases.py
+│   └── validate_xiaowei_goal.py
+└── tests/
+    └── invalid-goals/
 ```
 
 ## 分发说明

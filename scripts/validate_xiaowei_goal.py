@@ -10,22 +10,22 @@ from pathlib import Path
 
 REQUIRED_DIRECT = {
     "command": [r"^/goal\s+.+"],
-    "verification": [r"^验证方式[:：]\s*"],
-    "limits": [r"^限制[:：]\s*"],
-    "boundary": [r"^工作边界[:：]\s*"],
-    "progress": [r"^推进规则[:：]\s*"],
-    "stop": [r"^停止标准[:：]\s*"],
-    "pause": [r"^暂停条件[:：]\s*"],
+    "verification": [r"^(?:验证方式|Verification)[:：]\s*"],
+    "limits": [r"^(?:限制|Limits?)[:：]\s*"],
+    "boundary": [r"^(?:工作边界|Work Boundary)[:：]\s*"],
+    "progress": [r"^(?:推进规则|Progress Rules?)[:：]\s*"],
+    "stop": [r"^(?:停止标准|Stop Criteria|Stop Standard)[:：]\s*"],
+    "pause": [r"^(?:暂停条件|Pause Conditions?)[:：]\s*"],
 }
 
 RESEARCH_FIELDS = {
-    "task pack": [r"^任务包[:：]\s*"],
-    "tool stack": [r"^工具栈[:：]\s*"],
-    "stage 1 broad research": [r"^阶段\s*1\s*-\s*广域调研[:：]\s*"],
-    "stage 2 deep research": [r"^阶段\s*2\s*-\s*Deep Research[:：]\s*"],
-    "stage 3 business application": [r"^阶段\s*3\s*-\s*业务应用[:：]\s*"],
-    "deliverable": [r"^输出物[:：]\s*"],
-    "quality gate": [r"^质量门槛[:：]\s*"],
+    "task pack": [r"^(?:任务包|Task Pack)[:：]\s*"],
+    "tool stack": [r"^(?:工具栈|Tool Stack)[:：]\s*"],
+    "stage 1 broad research": [r"^(?:阶段\s*1\s*-\s*广域调研|Stage\s*1\s*-\s*Broad Research)[:：]\s*"],
+    "stage 2 deep research": [r"^(?:阶段\s*2\s*-\s*Deep Research|Stage\s*2\s*-\s*Deep Research)[:：]\s*"],
+    "stage 3 business application": [r"^(?:阶段\s*3\s*-\s*业务应用|Stage\s*3\s*-\s*Business Application)[:：]\s*"],
+    "deliverable": [r"^(?:输出物|Deliverables?)[:：]\s*"],
+    "quality gate": [r"^(?:质量门槛|Quality Gate)[:：]\s*"],
 }
 
 PLACEHOLDERS = [
@@ -51,6 +51,8 @@ BAD_PHRASES = [
     r"make sure it works",
     r"keep trying",
     r"edit anything",
+    r"search the whole internet",
+    r"entire internet",
 ]
 
 EVIDENCE_HINTS = [
@@ -71,6 +73,8 @@ EVIDENCE_HINTS = [
 SOURCE_COUNT_HINTS = [
     r"\d+\s*[-~]\s*\d+\s*个?\s*(候选)?来源",
     r"\d+\+\s*个?\s*(候选)?来源",
+    r"\d+\s*[-~]\s*\d+\s*(candidate\s*)?sources",
+    r"\d+\+\s*(candidate\s*)?sources",
     r"轻量[:：]?\s*6\s*[-~]\s*8",
     r"标准[:：]?\s*15\s*[-~]\s*25",
     r"深度[:：]?\s*40\+",
@@ -82,6 +86,11 @@ TASK_PACK_HINTS = [
     r"SEO\s*内容集群包",
     r"竞品分析包",
     r"增长实验包",
+    r"App MVP\s*Research Pack",
+    r"Website\s*/\s*Landing Page Revamp Pack",
+    r"SEO\s*Content Cluster Pack",
+    r"Competitor Analysis Pack",
+    r"Growth Experiment Pack",
 ]
 
 QUALITY_GATE_HINTS = {
@@ -112,7 +121,13 @@ ANTI_OVERCLAIM_HINTS = [
     r"不能.*无限制.*全网",
     r"not.*unlimited.*internet",
     r"not.*full.*internet.*coverage",
+    r"do not describe\s*Agent Reach\s*as unlimited internet access",
 ]
+
+SOURCE_RECORD_HINTS = {
+    "tool/channel": [r"工具/渠道", r"tool/channel", r"tool or channel"],
+    "access limitation": [r"访问限制", r"access limitation", r"access restriction"],
+}
 
 
 def _line_starts(text: str, patterns: list[str]) -> list[re.Match[str]]:
@@ -131,7 +146,11 @@ def _field_content(text: str, patterns: list[str], all_markers: list[re.Match[st
     next_markers = [marker for marker in all_markers if marker.start() > start.start()]
     end = next_markers[0].start() if next_markers else len(text)
     line = text[start.start() : end]
-    return re.sub(patterns[0], "", line, count=1, flags=re.IGNORECASE | re.MULTILINE).strip()
+    for pattern in patterns:
+        stripped = re.sub(pattern, "", line, count=1, flags=re.IGNORECASE | re.MULTILINE)
+        if stripped != line:
+            return stripped.strip()
+    return line.strip()
 
 
 def lint_text(text: str, source: str) -> list[str]:
@@ -146,7 +165,13 @@ def lint_text(text: str, source: str) -> list[str]:
         if not _line_starts(text, patterns):
             errors.append(f"{source}: missing required field `{name}`")
 
-    is_research_goal = bool(re.search(r"联网研究|广域调研|Deep Research|业务应用|Agent Reach|竞品|来源|检索", text, flags=re.IGNORECASE))
+    is_research_goal = bool(
+        re.search(
+            r"联网研究|广域调研|Deep Research|业务应用|Broad Research|Business Application|Agent Reach|竞品|competitor|来源|检索|sources|search",
+            text,
+            flags=re.IGNORECASE,
+        )
+    )
     if is_research_goal:
         for name, patterns in RESEARCH_FIELDS.items():
             if not _line_starts(text, patterns):
@@ -158,9 +183,9 @@ def lint_text(text: str, source: str) -> list[str]:
         if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in SOURCE_COUNT_HINTS):
             errors.append(f"{source}: research goal should name a concrete source count")
 
-        for required in ("工具/渠道", "访问限制"):
-            if required not in text:
-                errors.append(f"{source}: research goal should record `{required}`")
+        for name, patterns in SOURCE_RECORD_HINTS.items():
+            if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: research goal should record `{name}`")
 
         if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in ANTI_OVERCLAIM_HINTS):
             errors.append(f"{source}: research goal should prohibit overclaiming Agent Reach/full internet coverage")
