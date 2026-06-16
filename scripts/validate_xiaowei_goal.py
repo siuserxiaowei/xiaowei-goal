@@ -192,6 +192,10 @@ SELF_EVOLUTION_TRIGGERS = [
     r"auto[- ]evolution",
     r"自动提交",
     r"自动.*发布",
+    r"每日进化",
+    r"每天.*进化",
+    r"daily evolution",
+    r"scheduled evolution",
 ]
 
 SELF_EVOLUTION_HINTS = {
@@ -208,6 +212,23 @@ SELF_EVOLUTION_HINTS = {
     "release policy": [r"发布规则", r"release", r"tag", r"语义化版本", r"semantic version"],
     "rollback": [r"回滚方式", r"rollback", r"revert"],
     "pause risks": [r"凭证", r"破坏性", r"生产数据", r"私域", r"CI.*失败", r"credential", r"destructive"],
+}
+
+DAILY_EVOLUTION_TRIGGERS = [
+    r"每日进化",
+    r"每天.*进化",
+    r"每天自动",
+    r"daily evolution",
+    r"scheduled evolution",
+    r"schedule",
+]
+
+DAILY_EVOLUTION_HINTS = {
+    "daily schedule": [r"cron", r"schedule", r"每天", r"每日", r"定时"],
+    "audit script": [r"daily_evolution_audit\.py", r"每日.*审计", r"daily evolution audit"],
+    "github actions": [r"GitHub Actions", r"\.github/workflows", r"workflow"],
+    "issue handoff": [r"issue", r"议题", r"问题单", r"handoff"],
+    "no unattended code rewrite": [r"不.*无人值守.*改", r"不.*随机改", r"不.*后台.*乱改", r"not.*unattended.*rewrite"],
 }
 
 
@@ -343,6 +364,14 @@ def lint_text(text: str, source: str) -> list[str]:
         for name, patterns in SELF_EVOLUTION_HINTS.items():
             if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns):
                 errors.append(f"{source}: self-evolution goal missing `{name}`")
+
+    is_daily_evolution_goal = any(
+        re.search(pattern, text, flags=re.IGNORECASE) for pattern in DAILY_EVOLUTION_TRIGGERS
+    )
+    if is_daily_evolution_goal:
+        for name, patterns in DAILY_EVOLUTION_HINTS.items():
+            if not any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: daily evolution goal missing `{name}`")
 
     for pattern in PLACEHOLDERS:
         if re.search(pattern, text, flags=re.IGNORECASE):

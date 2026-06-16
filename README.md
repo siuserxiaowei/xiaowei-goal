@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.8.0-blue)
+![Version](https://img.shields.io/badge/version-0.9.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -88,6 +88,7 @@ python3 -m http.server 8000
 - `输出压缩`：按短版、标准版、完整版控制输出长度，不默认长篇模板。
 - `领域包`：支持 AI 工具站、Chrome 插件、出海 SaaS、小红书/抖音内容验证、GitHub 开源项目增长。
 - `自我进化`：用户显式触发后，可自动收集反馈、修改允许路径、运行校验、推送、等 CI、发 release。
+- `每日进化`：GitHub Actions 每天 09:00 Asia/Shanghai 自动跑审计，必要时创建 issue 交接给 agent。
 - `目标评估`：用 `scripts/evaluate_goal_output.py` 给示例和生成目标做完整性、比例和业务应用检查。
 - `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
@@ -118,6 +119,7 @@ python3 ~/.agents/skills/xiaowei-goal/scripts/check_installed_skill.py
 - 我要让 agent 用 Agent Reach 或其他联网工具搜资料，再应用到我的业务
 - 我要把一句模糊需求改成可执行、可验证、知道什么时候停止的 `/goal`
 - 我要让这个 skill 根据反馈自动进化、自动测试、自动发布新版
+- 我要让它每天自动检查一次是否需要进化
 
 不适合：
 
@@ -207,7 +209,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 
 ## 三档输出模式
 
-从 v0.8.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
+从 v0.9.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
 
 - `轻量模式`：明确的本地代码、文档、校验、维护任务，不做外部研究。
 - `标准研究模式`：App、网站、SEO、增长、竞品等需要外部证据的常规任务。
@@ -320,6 +322,39 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 ```
 
 它不会在无人触发时后台运行，也不会跨仓库、碰凭证、生产数据、私域内容或允许路径外文件。
+
+### 4. 每日进化模式
+
+`v0.9.0` 增加了定时入口：
+
+```text
+.github/workflows/daily-evolution.yml
+```
+
+默认每天 `09:00 Asia/Shanghai` 运行一次，也可以手动触发 `workflow_dispatch`。
+
+每日 workflow 会自动：
+
+- 运行 `scripts/daily_evolution_audit.py`
+- 执行 validator、目标评估、负向测试、安装自检、manifest、README topics、Python 编译和 diff 检查
+- 检查 self-evolution、daily workflow、示例、版本 badge 等结构漂移
+- 上传审计报告 artifact
+- 只有发现需要处理的问题时，创建或更新 GitHub issue
+
+它不会做：
+
+- 无人值守改 `SKILL.md`
+- 每天无意义 bump 版本
+- CI 里自动发 release
+- 跨仓库或碰凭证、生产数据、私域内容
+
+如果 daily issue 出现，下一步让 agent 执行：
+
+```text
+用 xiaowei-goal 执行一次完全自动化自我进化
+```
+
+这是目前最稳的“每天进化一次”形态：每天自动体检和交接，真正代码进化在 agent session 中完成。
 
 ## Agent Reach 怎么配合
 
@@ -452,6 +487,12 @@ python3 scripts/evaluate_goal_output.py examples/*.txt
 Xiaowei goal output evaluation passed.
 ```
 
+每日进化审计：
+
+```bash
+python3 scripts/daily_evolution_audit.py --report /tmp/daily-evolution-report.md
+```
+
 ## 目录结构
 
 ```text
@@ -465,6 +506,7 @@ xiaowei-goal/
 │   ├── app-research-goal.en.txt
 │   ├── app-research-goal.zh.txt
 │   ├── competitor-analysis-goal.zh.txt
+│   ├── daily-self-evolution-goal.zh.txt
 │   ├── direct-execution-goal.zh.txt
 │   ├── growth-experiment-goal.zh.txt
 │   ├── practice-run-ai-website-goal.zh.txt
@@ -492,6 +534,7 @@ xiaowei-goal/
 ├── scripts/
 │   ├── check_installed_skill.py
 │   ├── check_readme_topics.py
+│   ├── daily_evolution_audit.py
 │   ├── evaluate_goal_output.py
 │   ├── test_validator_negative_cases.py
 │   └── validate_xiaowei_goal.py
