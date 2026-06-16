@@ -18,6 +18,12 @@ REQUIRED_DIRECT = {
     "pause": [r"^(?:暂停条件|Pause Conditions?)[:：]\s*"],
 }
 
+SMART_FIELDS = {
+    "decision summary": [r"^(?:决策摘要|Decision Summary)[:：]\s*"],
+    "default assumptions": [r"^(?:默认假设|Default Assumptions)[:：]\s*"],
+    "choice rationale": [r"^(?:选择理由|Choice Rationale)[:：]\s*"],
+}
+
 RESEARCH_FIELDS = {
     "task pack": [r"^(?:任务包|Task Pack)[:：]\s*"],
     "tool stack": [r"^(?:工具栈|Tool Stack)[:：]\s*"],
@@ -129,6 +135,15 @@ SOURCE_RECORD_HINTS = {
     "access limitation": [r"访问限制", r"access limitation", r"access restriction"],
 }
 
+SMART_SUMMARY_HINTS = {
+    "task type": [r"任务类型", r"Task type"],
+    "maturity": [r"成熟度", r"maturity"],
+    "external information need": [r"外部信息需求", r"External information need"],
+    "risk level": [r"风险等级", r"Risk level"],
+    "output length": [r"输出长度", r"Output length"],
+    "question gate": [r"是否先提问", r"Ask clarifying questions first"],
+}
+
 
 def _line_starts(text: str, patterns: list[str]) -> list[re.Match[str]]:
     matches: list[re.Match[str]] = []
@@ -155,17 +170,46 @@ def _field_content(text: str, patterns: list[str], all_markers: list[re.Match[st
 
 def lint_text(text: str, source: str) -> list[str]:
     errors: list[str] = []
-    marker_patterns = [pattern for patterns in (list(REQUIRED_DIRECT.values()) + list(RESEARCH_FIELDS.values())) for pattern in patterns]
+    marker_patterns = [
+        pattern
+        for patterns in (list(SMART_FIELDS.values()) + list(REQUIRED_DIRECT.values()) + list(RESEARCH_FIELDS.values()))
+        for pattern in patterns
+    ]
     all_markers = _line_starts(text, marker_patterns)
 
     if re.search(r"^\s*/目标\b", text, flags=re.MULTILINE):
         errors.append(f"{source}: use `/goal`, not `/目标`")
 
+    for name, patterns in SMART_FIELDS.items():
+        if not _line_starts(text, patterns):
+            errors.append(f"{source}: missing smart field `{name}`")
+
+    decision_summary = _field_content(text, SMART_FIELDS["decision summary"], all_markers)
+    if decision_summary:
+        for name, patterns in SMART_SUMMARY_HINTS.items():
+            if not any(re.search(pattern, decision_summary, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: decision summary missing `{name}`")
+
+    default_assumptions = _field_content(text, SMART_FIELDS["default assumptions"], all_markers)
+    if default_assumptions is not None and len(default_assumptions) < 16:
+        errors.append(f"{source}: default assumptions are too thin")
+
+    choice_rationale = _field_content(text, SMART_FIELDS["choice rationale"], all_markers)
+    if choice_rationale is not None and len(choice_rationale) < 24:
+        errors.append(f"{source}: choice rationale is too thin")
+
     for name, patterns in REQUIRED_DIRECT.items():
         if not _line_starts(text, patterns):
             errors.append(f"{source}: missing required field `{name}`")
 
-    is_research_goal = bool(
+    external_information_none = bool(
+        re.search(
+            r"外部信息需求\s*=\s*不需要|External information need\s*=\s*none",
+            text,
+            flags=re.IGNORECASE,
+        )
+    )
+    is_research_goal = (not external_information_none) and bool(
         re.search(
             r"联网研究|广域调研|Deep Research|业务应用|Broad Research|Business Application|Agent Reach|竞品|competitor|来源|检索|sources|search",
             text,

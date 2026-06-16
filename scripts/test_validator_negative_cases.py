@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = ROOT / "scripts" / "validate_xiaowei_goal.py"
 
 CASES = [
+    ("tests/invalid-goals/missing-smart-router.zh.txt", "decision summary"),
     ("tests/invalid-goals/missing-agent-reach-doctor.zh.txt", "agent-reach doctor"),
     ("tests/invalid-goals/missing-quality-gate.zh.txt", "quality gate"),
     ("tests/invalid-goals/overclaims-full-internet.zh.txt", "unsafe vague phrase"),

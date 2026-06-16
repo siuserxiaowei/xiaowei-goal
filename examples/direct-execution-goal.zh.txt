@@ -1,3 +1,6 @@
+决策摘要：任务类型=docs；成熟度=已有仓库；外部信息需求=不需要；风险等级=低；输出长度=轻量；是否先提问=否
+默认假设：目标是小范围文档和脚本维护，仓库已有 README、manifest 和校验脚本；不需要联网研究、Agent Reach 或浏览器自动化。
+选择理由：这是明确的本地仓库维护任务，直接执行比三阶段研究更合适；选择轻量模式可以避免把简单改动复杂化。
 推荐执行版（中文，可直接复制）
 /goal 基于当前项目上下文完善 README 顶部主题列表和安装更新说明，先读取已有 README、manifest、示例和维护脚本，再做最小必要改动。
 验证方式：运行 `python3 -m json.tool manifest.json`、`python3 scripts/check_readme_topics.py`、`python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/check_readme_topics.py`，并用命令输出证明检查通过。

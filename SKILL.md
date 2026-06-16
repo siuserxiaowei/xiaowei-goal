@@ -18,12 +18,15 @@ description: >
 
 核心风格：
 
+- 先判断任务轻重，再决定是不是要三阶段研究。
+- 先识别信息缺口，再决定是否需要问用户最多 3 个关键问题。
 - 先看外部世界，再决定怎么做。
 - 先广域调研，再 Deep Research，最后应用到自己的业务。
 - 如果当前环境安装了 Agent Reach，把它作为广域调研的首选能力层。
 - 按任务选择最小工具层：Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - 用任务包把研究映射到具体业务产物，而不是只给通用建议。
 - 用 quality gate 约束结论质量：关键结论至少 2 个独立来源支撑，否则降级为假设。
+- 用 Goal Compiler 暴露默认假设、选择理由和工具取舍，不做死板模板填空。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -32,6 +35,9 @@ description: >
 ## Default Mode
 
 Use Chinese output by default for Chinese users. Keep the slash command as `/goal`.
+
+Always run Smart Router before drafting. Do not default to the heaviest
+three-stage template when a direct or light goal is enough.
 
 ## Distribution Note
 
@@ -46,12 +52,17 @@ npx skills add siuserxiaowei/xiaowei-goal
 GitHub updates do not guarantee that an already installed local skill copy has
 been refreshed in the current agent session.
 
-Choose one of two modes:
+Choose one of three output depths:
 
-1. **三阶段研究模式**：default for app, website, landing page, SaaS, SEO, growth, competitor, content, market, and product direction tasks.
-2. **直接执行模式**：use for narrow local coding/doc tasks where external information is unnecessary.
+1. **轻量模式**：use for narrow docs, local coding, or simple execution where external information is unnecessary.
+2. **标准研究模式**：default for app, website, landing page, SaaS, SEO, growth, competitor, content, market, and product direction tasks.
+3. **深度研究模式**：use for high uncertainty, high-risk business decisions, crowded markets, broad strategy, or explicit deep-research requests.
 
 If the user mentions Agent Reach, search, research, Deep Research, competitor analysis, app/site planning, SEO, growth, or "先学习再应用", choose 三阶段研究模式.
+
+If missing information would materially change scope, risk, cost, or direction,
+ask at most 3 clarifying questions before drafting the final `/goal`. Otherwise,
+state safe defaults in `默认假设`.
 
 ## Agent Reach Routing
 
@@ -80,23 +91,27 @@ Do not require every tool. Do not use scraping, browser automation, or extension
 ## Workflow
 
 1. Restate the user's real outcome in business terms.
-2. Decide whether the task needs external research.
-3. If research is needed, read `references/research-workflow.md`.
-4. If research is needed, read `references/quality-gate.md`.
-5. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
-6. If the user names an app/site/business channel, read `references/source-map.md`.
-7. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
-8. If the task is ready for execution, read `references/goal-contract.md`.
-9. Produce the best copy-ready `/goal` first.
-10. Add a short reason for the defaults.
-11. Add compact options only when a choice changes cost, risk, or direction.
-12. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
+2. Read `references/smart-router.md` and classify task type, maturity, external information need, risk, question need, and output length.
+3. If critical missing information changes scope, cost, risk, or direction, ask at most 3 questions and stop before drafting.
+4. If research is needed, read `references/research-workflow.md`.
+5. If research is needed, read `references/quality-gate.md`.
+6. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
+7. If the user names an app/site/business channel, read `references/source-map.md`.
+8. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
+9. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, routing, tool, task pack, risk, self-critique, finalization.
+10. If the task is ready for execution, read `references/goal-contract.md`.
+11. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, and `选择理由` before the goal.
+12. Add compact options only when a choice changes cost, risk, or direction.
+13. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>`.
 
 ## Three-Stage Research Output
 
 Use this shape when the task should search, deeply analyze, then apply findings to the user's business:
 
 ```text
+决策摘要：任务类型=[app / website / SEO / growth / competitor / coding / docs / mixed]；成熟度=[模糊想法 / 已有方向 / 已有仓库 / 已有数据 / 已有执行清单]；外部信息需求=[轻量 / 标准 / 深度]；风险等级=[低 / 中 / 高]；输出长度=[轻量 / 标准 / 深度]；是否先提问=[是 / 否]
+默认假设：[列出不会阻塞执行的安全默认值]
+选择理由：[说明为什么选这个深度、任务包和工具栈，为什么没有选择更重或更轻的方案]
 推荐执行版（中文，可直接复制）
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
 任务包：[选择 App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
@@ -127,6 +142,9 @@ Deep Research should not simply add more links. It should read and compare the h
 Use this shape when research is unnecessary:
 
 ```text
+决策摘要：任务类型=[coding / docs / mixed]；成熟度=[已有仓库 / 已有执行清单]；外部信息需求=不需要；风险等级=[低 / 中 / 高]；输出长度=轻量；是否先提问=[是 / 否]
+默认假设：[列出不会阻塞执行的安全默认值]
+选择理由：[说明为什么直接执行而不是三阶段研究]
 推荐执行版（中文，可直接复制）
 /goal 基于当前项目上下文完成[具体结果]，先读取已有文档、脚本和约定，再做最小必要改动。
 验证方式：运行项目中最小相关检查；如果是前端或交互任务，启动本地服务并走通核心流程；用命令输出、日志、截图或产物路径证明完成。
@@ -141,10 +159,12 @@ Use this shape when research is unnecessary:
 
 For Chinese users, output:
 
-1. `推荐执行版（中文，可直接复制）`
-2. `默认选择理由`
-3. `可选调整`
-4. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
+1. `决策摘要`
+2. `默认假设`
+3. `选择理由`
+4. `推荐执行版（中文，可直接复制）`
+5. `可选调整`
+6. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
 
 Do not lead with a blank template. Do not leave placeholders. Do not start implementation unless the user explicitly asks to execute the generated goal.
 
@@ -153,6 +173,9 @@ Do not lead with a blank template. Do not leave placeholders. Do not start imple
 Good goals:
 
 - describe an outcome, not activity
+- include a compact decision summary before the goal
+- state safe assumptions instead of silently guessing
+- explain why the selected depth, task pack, and tool stack fit the task
 - name source count or verification commands
 - name Agent Reach routing and fallback rules when internet/platform research matters
 - name tool-stack routing when webpage extraction, crawling, browser automation, or Chrome user-supervised work matters
@@ -174,11 +197,15 @@ Bad goals:
 - "全网资料都整理一下" without depth or source rules
 - "深度研究一下" without a broad research pool, source selection, and business application stage
 - "照着竞品做一个一样的"
+- using a full three-stage research template for a narrow local edit
+- listing every tool when the smaller layer is enough
 - research conclusions without source strength, downgrade rules, or contradiction handling
 - using scraping or browser automation without authorization, scope, access limits, and pause conditions
 
 ## References
 
+- `references/smart-router.md`: task classification, question gate, depth selection, and tool weight decisions.
+- `references/goal-compiler.md`: intent, knowns, gaps, assumptions, routing, tool selection, risk, self-critique, and finalization passes.
 - `references/research-workflow.md`: three-stage broad research, Deep Research, evidence table, and business application rules.
 - `references/quality-gate.md`: source strength, 2-source rule, downgrade rules, contradiction handling, and confidence labels.
 - `references/tool-stack.md`: Agent Reach, Scrapling, browser-use, and Claude for Chrome routing and boundaries.

@@ -1,0 +1,88 @@
+# Smart Router
+
+Use this reference before writing any final `/goal`. The router decides how
+heavy the generated goal should be and whether the agent should ask questions
+before drafting.
+
+## Routing Dimensions
+
+Classify the task with these dimensions:
+
+```text
+任务类型：app / website / SEO / growth / competitor / coding / docs / mixed
+任务成熟度：模糊想法 / 已有方向 / 已有仓库 / 已有数据 / 已有执行清单
+外部信息需求：不需要 / 轻量 / 标准 / 深度
+风险等级：低 / 中 / 高
+是否需要先问问题：是 / 否
+输出长度：轻量 / 标准 / 深度
+```
+
+For English-compatible output:
+
+```text
+Task type: app / website / SEO / growth / competitor / coding / docs / mixed
+Task maturity: vague idea / chosen direction / existing repo / existing data / execution checklist
+External information need: none / light / standard / deep
+Risk level: low / medium / high
+Ask clarifying questions first: yes / no
+Output length: light / standard / deep
+```
+
+## Question Gate
+
+Ask at most 3 clarifying questions before producing the `/goal` when missing
+information would materially change scope, cost, risk, or direction.
+
+Ask first when any of these are unknown:
+
+- target user, market, geography, or language
+- existing repo/product state
+- business objective or success metric
+- deadline, budget, or implementation tolerance
+- whether external research, cookies, paid tools, accounts, or private data are authorized
+- production impact, privacy, compliance, medical, legal, financial, or minors-related risk
+
+Do not ask questions when the missing information can be handled with safe
+defaults. In that case, state the defaults in `默认假设`.
+
+## Depth Selection
+
+Use the smallest sufficient output:
+
+| Depth | Use when | Output |
+|---|---|---|
+| 轻量 / light | narrow docs, local code, small implementation, no external research | direct execution goal |
+| 标准 / standard | app/site/SEO/growth/competitor work with normal research needs | three-stage research goal with 15-25 sources |
+| 深度 / deep | high uncertainty, high risk, major business decision, crowded market, or broad strategy | three-stage research goal with 40+ sources and stronger evidence tables |
+
+Do not default to deep mode just because the request sounds important. Deep mode
+should have a reason: high uncertainty, high stakes, broad market scope, or
+explicit user request.
+
+## Tool Weight
+
+Choose the smallest reliable tool layer:
+
+- no external tools for local docs/code edits
+- normal web reader/browser for public pages that do not need structure or state
+- Agent Reach for platform discovery and source collection
+- Scrapling for repeatable public extraction or structured crawling
+- browser-use for interactive state, clicking, screenshots, or authorized login flows
+- Claude for Chrome only as a user-supervised browser extension path
+
+If a heavier tool is not needed, explicitly avoid it in the choice rationale.
+
+## Required Decision Summary
+
+Every generated goal should include a compact decision summary before the
+`/goal` line:
+
+```text
+决策摘要：任务类型=...；成熟度=...；外部信息需求=...；风险等级=...；输出长度=...；是否先提问=...
+默认假设：...
+选择理由：...
+```
+
+If the answer should ask questions first, do not draft the final `/goal` yet.
+Ask the smallest set of questions and explain which decision each answer will
+change.

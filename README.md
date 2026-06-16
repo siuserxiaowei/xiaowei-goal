@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.5.1-blue)
+![Version](https://img.shields.io/badge/version-0.6.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -81,6 +81,8 @@ python3 -m http.server 8000
 
 当前版本还会把研究型任务强制补上两层约束：
 
+- `Smart Router`：先判断任务类型、成熟度、外部信息需求、风险和输出长度，再决定要不要三阶段研究。
+- `Goal Compiler`：生成前先暴露默认假设、选择理由和工具取舍，避免死板套模板。
 - `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
 - `质量门槛`：每条关键结论至少 2 个独立来源支撑；标明来源强弱；过期、营销软文、不可访问来源降权；矛盾信息必须列出。
@@ -172,6 +174,9 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 它会优先输出一段可以复制的三阶段 `/goal`，例如：
 
 ```text
+决策摘要：任务类型=app；成熟度=模糊想法；外部信息需求=标准；风险等级=中；输出长度=标准；是否先提问=否
+默认假设：目标用户是想提升英语口语的中文用户，当前还没有明确竞品池和 MVP 范围；先用公开资料建立方向，不使用账号、Cookie 或付费数据。
+选择理由：这是新 App 方向，真实用户评价和竞品结构会显著影响 MVP，所以选择标准三阶段研究；不选深度模式是因为当前目标仍是形成可执行起点，不是做融资级市场判断。
 /goal 围绕 AI 英语口语练习 App 执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成 MVP 功能、官网页面、增长动作和下一阶段实现目标。
 任务包：App MVP 研究包；本次必须把研究结论映射到目标用户、首访体验、核心工作流、激活时刻、留存循环、MVP 功能、定价假设、信任风险和下一阶段实现 `/goal`。
 工具栈：优先 Agent Reach 做平台搜索和来源收集；普通公开网页先用 web reader/browser；需要结构化抽取或公共网页爬取时使用 Scrapling；需要点击、截图、登录授权流程或动态 UI 验证时使用 browser-use；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项。
@@ -188,7 +193,21 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 暂停条件：需要 Cookie、Token、付费数据库、登录账号、绕过平台限制、法律或教育合规判断、版权授权、生产数据、私域内容或重大业务定位选择时暂停。
 ```
 
-## 两种工作模式
+## 三档输出模式
+
+从 v0.6.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多重：
+
+- `轻量模式`：明确的本地代码、文档、校验、维护任务，不做外部研究。
+- `标准研究模式`：App、网站、SEO、增长、竞品等需要外部证据的常规任务。
+- `深度研究模式`：高不确定性、高风险、重大业务决策、拥挤市场或用户明确要求深度研究的任务。
+
+每个 goal 都应该先出现：
+
+```text
+决策摘要：任务类型=...；成熟度=...；外部信息需求=...；风险等级=...；输出长度=...；是否先提问=...
+默认假设：...
+选择理由：...
+```
 
 ### 1. 三阶段研究模式
 
@@ -288,6 +307,9 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 三阶段研究任务通常包含：
 
 ```text
+决策摘要：...
+默认假设：...
+选择理由：...
 推荐执行版（中文，可直接复制）
 /goal ...
 阶段 1 - 广域调研：...
@@ -393,9 +415,11 @@ xiaowei-goal/
 ├── docs/
 │   └── README.md
 ├── references/
+│   ├── goal-compiler.md
 │   ├── goal-contract.md
 │   ├── quality-gate.md
 │   ├── research-workflow.md
+│   ├── smart-router.md
 │   ├── source-map.md
 │   ├── task-packs.md
 │   └── tool-stack.md

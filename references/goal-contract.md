@@ -6,6 +6,9 @@ Use this reference for final goal wording.
 
 A Xiaowei goal should include:
 
+- `决策摘要` or `Decision Summary` before the `/goal`
+- `默认假设` or `Default Assumptions` before the `/goal`
+- `选择理由` or `Choice Rationale` before the `/goal`
 - `/goal` line with one clear outcome
 - `阶段 1 - 广域调研` when external research is needed
 - `阶段 2 - Deep Research` when external research is needed
@@ -27,6 +30,9 @@ For direct execution goals, the three research stage fields and `输出物` may 
 ## Three-Stage Research Template
 
 ```text
+决策摘要：[任务类型、成熟度、外部信息需求、风险等级、输出长度、是否先提问]
+默认假设：[不会阻塞执行的安全默认值]
+选择理由：[为什么选这个深度、任务包和工具栈；为什么没有选择更重或更轻方案]
 /goal 围绕[业务任务]执行三阶段研究工作流：先广域联网调研，再进行 Deep Research，最后把所有有效资料应用到当前业务，形成可执行方案和下一阶段实现目标。
 任务包：[App MVP 研究包 / 网站/落地页改版包 / SEO 内容集群包 / 竞品分析包 / 增长实验包]；本次必须把研究结论映射到[对应业务产物]。
 工具栈：[Agent Reach 平台搜索和来源收集；web reader/browser 读取简单公开网页；Scrapling 做公共网页结构化抽取/爬取；browser-use 做点击、截图、动态 UI、登录授权流程；Claude for Chrome 仅作为用户明确授权的 Chrome 内协作/人工接管选项]。
@@ -46,6 +52,9 @@ For direct execution goals, the three research stage fields and `输出物` may 
 ## Direct Execution Template
 
 ```text
+决策摘要：[任务类型、成熟度、外部信息需求、风险等级、输出长度、是否先提问]
+默认假设：[不会阻塞执行的安全默认值]
+选择理由：[为什么直接执行而不是三阶段研究]
 /goal 基于当前项目上下文完成[具体结果]，先读取已有文档、脚本和约定，再做最小必要改动。
 验证方式：[命令、日志、截图、产物、核心流程]。
 限制：[不能改变的行为、接口、数据、配置、凭证、范围]。
@@ -59,7 +68,9 @@ For direct execution goals, the three research stage fields and `输出物` may 
 
 Use these defaults unless the user says otherwise:
 
-- New app/site: three-stage research, standard broad-research depth, no backend/auth/payment in first implementation goal.
+- New vague app/site: standard three-stage research, no backend/auth/payment in first implementation goal.
+- Narrow local code/docs task: direct execution mode with no external research.
+- High-risk or high-uncertainty business decision: deep research mode only when the risk or uncertainty justifies it.
 - Existing repo: inspect local scripts and docs before changes.
 - No deployment request: local verification only.
 - No source preference: Agent Reach first when available, then web + competitors + user communities + implementation references.
@@ -74,6 +85,8 @@ Revise the goal if it contains:
 - "随便搜", "全网都搜", or "一直试"
 - "照抄", "扒下来", or "做一个一样的"
 - no source count for research
+- no decision summary, default assumptions, or choice rationale
+- no reason why the selected output depth fits the task
 - no `任务包` for app, website, SEO, competitor, or growth research
 - no `质量门槛` for research goals
 - no Deep Research stage for business research tasks

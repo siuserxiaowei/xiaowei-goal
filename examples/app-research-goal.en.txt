@@ -1,3 +1,6 @@
+Decision Summary: Task type=app; maturity=vague idea; External information need=standard; Risk level=medium; Output length=standard; Ask clarifying questions first=no.
+Default Assumptions: The AI meeting notes app has no fixed competitor pool, pricing model, or MVP scope yet; use public and user-authorized sources only, without accounts, Cookies, paid data, or private workspaces.
+Choice Rationale: A new app direction needs competitor, user pain, and workflow evidence before MVP planning, so standard three-stage research fits; deep mode is unnecessary until the user needs strategic market sizing or high-stakes investment decisions.
 Recommended execution version (English-compatible)
 /goal Run a three-stage research workflow for an AI meeting notes app: first broad internet research, then Deep Research, then business application into MVP scope, landing page structure, growth actions, and the next implementation goal.
 Task Pack: App MVP Research Pack; map the research findings to target users, job-to-be-done, first-run experience, core workflow, activation moment, retention loop, MVP feature list, pricing hypothesis, trust risks, and the next `/goal`.
