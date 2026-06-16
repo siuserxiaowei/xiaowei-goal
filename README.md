@@ -5,7 +5,7 @@
 
 ### What This Repository Does
 
-Xiaowei-style research-first Agent Skill for turning app, website, SEO, growth, and competitor tasks into executable /goal commands.
+Research-first Agent Skill for turning app, website, SEO, growth, competitor, and search-first tasks into evidence-gated /goal commands.
 
 ### Online Entry Points
 
@@ -13,7 +13,7 @@ Xiaowei-style research-first Agent Skill for turning app, website, SEO, growth, 
 - Live / GitHub Pages: https://siuserxiaowei.github.io/xiaowei-goal/
 - Default branch: `main`
 - Primary language: `Python`
-- Topics: `agent-reach`, `agent-research`, `agent-skill`, `codex`, `goal`
+- Topics: `agent-reach`, `agent-research`, `agent-skill`, `codex`, `goal`, `browser-use`, `claude-for-chrome`, `competitor-analysis`, `deep-research`, `growth`, `prompt-engineering`, `research-agent`, `scrapling`, `seo`, `web-research`
 
 ### How To Read / Learn This Repository
 
@@ -43,8 +43,8 @@ python3 -m http.server 8000
 | --- | --- |
 | `README.md` | 项目入口说明，先读这里。 |
 | `SKILL.md` | Skill 的核心说明、触发条件和使用步骤。 |
-| `docs/` | 文档或 GitHub Pages 输出目录。 |
-| `scripts/` | 构建、同步、生成或维护脚本。 |
+| `docs/` | GitHub Pages 和历史报告归档；不是 skill 运行时必须读取的核心内容。 |
+| `scripts/` | 校验、同步或维护脚本。 |
 | `LICENSE` | 项目文件。 |
 | `agents/` | 项目目录。 |
 | `examples/` | 项目目录。 |
@@ -101,11 +101,13 @@ python3 -m http.server 8000
 
 ## 安装
 
-从 GitHub 安装：
+从 GitHub 安装或更新：
 
 ```bash
 npx skills add siuserxiaowei/xiaowei-goal
 ```
+
+GitHub 仓库更新后，本地已经安装过的 skill 不一定会自动同步。只要怀疑当前 agent 读到的是旧版，就重新运行上面的安装命令，然后开启新会话或重启当前 agent 环境。
 
 只查看仓库里有哪些 skill：
 
@@ -117,6 +119,12 @@ npx skills add siuserxiaowei/xiaowei-goal --list
 
 ```bash
 test -f ~/.agents/skills/xiaowei-goal/SKILL.md
+```
+
+也可以检查当前本地安装版是否包含新版能力：
+
+```bash
+rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 ```
 
 如果你的运行环境使用其他 skills 路径，请以对应客户端的安装位置为准。
@@ -292,16 +300,21 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 
 ## 示例
 
-仓库内置了三个示例：
+仓库内置了多个示例：
 
 - `examples/app-research-goal.zh.txt`
 - `examples/website-research-goal.zh.txt`
 - `examples/practice-run-ai-website-goal.zh.txt`
+- `examples/seo-content-cluster-goal.zh.txt`
+- `examples/competitor-analysis-goal.zh.txt`
+- `examples/growth-experiment-goal.zh.txt`
+- `examples/direct-execution-goal.zh.txt`
+- `examples/tool-boundary-goal.zh.txt`
 
 你可以用本地校验脚本检查示例：
 
 ```bash
-python3 scripts/validate_xiaowei_goal.py examples/app-research-goal.zh.txt examples/website-research-goal.zh.txt examples/practice-run-ai-website-goal.zh.txt
+python3 scripts/validate_xiaowei_goal.py examples/*.txt
 ```
 
 校验脚本会检查研究型 goal 是否包含：
@@ -332,7 +345,12 @@ xiaowei-goal/
 │   └── interface.yaml
 ├── examples/
 │   ├── app-research-goal.zh.txt
+│   ├── competitor-analysis-goal.zh.txt
+│   ├── direct-execution-goal.zh.txt
+│   ├── growth-experiment-goal.zh.txt
 │   ├── practice-run-ai-website-goal.zh.txt
+│   ├── seo-content-cluster-goal.zh.txt
+│   ├── tool-boundary-goal.zh.txt
 │   └── website-research-goal.zh.txt
 ├── references/
 │   ├── goal-contract.md
@@ -342,8 +360,13 @@ xiaowei-goal/
 │   ├── task-packs.md
 │   └── tool-stack.md
 └── scripts/
+    ├── check_readme_topics.py
     └── validate_xiaowei_goal.py
 ```
+
+## 分发说明
+
+Skill 的核心分发内容是 `SKILL.md`、`references/`、`examples/`、`agents/interface.yaml`、`manifest.json` 和 `scripts/`。`docs/` 目录主要服务 GitHub Pages 和历史报告展示，默认不应被 agent 当作当前 skill 行为规范来读取。
 
 ## 设计原则
 

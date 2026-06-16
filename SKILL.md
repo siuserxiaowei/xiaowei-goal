@@ -33,6 +33,19 @@ description: >
 
 Use Chinese output by default for Chinese users. Keep the slash command as `/goal`.
 
+## Distribution Note
+
+If a local installed copy behaves like an older version and does not mention
+quality gates, task packs, Agent Reach routing, or the research tool stack, ask
+the user to update the installed skill with:
+
+```bash
+npx skills add siuserxiaowei/xiaowei-goal
+```
+
+GitHub updates do not guarantee that an already installed local skill copy has
+been refreshed in the current agent session.
+
 Choose one of two modes:
 
 1. **三阶段研究模式**：default for app, website, landing page, SaaS, SEO, growth, competitor, content, market, and product direction tasks.

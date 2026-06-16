@@ -1,0 +1,36 @@
+name: Validate Xiaowei Goal
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate example goals
+        run: python3 scripts/validate_xiaowei_goal.py examples/*.txt
+
+      - name: Validate manifest JSON
+        run: python3 -m json.tool manifest.json > /tmp/xiaowei-goal-manifest.json
+
+      - name: Validate README topics
+        run: python3 scripts/check_readme_topics.py
+
+      - name: Validate YAML files
+        run: |
+          ruby -e 'require "yaml"; YAML.load_file("agents/interface.yaml"); YAML.load_file(".github/workflows/validate.yml")'
+
+      - name: Compile Python scripts
+        run: python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/check_readme_topics.py

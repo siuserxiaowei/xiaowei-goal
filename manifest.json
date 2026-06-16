@@ -1,8 +1,8 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "owner": "Xiaowei",
-  "updated_at": "2026-06-15",
+  "updated_at": "2026-06-16",
   "status": "public-ready",
   "maturity_tier": "production-lite",
   "lifecycle_stage": "skill",
@@ -12,6 +12,35 @@
     "claude",
     "codex",
     "agent-skills-compatible"
+  ],
+  "repository_topics": [
+    "agent-reach",
+    "agent-research",
+    "agent-skill",
+    "codex",
+    "goal",
+    "browser-use",
+    "claude-for-chrome",
+    "competitor-analysis",
+    "deep-research",
+    "growth",
+    "prompt-engineering",
+    "research-agent",
+    "scrapling",
+    "seo",
+    "web-research"
+  ],
+  "distribution_core_paths": [
+    "SKILL.md",
+    "README.md",
+    "manifest.json",
+    "agents/interface.yaml",
+    "references/",
+    "examples/",
+    "scripts/"
+  ],
+  "distribution_optional_paths": [
+    "docs/"
   ],
   "outputs": [
     "three-stage-research-goal",
