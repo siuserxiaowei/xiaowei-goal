@@ -16,6 +16,7 @@ Classify the task with these dimensions:
 是否需要先问问题：是 / 否
 输出长度：短版 / 标准版 / 完整版
 商业建议：立即做 / 先小实验验证 / 暂缓 / 不建议做
+策略建议：直接执行 / 先验证需求 / 先重构问题 / 暂缓
 领域包：AI 工具站包 / Chrome 插件包 / 出海 SaaS 包 / 小红书/抖音内容验证包 / GitHub 开源项目增长包 / 不适用
 ```
 
@@ -29,6 +30,7 @@ Risk level: low / medium / high
 Ask clarifying questions first: yes / no
 Output length: short / standard / full
 Business recommendation: do now / validate with a small experiment / pause / do not recommend
+Strategy recommendation: direct execution / validate demand first / reframe the problem first / pause
 Domain pack: AI tool site / Chrome extension / global SaaS / Xiaohongshu-Douyin validation / GitHub open-source growth / not applicable
 ```
 
@@ -72,6 +74,16 @@ Apply `references/xiaowei-preferences.md` before final routing:
 - If the task matches tool site, AI product, SEO, or outbound/global SaaS, consider the matching domain pack.
 - If the value is weak or the task is too broad, route to `先小实验验证` or `暂缓` instead of full implementation.
 
+## Strategy Gate Routing
+
+Before finalizing the route, apply `references/strategy-gate.md`:
+
+- Broad build request with weak demand evidence: route to `先验证需求`.
+- Vague "optimize/improve/make smarter" request: route to `先重构问题`, then define one observable behavior defect.
+- Low-value, high-cost task: route to `暂缓` or a small validation loop.
+- Existing local code/docs task with clear outcome: route to `直接执行`, but still name success evidence and stop conditions.
+- Research task: use the Strategy Gate to decide the research questions before choosing source count or tools.
+
 ## Tool Weight
 
 Choose the smallest reliable tool layer:
@@ -109,6 +121,7 @@ Every generated goal should include a compact decision summary before the
 默认假设：...
 偏好应用：...
 反馈调整：...
+策略判断：...
 优先级判断：...
 输出长度：...
 选择理由：...

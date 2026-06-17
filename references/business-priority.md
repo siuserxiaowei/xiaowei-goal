@@ -25,6 +25,7 @@ Score qualitatively:
 - Low value + weak evidence + medium/high cost: `暂缓`.
 - High legal/privacy/compliance/copyright risk without authorization: `不建议做` or pause.
 - If the user asks to build a large system before validating demand, recommend a smaller validation loop first.
+- If the Strategy Gate counter-evidence or kill criteria is already triggered, recommend `暂缓` or `不建议做` instead of writing an implementation-first goal.
 
 ## Priority Field
 
@@ -37,3 +38,7 @@ Generated goals should include:
 If the recommendation is `暂缓` or `不建议做`, the goal should not pretend the
 main path is full implementation. It should propose reframing or a small
 validation experiment.
+
+The priority field should agree with `策略判断`: a weak smallest bet, missing
+success metric, strong counter-evidence, or triggered kill criteria should lower
+priority even if the user's requested activity sounds important.

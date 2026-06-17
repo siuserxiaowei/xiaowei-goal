@@ -23,6 +23,7 @@ SMART_FIELDS = {
     "default assumptions": [r"^(?:默认假设|Default Assumptions)[:：]\s*"],
     "preference application": [r"^(?:偏好应用|Preference Application)[:：]\s*"],
     "feedback adjustment": [r"^(?:反馈调整|Feedback Adjustment)[:：]\s*"],
+    "strategy gate": [r"^(?:策略判断|Strategy Gate)[:：]\s*"],
     "business priority": [r"^(?:优先级判断|Business Priority)[:：]\s*"],
     "output length": [r"^(?:输出长度|Output Length)[:：]\s*"],
     "choice rationale": [r"^(?:选择理由|Choice Rationale)[:：]\s*"],
@@ -174,6 +175,14 @@ BUSINESS_PRIORITY_HINTS = {
     "recommendation": [r"建议", r"recommendation"],
 }
 
+STRATEGY_GATE_HINTS = {
+    "problem reframe": [r"问题重构", r"reframe", r"real problem", r"真正.*问题"],
+    "smallest bet": [r"最小验证", r"最小.*赌注", r"小实验", r"smallest bet", r"smallest test"],
+    "success metric": [r"成功指标", r"success metric", r"metric"],
+    "counter evidence": [r"反证", r"失败信号", r"counter[- ]evidence", r"disconfirm"],
+    "kill criteria": [r"终止", r"暂缓", r"kill criteria", r"stop condition", r"pause condition"],
+}
+
 OUTPUT_LENGTH_HINTS = [
     r"短版",
     r"标准版",
@@ -229,6 +238,7 @@ DAILY_EVOLUTION_HINTS = {
     "github actions": [r"GitHub Actions", r"\.github/workflows", r"workflow"],
     "issue handoff": [r"issue", r"议题", r"问题单", r"handoff"],
     "release consistency": [r"check_release_consistency\.py"],
+    "strategy gate": [r"strategy-gate\.md|策略判断|Strategy Gate"],
     "no unattended code rewrite": [r"不.*无人值守.*改", r"不.*随机改", r"不.*后台.*乱改", r"not.*unattended.*rewrite"],
 }
 
@@ -289,6 +299,14 @@ def lint_text(text: str, source: str) -> list[str]:
     feedback_adjustment = _field_content(text, SMART_FIELDS["feedback adjustment"], all_markers)
     if feedback_adjustment is not None and len(feedback_adjustment) < 16:
         errors.append(f"{source}: feedback adjustment is too thin")
+
+    strategy_gate = _field_content(text, SMART_FIELDS["strategy gate"], all_markers)
+    if strategy_gate:
+        for name, patterns in STRATEGY_GATE_HINTS.items():
+            if not any(re.search(pattern, strategy_gate, flags=re.IGNORECASE) for pattern in patterns):
+                errors.append(f"{source}: strategy gate missing `{name}`")
+    elif strategy_gate is not None:
+        errors.append(f"{source}: strategy gate is too thin")
 
     business_priority = _field_content(text, SMART_FIELDS["business priority"], all_markers)
     if business_priority:

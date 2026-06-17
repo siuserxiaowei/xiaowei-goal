@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.10.1-blue)
+![Version](https://img.shields.io/badge/version-0.11.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -79,10 +79,11 @@ python3 -m http.server 8000
 
 如果当前环境安装了 [Agent Reach](https://github.com/Panniantong/Agent-Reach)，`xiaowei-goal` 会把它作为广域调研的首选能力层，用来路由 X、Reddit、YouTube、GitHub、小红书、抖音、B站、微信公众号、V2EX、RSS、Exa 搜索等公开或用户授权来源。
 
-当前版本还会把研究型任务强制补上两层约束：
+当前版本还会把研究型任务强制补上判断层和质量约束：
 
 - `Smart Router`：先判断任务类型、成熟度、外部信息需求、风险和输出长度，再决定要不要三阶段研究。
 - `Goal Compiler`：生成前先暴露默认假设、选择理由和工具取舍，避免死板套模板。
+- `Strategy Gate`：先重构真实问题，定义最小验证、成功指标、反证信号和终止/暂缓条件，避免把每个想法都写成大工程。
 - `小伟偏好`：默认把研究落到页面、功能、内容、增长和实现目标，优先小闭环、工具站、AI 产品、SEO 和出海方向。
 - `商业优先级`：如果价值低、证据弱或成本高，会建议先小实验、暂缓或不建议做。
 - `输出压缩`：按短版、标准版、完整版控制输出长度，不默认长篇模板。
@@ -188,6 +189,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 默认假设：目标用户是想提升英语口语的中文用户，当前还没有明确竞品池和 MVP 范围；先用公开资料建立方向，不使用账号、Cookie 或付费数据。
 偏好应用：优先把调研落到页面、功能、内容、增长和下一阶段实现目标；保持小闭环，不做大而全教育市场战略。
 反馈调整：未提供上次执行反馈，本次不做反馈修正；如果执行后发现范围过大，下次应收紧渠道和输出长度。
+策略判断：问题重构=不是先做完整 AI 口语教育平台，而是验证用户是否愿意完成一个低摩擦口语练习闭环；最小验证=竞品/用户痛点研究后落到一个免费练习入口、一个核心练习流程和一个官网首屏承诺；成功指标=能得到来源支撑的 MVP 范围、明确首访 CTA 和下一阶段可实现 goal；反证信号=用户痛点主要集中在真人反馈、课程体系或考试结果承诺，当前 AI 小工具难以提供可信差异；终止/暂缓条件=如果 2 个以上强来源无法支撑核心练习闭环或信任路径，暂缓完整 App 实现。
 优先级判断：业务价值=中高；证据强度=中；执行成本=中；分发潜力=中高；变现路径=订阅、会员或练习包；风险=口语效果和教育承诺难验证；建议=继续做标准研究，但先形成可验证 MVP 小闭环。
 输出长度：标准版；给出可直接执行的完整 goal，但不展开成长报告。
 选择理由：这是新 App 方向，真实用户评价和竞品结构会显著影响 MVP，所以选择标准三阶段研究；不选深度模式是因为当前目标仍是形成可执行起点，不是做融资级市场判断。
@@ -223,6 +225,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 默认假设：...
 偏好应用：...
 反馈调整：...
+策略判断：问题重构=...；最小验证=...；成功指标=...；反证信号=...；终止/暂缓条件=...
 优先级判断：业务价值=...；证据强度=...；执行成本=...；分发潜力=...；变现路径=...；风险=...；建议=...
 输出长度：短版 / 标准版 / 完整版
 选择理由：...
@@ -326,7 +329,7 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 
 ### 4. 每日进化模式
 
-`v0.10.1` 继续强化了定时入口：
+`v0.11.0` 继续强化了定时入口：
 
 ```text
 .github/workflows/daily-evolution.yml
@@ -391,6 +394,7 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 默认假设：...
 偏好应用：...
 反馈调整：...
+策略判断：...
 优先级判断：...
 输出长度：...
 选择理由：...

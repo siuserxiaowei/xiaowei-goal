@@ -29,6 +29,7 @@ REQUIRED_MARKERS = {
     "daily workflow": [".github/workflows/daily-evolution.yml"],
     "daily audit script": ["scripts/daily_evolution_audit.py"],
     "release consistency script": ["scripts/check_release_consistency.py"],
+    "strategy gate reference": ["references/strategy-gate.md"],
     "self-evolution example": ["examples/self-evolution-goal.zh.txt"],
     "daily evolution example": ["examples/daily-self-evolution-goal.zh.txt"],
 }
@@ -76,6 +77,8 @@ def marker_findings() -> list[str]:
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
     if not re.search(r"每日进化|daily evolution", skill, flags=re.IGNORECASE):
         findings.append("SKILL.md does not mention daily evolution")
+    if not re.search(r"策略判断|Strategy Gate|strategy-gate", skill, flags=re.IGNORECASE):
+        findings.append("SKILL.md does not mention Strategy Gate")
 
     return findings
 

@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-MIN_VERSION = (0, 10, 1)
+MIN_VERSION = (0, 11, 0)
 DEFAULT_SKILL_DIR = Path.home() / ".agents" / "skills" / "xiaowei-goal"
 
 REQUIRED_SKILL_PATTERNS = {
@@ -46,6 +46,10 @@ REQUIRED_SKILL_PATTERNS = {
     "business priority": [
         r"business-priority\.md|优先级判断",
         r"业务价值|business value",
+    ],
+    "strategy gate": [
+        r"strategy-gate\.md|策略判断|Strategy Gate",
+        r"反证|kill criteria|最小验证",
     ],
     "output compression": [
         r"output-compression\.md|输出长度",
@@ -116,7 +120,7 @@ def main(argv: list[str]) -> int:
             if version is None:
                 errors.append(f"{manifest_file}: missing semver `version`")
             elif version < MIN_VERSION:
-                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.10.1")
+                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.11.0")
     else:
         warnings.append(f"{manifest_file}: missing manifest.json, checked SKILL.md markers only")
 

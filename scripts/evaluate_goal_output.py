@@ -14,6 +14,7 @@ MAX_STANDARD_LENGTH = 7000
 
 CHECKS = {
     "business application": [r"页面", r"功能", r"内容", r"增长", r"实现目标", r"business application"],
+    "strategy gate": [r"策略判断", r"Strategy Gate", r"反证", r"kill criteria"],
     "priority recommendation": [r"优先级判断", r"Business Priority"],
     "pause rule": [r"暂停条件", r"Pause Conditions?"],
     "evidence": [r"证据", r"来源", r"验证方式", r"evidence", r"source", r"Verification"],

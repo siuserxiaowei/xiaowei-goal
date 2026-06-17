@@ -13,16 +13,17 @@ Run these passes before output:
 4. **Assumption Pass**: choose safe defaults for non-blocking gaps.
 5. **Preference Pass**: apply `xiaowei-preferences.md` without inventing private memory.
 6. **Feedback Pass**: if prior execution feedback exists, convert it into concrete adjustments.
-7. **Priority Pass**: score value, evidence, cost, distribution, monetization, and risk.
-8. **Routing Pass**: choose direct execution, light research, standard research, or deep research.
-9. **Compression Pass**: choose short, standard, or full output length.
-10. **Tool Pass**: choose the smallest sufficient tool stack and name tools to avoid.
-11. **Task Pack Pass**: choose the primary task pack and mention secondary packs only if useful.
-12. **Domain Pack Pass**: choose one domain pack when AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth applies.
-13. **Evolution Pass**: when self-evolution is requested, apply `self-evolution.md` and require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions. When daily evolution is requested, require schedule, daily audit script, release consistency guard, GitHub Actions, issue handoff, and no unattended code rewrite.
-14. **Risk Pass**: add pause conditions for credentials, paid access, production data, private content, compliance, copyright, or destructive actions.
-15. **Self-Critique Pass**: remove template bloat, unnecessary tools, vague verbs, and unsupported claims.
-16. **Finalization Pass**: produce the copy-ready `/goal`.
+7. **Strategy Gate Pass**: apply `strategy-gate.md`; reframe the real problem, choose the smallest useful bet, name a success metric, state counter-evidence, and define kill criteria.
+8. **Priority Pass**: score value, evidence, cost, distribution, monetization, and risk.
+9. **Routing Pass**: choose direct execution, light research, standard research, or deep research.
+10. **Compression Pass**: choose short, standard, or full output length.
+11. **Tool Pass**: choose the smallest sufficient tool stack and name tools to avoid.
+12. **Task Pack Pass**: choose the primary task pack and mention secondary packs only if useful.
+13. **Domain Pack Pass**: choose one domain pack when AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth applies.
+14. **Evolution Pass**: when self-evolution is requested, apply `self-evolution.md` and require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions. When daily evolution is requested, require schedule, daily audit script, release consistency guard, GitHub Actions, issue handoff, and no unattended code rewrite.
+15. **Risk Pass**: add pause conditions for credentials, paid access, production data, private content, compliance, copyright, or destructive actions.
+16. **Self-Critique Pass**: remove template bloat, unnecessary tools, vague verbs, and unsupported claims.
+17. **Finalization Pass**: produce the copy-ready `/goal`.
 
 ## Self-Critique Checklist
 
@@ -32,6 +33,8 @@ Before finalizing, check:
 - Is a three-stage research workflow actually required?
 - Did Xiaowei preferences change the depth, domain pack, or stop standard?
 - Did prior feedback change the next goal, or is there no feedback to apply?
+- Did the Strategy Gate reframe the problem instead of repeating the request?
+- Did it name a smallest bet, success metric, counter-evidence, and kill criteria?
 - Is the business priority strong enough for this level of effort?
 - Is the output length proportional to the task?
 - Are any tools listed only because they are fashionable?
@@ -54,6 +57,7 @@ For Chinese users, include these fields before the goal:
 默认假设：...
 偏好应用：...
 反馈调整：...
+策略判断：...
 优先级判断：...
 输出长度：...
 选择理由：...
@@ -68,6 +72,7 @@ Decision Summary: ...
 Default Assumptions: ...
 Preference Application: ...
 Feedback Adjustment: ...
+Strategy Gate: ...
 Business Priority: ...
 Output Length: ...
 Choice Rationale: ...

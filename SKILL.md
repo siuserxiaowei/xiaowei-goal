@@ -28,6 +28,7 @@ description: >
 - 按任务选择最小工具层：Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - 用任务包把研究映射到具体业务产物，而不是只给通用建议。
 - 用 quality gate 约束结论质量：关键结论至少 2 个独立来源支撑，否则降级为假设。
+- 用 Strategy Gate 先做策略判断：重构真实问题、定义最小验证、成功指标、反证信号和终止/暂缓条件。
 - 用 Goal Compiler 暴露默认假设、选择理由和工具取舍，不做死板模板填空。
 - 用输出压缩控制长短，不默认输出过长模板。
 - 用细分领域包把研究落到 AI 工具站、Chrome 插件、出海 SaaS、内容验证或开源增长。
@@ -102,21 +103,22 @@ Do not require every tool. Do not use scraping, browser automation, or extension
 2. Read `references/xiaowei-preferences.md` and apply current preferences without pretending they are permanent memory.
 3. Read `references/feedback-loop.md`; if the user provides prior execution feedback, extract what worked, failed, was too heavy, or should change.
 4. Read `references/smart-router.md` and classify task type, maturity, external information need, risk, question need, and output length.
-5. Read `references/business-priority.md` for business/product/content/SEO/growth/competitor tasks and decide whether to do now, validate first, pause, or reject.
-6. If critical missing information changes scope, cost, risk, or direction, ask at most 3 questions and stop before drafting.
-7. Read `references/output-compression.md` and choose short, standard, or full output.
-8. If research is needed, read `references/research-workflow.md`.
-9. If research is needed, read `references/quality-gate.md`.
-10. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
-11. If the user names an app/site/business channel, read `references/source-map.md`.
-12. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
-13. If the task matches AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth, read `references/domain-packs.md`.
-14. If the user asks xiaowei-goal to evolve itself, auto-improve, automatically update its repository, or run daily evolution, read `references/self-evolution.md`.
-15. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, preference, feedback, priority, routing, compression, tool, task pack, domain pack, evolution, risk, self-critique, finalization.
-16. If the task is ready for execution, read `references/goal-contract.md`.
-17. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, `偏好应用`, `反馈调整`, `优先级判断`, `输出长度`, and `选择理由` before the goal.
-18. Add compact options only when a choice changes cost, risk, or direction.
-19. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>` and `python3 scripts/evaluate_goal_output.py <file>`.
+5. Read `references/strategy-gate.md` and define problem reframe, smallest bet, success metric, counter-evidence, and kill criteria.
+6. Read `references/business-priority.md` for business/product/content/SEO/growth/competitor tasks and decide whether to do now, validate first, pause, or reject.
+7. If critical missing information changes scope, cost, risk, or direction, ask at most 3 questions and stop before drafting.
+8. Read `references/output-compression.md` and choose short, standard, or full output.
+9. If research is needed, read `references/research-workflow.md`.
+10. If research is needed, read `references/quality-gate.md`.
+11. If research needs internet/platform/browser capability, read `references/tool-stack.md`.
+12. If the user names an app/site/business channel, read `references/source-map.md`.
+13. If the task matches app, website, SEO, competitor, or growth work, read `references/task-packs.md`.
+14. If the task matches AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth, read `references/domain-packs.md`.
+15. If the user asks xiaowei-goal to evolve itself, auto-improve, automatically update its repository, or run daily evolution, read `references/self-evolution.md`.
+16. Read `references/goal-compiler.md` and run the compiler passes: intent, knowns, gaps, assumptions, preference, feedback, strategy, priority, routing, compression, tool, task pack, domain pack, evolution, risk, self-critique, finalization.
+17. If the task is ready for execution, read `references/goal-contract.md`.
+18. Produce the best copy-ready `/goal` with `决策摘要`, `默认假设`, `偏好应用`, `反馈调整`, `策略判断`, `优先级判断`, `输出长度`, and `选择理由` before the goal.
+19. Add compact options only when a choice changes cost, risk, or direction.
+20. If writing an output file, run `python3 scripts/validate_xiaowei_goal.py <file>` and `python3 scripts/evaluate_goal_output.py <file>`.
 
 ## Three-Stage Research Output
 
@@ -127,6 +129,7 @@ Use this shape when the task should search, deeply analyze, then apply findings 
 默认假设：[列出不会阻塞执行的安全默认值]
 偏好应用：[说明小闭环、页面/功能/内容/增长/实现目标、工具站/AI 产品/SEO/出海等偏好如何影响本次 goal]
 反馈调整：[未提供上次执行反馈则说明不做反馈修正；如有反馈则说明本次如何调整]
+策略判断：[问题重构、最小验证、成功指标、反证信号、终止/暂缓条件]
 优先级判断：[业务价值、证据强度、执行成本、分发潜力、变现路径、风险和建议]
 输出长度：[短版 / 标准版 / 完整版]
 选择理由：[说明为什么选这个深度、任务包和工具栈，为什么没有选择更重或更轻的方案]
@@ -165,6 +168,7 @@ Use this shape when research is unnecessary:
 默认假设：[列出不会阻塞执行的安全默认值]
 偏好应用：[说明小闭环和避免过度研究如何影响本次 goal]
 反馈调整：[未提供上次执行反馈则说明不做反馈修正；如有反馈则说明本次如何调整]
+策略判断：[问题重构、最小验证、成功指标、反证信号、终止/暂缓条件]
 优先级判断：[业务价值、证据强度、执行成本、分发潜力、变现路径、风险和建议]
 输出长度：[短版 / 标准版 / 完整版]
 选择理由：[说明为什么直接执行而不是三阶段研究]
@@ -186,12 +190,13 @@ For Chinese users, output:
 2. `默认假设`
 3. `偏好应用`
 4. `反馈调整`
-5. `优先级判断`
-6. `输出长度`
-7. `选择理由`
-8. `推荐执行版（中文，可直接复制）`
-9. `可选调整`
-10. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
+5. `策略判断`
+6. `优先级判断`
+7. `输出长度`
+8. `选择理由`
+9. `推荐执行版（中文，可直接复制）`
+10. `可选调整`
+11. `Goal Draft (English-compatible)` only when useful for cross-tool compatibility or when the user asks for it
 
 Do not lead with a blank template. Do not leave placeholders. Do not start implementation unless the user explicitly asks to execute the generated goal.
 
@@ -204,6 +209,7 @@ Good goals:
 - state safe assumptions instead of silently guessing
 - apply Xiaowei preferences without inventing private memory
 - adjust based on explicit user feedback when available
+- include a strategy gate with problem reframe, smallest bet, success metric, counter-evidence, and kill criteria
 - include business priority and recommend pause or a small experiment when value is weak
 - choose output length intentionally
 - explain why the selected depth, task pack, and tool stack fit the task
@@ -230,6 +236,7 @@ Bad goals:
 - "照着竞品做一个一样的"
 - using a full three-stage research template for a narrow local edit
 - ignoring low business value and pushing directly into large implementation
+- repeating the user request without a strategy gate, counter-evidence, or kill criteria
 - outputting a long template when short mode is enough
 - self-evolution goals that automate commit/push/release without allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions
 - daily-evolution goals that do not mention cron/schedule, `daily_evolution_audit.py`, GitHub Actions, issue handoff, and the rule against unattended code rewrites
@@ -244,6 +251,7 @@ Bad goals:
 - `references/goal-compiler.md`: intent, knowns, gaps, assumptions, routing, tool selection, risk, self-critique, and finalization passes.
 - `references/xiaowei-preferences.md`: current Xiaowei-style defaults for small loops, business application, tool sites, AI products, SEO, outbound/global work, and pause decisions.
 - `references/feedback-loop.md`: explicit prior-result feedback extraction and next-goal adjustment rules.
+- `references/strategy-gate.md`: problem reframe, smallest bet, success metric, counter-evidence, and kill criteria.
 - `references/business-priority.md`: lightweight business priority scoring and do/validate/pause/reject recommendations.
 - `references/output-compression.md`: short, standard, and full output rules.
 - `references/domain-packs.md`: AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, and GitHub open-source growth packs.
