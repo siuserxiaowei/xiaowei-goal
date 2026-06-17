@@ -49,6 +49,7 @@ The workflow should:
 - run daily with cron, default `0 1 * * *` for 09:00 Asia/Shanghai
 - support `workflow_dispatch`
 - run `python3 scripts/daily_evolution_audit.py`
+- run `python3 scripts/check_release_consistency.py --require-github-release`
 - upload the audit report as an artifact
 - create or update a GitHub issue only when action is required
 - avoid unattended code rewrites, commits, tags, and releases
@@ -91,6 +92,7 @@ Before release, run:
 python3 scripts/validate_xiaowei_goal.py examples/*.txt
 python3 scripts/evaluate_goal_output.py examples/*.txt
 python3 scripts/daily_evolution_audit.py --report /tmp/daily-evolution-report.md
+python3 scripts/check_release_consistency.py
 python3 scripts/test_validator_negative_cases.py
 python3 scripts/check_installed_skill.py .
 python3 -m json.tool manifest.json
@@ -109,6 +111,7 @@ Also validate YAML files when a workflow or interface file changes.
 - Do not create a release when local checks or GitHub Actions fail.
 - Tag the release at the same commit that passed CI.
 - Daily scheduled audits do not create releases; they only create reports and issue handoffs.
+- Daily scheduled audits must check that `manifest.json` version, `vX.Y.Z` git tag, and GitHub release are aligned.
 
 ## Rollback Policy
 

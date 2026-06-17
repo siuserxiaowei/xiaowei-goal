@@ -96,7 +96,7 @@ daily evolution:
 - output length: `标准版` by default
 - read `references/self-evolution.md`
 - require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions
-- for daily evolution, require cron/schedule, daily audit script, GitHub Actions, issue handoff, and an explicit no-unattended-code-rewrite rule
+- for daily evolution, require cron/schedule, daily audit script, release consistency guard, GitHub Actions, issue handoff, and an explicit no-unattended-code-rewrite rule
 - do not ask clarifying questions unless the change needs credentials, production data, destructive actions, or an out-of-scope repository
 
 ## Required Decision Summary

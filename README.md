@@ -1,7 +1,7 @@
 # xiaowei-goal
 
 [![Validate Xiaowei Goal](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml/badge.svg)](https://github.com/siuserxiaowei/xiaowei-goal/actions/workflows/validate.yml)
-![Version](https://img.shields.io/badge/version-0.9.0-blue)
+![Version](https://img.shields.io/badge/version-0.10.0-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
@@ -89,6 +89,7 @@ python3 -m http.server 8000
 - `领域包`：支持 AI 工具站、Chrome 插件、出海 SaaS、小红书/抖音内容验证、GitHub 开源项目增长。
 - `自我进化`：用户显式触发后，可自动收集反馈、修改允许路径、运行校验、推送、等 CI、发 release。
 - `每日进化`：GitHub Actions 每天 09:00 Asia/Shanghai 自动跑审计，必要时创建 issue 交接给 agent。
+- `Release 一致性`：每日审计检查 `manifest.json` 版本、git tag 和 GitHub release 是否对齐。
 - `目标评估`：用 `scripts/evaluate_goal_output.py` 给示例和生成目标做完整性、比例和业务应用检查。
 - `工具栈`：按任务选择 Agent Reach、普通网页读取、Scrapling、browser-use、Claude for Chrome。
 - `任务包`：把 App、网站/落地页、SEO、竞品分析、增长实验映射到具体产物。
@@ -209,7 +210,7 @@ rg -n "Tool Stack Routing|Quality Gate|Task Packs" ~/.agents/skills/xiaowei-goal
 
 ## 三档输出模式
 
-从 v0.9.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
+从 v0.10.0 开始，`xiaowei-goal` 会先做一次智能路由，再决定输出多长：
 
 - `轻量模式`：明确的本地代码、文档、校验、维护任务，不做外部研究。
 - `标准研究模式`：App、网站、SEO、增长、竞品等需要外部证据的常规任务。
@@ -325,7 +326,7 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 
 ### 4. 每日进化模式
 
-`v0.9.0` 增加了定时入口：
+`v0.10.0` 继续强化了定时入口：
 
 ```text
 .github/workflows/daily-evolution.yml
@@ -338,6 +339,7 @@ Deep Research 不是多搜几个链接，而是从来源池里筛出高价值资
 - 运行 `scripts/daily_evolution_audit.py`
 - 执行 validator、目标评估、负向测试、安装自检、manifest、README topics、Python 编译和 diff 检查
 - 检查 self-evolution、daily workflow、示例、版本 badge 等结构漂移
+- 检查 `manifest.json` 版本、`vX.Y.Z` git tag 和 GitHub release 是否一致
 - 上传审计报告 artifact
 - 只有发现需要处理的问题时，创建或更新 GitHub issue
 
@@ -493,6 +495,12 @@ Xiaowei goal output evaluation passed.
 python3 scripts/daily_evolution_audit.py --report /tmp/daily-evolution-report.md
 ```
 
+Release 一致性检查：
+
+```bash
+python3 scripts/check_release_consistency.py
+```
+
 ## 目录结构
 
 ```text
@@ -533,6 +541,7 @@ xiaowei-goal/
 │   └── xiaowei-preferences.md
 ├── scripts/
 │   ├── check_installed_skill.py
+│   ├── check_release_consistency.py
 │   ├── check_readme_topics.py
 │   ├── daily_evolution_audit.py
 │   ├── evaluate_goal_output.py

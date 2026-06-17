@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -26,7 +28,7 @@ jobs:
       - name: Run daily evolution audit
         id: audit
         run: |
-          python3 scripts/daily_evolution_audit.py --report /tmp/daily-evolution-report.md --github-output "$GITHUB_OUTPUT"
+          python3 scripts/daily_evolution_audit.py --check-release --report /tmp/daily-evolution-report.md --github-output "$GITHUB_OUTPUT"
 
       - name: Upload daily evolution report
         uses: actions/upload-artifact@v4

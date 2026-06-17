@@ -34,6 +34,7 @@ description: >
 - 用户明确要求时，进入自我进化模式：自动收集反馈、改允许路径、跑校验、推送、等 CI、发 release。
 - 自我进化 goal 必须写清 `自动化边界`、`允许修改路径`、`评估方式`、`发布规则`、`回滚方式` 和暂停条件。
 - 每日进化使用 GitHub Actions 定时审计、artifact 和 issue handoff；不在无人值守 CI 中随机改代码或每天制造无意义 release。
+- 每日进化必须检查 manifest 版本、git tag 和 GitHub release 一致性，避免“仓库更新但 release 漏发”。
 - 先分清事实和判断，再给执行动作。
 - 先做一个能跑通的小闭环，再扩展功能。
 - 重要结论必须有来源；没有证据就标成假设。
@@ -232,6 +233,7 @@ Bad goals:
 - outputting a long template when short mode is enough
 - self-evolution goals that automate commit/push/release without allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions
 - daily-evolution goals that do not mention cron/schedule, `daily_evolution_audit.py`, GitHub Actions, issue handoff, and the rule against unattended code rewrites
+- daily-evolution goals that do not mention `check_release_consistency.py` or release/tag consistency
 - listing every tool when the smaller layer is enough
 - research conclusions without source strength, downgrade rules, or contradiction handling
 - using scraping or browser automation without authorization, scope, access limits, and pause conditions
@@ -255,3 +257,4 @@ Bad goals:
 - `scripts/validate_xiaowei_goal.py`: local validator for generated goal examples.
 - `scripts/evaluate_goal_output.py`: local scorer for generated goal completeness, proportionality, and business application signals.
 - `scripts/daily_evolution_audit.py`: deterministic daily audit for scheduled evolution checks and GitHub issue handoff.
+- `scripts/check_release_consistency.py`: manifest version, git tag, and GitHub release consistency guard.

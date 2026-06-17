@@ -45,4 +45,4 @@ jobs:
           ruby -e 'require "yaml"; YAML.load_file("agents/interface.yaml"); YAML.load_file(".github/workflows/validate.yml"); YAML.load_file(".github/workflows/daily-evolution.yml")'
 
       - name: Compile Python scripts
-        run: python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/evaluate_goal_output.py scripts/daily_evolution_audit.py scripts/check_readme_topics.py scripts/check_installed_skill.py scripts/test_validator_negative_cases.py
+        run: python3 -m py_compile scripts/validate_xiaowei_goal.py scripts/evaluate_goal_output.py scripts/daily_evolution_audit.py scripts/check_release_consistency.py scripts/check_readme_topics.py scripts/check_installed_skill.py scripts/test_validator_negative_cases.py

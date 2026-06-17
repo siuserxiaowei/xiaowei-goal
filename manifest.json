@@ -1,6 +1,6 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "owner": "Xiaowei",
   "updated_at": "2026-06-16",
   "status": "public-ready",
@@ -69,6 +69,7 @@
     "automated-skill-evolution",
     "daily-evolution-audit",
     "scheduled-evolution-handoff",
+    "release-consistency-guard",
     "goal-output-evaluation",
     "ci-gated-release-goal",
     "goal-validation",

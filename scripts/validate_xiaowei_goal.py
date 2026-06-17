@@ -228,6 +228,7 @@ DAILY_EVOLUTION_HINTS = {
     "audit script": [r"daily_evolution_audit\.py", r"每日.*审计", r"daily evolution audit"],
     "github actions": [r"GitHub Actions", r"\.github/workflows", r"workflow"],
     "issue handoff": [r"issue", r"议题", r"问题单", r"handoff"],
+    "release consistency": [r"check_release_consistency\.py"],
     "no unattended code rewrite": [r"不.*无人值守.*改", r"不.*随机改", r"不.*后台.*乱改", r"not.*unattended.*rewrite"],
 }
 

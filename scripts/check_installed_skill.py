@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 
-MIN_VERSION = (0, 9, 0)
+MIN_VERSION = (0, 10, 0)
 DEFAULT_SKILL_DIR = Path.home() / ".agents" / "skills" / "xiaowei-goal"
 
 REQUIRED_SKILL_PATTERNS = {
@@ -66,6 +66,9 @@ REQUIRED_SKILL_PATTERNS = {
         r"daily_evolution_audit\.py|每日进化|daily evolution",
         r"定时|schedule|GitHub Actions",
     ],
+    "release consistency": [
+        r"check_release_consistency\.py|release.*tag|manifest.*release",
+    ],
 }
 
 
@@ -113,7 +116,7 @@ def main(argv: list[str]) -> int:
             if version is None:
                 errors.append(f"{manifest_file}: missing semver `version`")
             elif version < MIN_VERSION:
-                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.9.0")
+                errors.append(f"{manifest_file}: version {manifest.get('version')} is older than 0.10.0")
     else:
         warnings.append(f"{manifest_file}: missing manifest.json, checked SKILL.md markers only")
 

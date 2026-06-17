@@ -10,8 +10,8 @@
 自动化边界：每日后台只做确定性审计、报告和 issue handoff；不在无人值守 CI 中随机改 SKILL、提交代码或发布 release；真正代码进化必须在 agent session 中执行。
 反馈来源：每日审计读取 examples、tests、validator、evaluate_goal_output、README topics、manifest、workflow、安装自检、GitHub Actions 结果和 release 差异。
 允许修改路径：定时 workflow 只读仓库并创建 issue；agent 执行进化时仅限 `SKILL.md`、`README.md`、`manifest.json`、`agents/interface.yaml`、`.github/workflows/`、`references/`、`examples/`、`scripts/`、`tests/`。
-评估方式：运行 `python3 scripts/daily_evolution_audit.py` 生成报告；报告包含结构漂移、校验结果和是否需要 action；需要 action 时生成 issue，不直接生成噪音 commit。
-验证方式：运行 `python3 scripts/validate_xiaowei_goal.py examples/*.txt`、`python3 scripts/evaluate_goal_output.py examples/*.txt`、`python3 scripts/test_validator_negative_cases.py`、`python3 scripts/check_installed_skill.py .`、`python3 -m json.tool manifest.json`、`python3 scripts/check_readme_topics.py`、`python3 -m py_compile scripts/*.py`、`git diff --check` 和 YAML 解析检查。
+评估方式：运行 `python3 scripts/daily_evolution_audit.py` 生成报告，并在每日 workflow 中调用 `python3 scripts/check_release_consistency.py --require-github-release`；报告包含结构漂移、校验结果、manifest 版本与 release/tag 一致性、是否需要 action；需要 action 时生成 issue，不直接生成噪音 commit。
+验证方式：运行 `python3 scripts/validate_xiaowei_goal.py examples/*.txt`、`python3 scripts/evaluate_goal_output.py examples/*.txt`、`python3 scripts/test_validator_negative_cases.py`、`python3 scripts/check_installed_skill.py .`、`python3 -m json.tool manifest.json`、`python3 scripts/check_readme_topics.py`、`python3 scripts/check_release_consistency.py`、`python3 -m py_compile scripts/*.py`、`git diff --check` 和 YAML 解析检查。
 发布规则：每日审计不发布；agent 根据 issue 执行自我进化后，本地检查全部通过、GitHub Actions 成功，才创建语义化版本 release。
 回滚方式：每日审计只创建 issue 和 artifact，无需回滚代码；agent 进化产生问题时只回滚本轮 commit 或创建修复 release。
 限制：不提交凭证、Cookie、Token、私域内容、生产数据或版权材料；不让 CI 在没有 agent 上下文时无人值守改代码；不每天制造无意义版本号。

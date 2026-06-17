@@ -19,7 +19,7 @@ Run these passes before output:
 10. **Tool Pass**: choose the smallest sufficient tool stack and name tools to avoid.
 11. **Task Pack Pass**: choose the primary task pack and mention secondary packs only if useful.
 12. **Domain Pack Pass**: choose one domain pack when AI tool site, Chrome extension, global SaaS, Xiaohongshu/Douyin validation, or GitHub open-source growth applies.
-13. **Evolution Pass**: when self-evolution is requested, apply `self-evolution.md` and require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions. When daily evolution is requested, require schedule, daily audit script, GitHub Actions, issue handoff, and no unattended code rewrite.
+13. **Evolution Pass**: when self-evolution is requested, apply `self-evolution.md` and require automation boundary, allowed paths, validation suite, CI gate, release policy, rollback, and pause conditions. When daily evolution is requested, require schedule, daily audit script, release consistency guard, GitHub Actions, issue handoff, and no unattended code rewrite.
 14. **Risk Pass**: add pause conditions for credentials, paid access, production data, private content, compliance, copyright, or destructive actions.
 15. **Self-Critique Pass**: remove template bloat, unnecessary tools, vague verbs, and unsupported claims.
 16. **Finalization Pass**: produce the copy-ready `/goal`.
@@ -38,7 +38,7 @@ Before finalizing, check:
 - Does the task pack match the real outcome?
 - Does the domain pack match the actual distribution/product context?
 - If this is self-evolution, are the allowed paths, validation suite, CI gate, release policy, rollback, and temporary-directory cleanup explicit?
-- If this is daily evolution, are schedule, daily audit, issue handoff, and no-unattended-code-rewrite boundaries explicit?
+- If this is daily evolution, are schedule, daily audit, release consistency, issue handoff, and no-unattended-code-rewrite boundaries explicit?
 - Did the goal name concrete output and stop criteria?
 - Are facts, assumptions, and actions separated?
 - Are Agent Reach and browser automation boundaries clear?

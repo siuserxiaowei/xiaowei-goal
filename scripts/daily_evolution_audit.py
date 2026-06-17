@@ -28,6 +28,7 @@ REQUIRED_MARKERS = {
     "self-evolution reference": ["references/self-evolution.md"],
     "daily workflow": [".github/workflows/daily-evolution.yml"],
     "daily audit script": ["scripts/daily_evolution_audit.py"],
+    "release consistency script": ["scripts/check_release_consistency.py"],
     "self-evolution example": ["examples/self-evolution-goal.zh.txt"],
     "daily evolution example": ["examples/daily-self-evolution-goal.zh.txt"],
 }
@@ -127,9 +128,17 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", default="", help="Path to write the markdown report")
     parser.add_argument("--github-output", default="", help="Path from GITHUB_OUTPUT")
+    parser.add_argument("--check-release", action="store_true", help="Check manifest version against tag/release")
     args = parser.parse_args(argv[1:])
 
     checks = [run_check(name, command) for name, command in CHECK_COMMANDS]
+    if args.check_release:
+        checks.append(
+            run_check(
+                "release consistency",
+                ["python3", "scripts/check_release_consistency.py", "--require-github-release"],
+            )
+        )
     findings = marker_findings()
     report = render_report(checks, findings)
     action_required = any(not check["passed"] for check in checks) or bool(findings)
