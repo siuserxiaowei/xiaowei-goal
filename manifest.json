@@ -1,8 +1,8 @@
 {
   "name": "xiaowei-goal",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "owner": "Xiaowei",
-  "updated_at": "2026-06-16",
+  "updated_at": "2026-06-17",
   "status": "public-ready",
   "maturity_tier": "production-lite",
   "lifecycle_stage": "skill",

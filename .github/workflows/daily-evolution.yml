@@ -27,6 +27,8 @@ jobs:
 
       - name: Run daily evolution audit
         id: audit
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           python3 scripts/daily_evolution_audit.py --check-release --report /tmp/daily-evolution-report.md --github-output "$GITHUB_OUTPUT"
 
