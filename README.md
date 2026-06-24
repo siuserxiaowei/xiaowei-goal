@@ -5,69 +5,77 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 <!-- SIUSER-REPO-GUIDE:START -->
-## Repository Guide
+## 项目介绍 / Project Introduction
 
-### What This Repository Does
+### 中文
+Research-first Agent Skill：把 App、网站、SEO、增长和竞品任务收束成证据驱动的 /goal 工作流。
 
-Research-first Agent Skill for turning app, website, SEO, growth, competitor, and search-first tasks into evidence-gated /goal commands.
+### English
+Strategy-gated Agent Skill for turning app, website, SEO, growth, competitor, and search-first tasks into evidence-backed /goal commands.
 
-### Online Entry Points
+## 使用方式 / Usage
 
-- GitHub repository: https://github.com/siuserxiaowei/xiaowei-goal
-- Live / GitHub Pages: https://siuserxiaowei.github.io/xiaowei-goal/
-- Default branch: `main`
-- Primary language: `Python`
-- Topics: `agent-reach`, `agent-research`, `agent-skill`, `codex`, `goal`, `browser-use`, `claude-for-chrome`, `competitor-analysis`, `deep-research`, `growth`, `prompt-engineering`, `research-agent`, `scrapling`, `seo`, `web-research`
+### 中文
+1. 先阅读 `SKILL.md`，确认触发场景、输入要求和执行步骤。
+2. 按仓库 README 的安装方式复制或安装 Skill。
+3. 在真实任务中调用前，先用示例或测试脚本做一次小范围验证。
 
-### How To Read / Learn This Repository
+### English
+1. Read `SKILL.md` first to understand triggers, inputs, and workflow steps.
+2. Install or copy the skill according to this README.
+3. Before using it on real work, run a small example or validation script.
 
-1. 先读本 README，确认项目目标、在线入口和本地运行方式。
-2. 打开上方 Live / GitHub Pages 链接，先从最终效果理解项目。
-3. 优先查看 `SKILL.md`、`README.md` 和示例脚本，理解这个 skill 解决什么问题。
-4. 如果要修改内容，先小范围改动，再运行本 README 中的验证命令。
+## 入口与元信息 / Entry Points & Metadata
 
-### Clone This Repository
+- GitHub 仓库 / Repository: https://github.com/siuserxiaowei/xiaowei-goal
+- Live / 在线入口：https://siuserxiaowei.github.io/xiaowei-goal/
+- 默认分支 / Default branch: `main`
+- 主要语言 / Primary language: `Python`
+- 可见性 / Visibility: `public`
+- 仓库类型 / Repository type: `source`
+- Topics / 主题：`agent-reach`, `agent-research`, `agent-skill`, `codex`, `goal`, `browser-use`, `claude-for-chrome`, `competitor-analysis`, `deep-research`, `growth`, `prompt-engineering`, `research-agent`, `scrapling`, `seo`, `web-research`
+
+## 本地运行 / Local Run
 
 ```bash
 git clone https://github.com/siuserxiaowei/xiaowei-goal.git
 cd xiaowei-goal
+# Read SKILL.md first, then install or copy the skill into your local agent skill directory.
 ```
 
-### Run Or View Locally
+## 仓库结构 / Repository Map
 
-```bash
-python3 -m http.server 8000
-```
+| 路径 / Path | 中文说明 | English |
+| --- | --- | --- |
+| `README.md` | 项目入口说明，先读这里。 | Main project entry point and orientation. |
+| `SKILL.md` | Skill 的核心说明、触发条件和执行步骤。 | Core skill instructions, trigger rules, and workflow. |
+| `docs` | 文档或 GitHub Pages 输出目录。 | Documentation or GitHub Pages output. |
+| `scripts` | 构建、同步、生成或维护脚本。 | Build, sync, generation, or maintenance scripts. |
+| `examples` | 示例输入、用法或 fixture。 | Examples, usage samples, or fixtures. |
+| `tests` | 测试用例与验证脚本。 | Tests and validation scripts. |
+| `.github` | GitHub Actions 和协作自动化配置。 | GitHub Actions and collaboration automation. |
+| `LICENSE` | 许可证文件。 | License file. |
+| `agents` | Agent 配置或平台适配文件。 | Agent configuration or platform adapters. |
+| `references` | 参考资料、规范或补充说明。 | References, specifications, or supporting notes. |
+| `.gitignore` | 项目文件或目录。 | Project file or directory. |
+| `manifest.json` | 项目文件或目录。 | Project file or directory. |
 
-然后打开 `http://127.0.0.1:8000/`。
+## 维护备注 / Maintenance Notes
 
-### Repository Map
+- 中文：当项目目标、在线入口、运行命令或目录结构变化时，同步更新本说明。
+- English: Keep this guide updated when the project purpose, live link, run commands, or structure changes.
+- 中文：修改代码、数据或生成页面后，优先运行相关构建、测试或校验命令。
+- English: After changing code, data, or generated pages, run the relevant build, test, or validation command.
 
-| Path | Purpose |
-| --- | --- |
-| `README.md` | 项目入口说明，先读这里。 |
-| `SKILL.md` | Skill 的核心说明、触发条件和使用步骤。 |
-| `docs/` | GitHub Pages 和历史报告归档；不是 skill 运行时必须读取的核心内容。 |
-| `scripts/` | 校验、同步或维护脚本。 |
-| `LICENSE` | 项目文件。 |
-| `agents/` | 项目目录。 |
-| `examples/` | 项目目录。 |
-| `manifest.json` | 项目文件。 |
-| `references/` | 项目目录。 |
+## 安全与隐私 / Safety & Privacy
 
-### Maintenance Notes
-
-- Keep this README in sync when the project purpose, live link, or run commands change.
-- Prefer small, focused commits when changing code, data, or generated pages.
-- Run the relevant build or validation command before publishing changes.
-- If this is a generated/static archive, update the source data first, then regenerate the public files.
-
-### Privacy And Safety
-
-- Do not commit API keys, tokens, passwords, cookies, private URLs, or internal account data.
-- Keep private source material out of public GitHub Pages output unless it has been explicitly cleared for publication.
-- When in doubt, run a quick secret scan such as `rg -n "token|secret|password|access_key|authorization"` before pushing.
+- 中文：不要提交 API key、token、密码、cookie、私有链接或内部账号资料。
+- English: Do not commit API keys, tokens, passwords, cookies, private URLs, or internal account data.
+- 中文：公开 GitHub Pages 前，确认资料已脱敏并允许公开。
+- English: Before publishing GitHub Pages output, confirm the material is redacted and cleared for public release.
 <!-- SIUSER-REPO-GUIDE:END -->
+
+
 
 `xiaowei-goal` 是一个面向 App、网站、落地页、SaaS、SEO、增长和竞品分析的 Agent Skill。
 
